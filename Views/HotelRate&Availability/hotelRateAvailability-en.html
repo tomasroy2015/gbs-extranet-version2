@@ -1,0 +1,384 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+
+<main>
+<!-- #### -->
+<!-- Body -->
+<!-- #### -->
+<style>
+    .table > tbody > tr > td{
+        text-align: center;
+    }
+    .GridTable {
+        border-collapse: collapse;
+    }
+    .GridTable {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #CCCCCC;
+        border-collapse: collapse;
+        background-color: #ebf4f8;
+    }
+
+    .GridTable th {
+        border-width: 1px;
+        padding: 1px;
+        border-style: inset;
+        border-color: gray;
+        background-color: white;
+        text-align: center;
+        /*-moz-border-radius:;*/
+    }
+
+    .GridTable td {
+        border-width: 1px;
+        padding: 1px;
+        border-style: solid;
+        border-color: #CCCCCC;
+        text-align: center;
+        /*-moz-border-radius:;*/
+    }
+
+    .GridBar {
+        background-color: #F7F2E0;
+        color: navy;
+        font-weight: bold;
+    }
+
+    .GridBar2 {
+        background-color: #ede8d7;
+        color: Maroon;
+        font-weight: bold;
+        /*padding: 5px;*/
+        border: 1px solid #c5ccda;
+    }
+
+    .GridBar3 {
+        color: #DF7401;
+        font-weight: bold;
+        /*padding: 3px;*/
+    }
+
+    .GridBar4 {
+        background-color: #F7F2E0;
+        color: green;
+        font-weight: bold;
+    }
+    .Closed {
+        background-color: red;
+        /*width: 60px;*/
+        /*height: 41px;*/
+        /*border-radius: 50%;*/
+    }
+
+    .Full {
+        background-color: yellow;
+        /*width: 60px;*/
+        /*height: 41px;*/
+        /*border-radius: 50%;*/
+    }
+
+    .RateMissing {
+        background-color: #fbd8d9;
+        /*width: 60px;*/
+        /*height: 41px;*/
+        /*border-radius: 50%;*/
+    }
+.Available{
+    background-color: green;
+    /*width: 60px;*/
+    /*height: 41px;*/
+}
+    .BlueBar {
+        background-color: #c4daed;
+        color: Navy;
+        font-weight: bold;
+        height: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .NoWrap {
+        white-space: nowrap;
+    }
+    .divCaption {
+        margin-left: 5px;
+        margin-top: 3px;
+        font-weight: bold;
+        color: black;
+        font-size: 14px;
+    }
+    .month-selection{
+        display: flex;
+        background-color: #f9f9f9;
+        height: 25px;
+        padding-top: 5px;
+    }
+    .month-selection .label-month{
+        cursor: pointer;
+    }
+    .month-selection .arrow{
+        cursor: pointer;
+        font-size: 20px;
+        color: cornflowerblue;
+    }
+    .month-selection .arrow:hover{
+        color: #878787;
+    }
+    .selected-month{
+        color:#DF7401;
+    }
+    .input-number{
+        padding: 0px;
+        height: 25px;
+        margin: 0px;
+        width: 50px;
+    }
+    .label-header{
+        font-size: 16px;
+        color: #DF7401;
+    }
+</style>
+<section id="property">
+    <div class="row" style="margin-top: 2%">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Overview
+                </h3>
+            </div>
+            <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <div class="col-md-12 month-selection" >
+                            <div class="col-sm-2" style="display: flex">
+                                <i class="fa fa-chevron-circle-left arrow" aria-hidden="true" ng-click="backForward()"></i>
+                                <label class="label-month" style="width: 75px;text-align: center;">{{year}}</label>
+                                <i class="fa fa-chevron-circle-right arrow" aria-hidden="true" ng-click="goForward()"></i>
+                            </div>
+                            <div class="col-md-8" style="display: flex">
+                                <div ng-repeat="month in months" class="col-sm-1" ng-click="click_Month(month)">
+                                    <label class="label-month" ng-class="{'selected-month':selectedMonth == month.ID}">{{month.Name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="admin-table-wrapper">
+                            <table id="tblMain">
+
+                                <tr>
+                                    <td>
+                                        <table class="table table-bordered table-striped admin-table" style="margin-bottom: 0px;">
+                                            <!--<tr style="height:30px">-->
+                                            <!--<td Style="width: 30%;" align="center">-->
+                                            <!--<label>Month</label>-->
+                                            <!--</td>-->
+                                            <!--<td colspan="{{rateOverView.ColSpan}}" align="center">-->
+
+                                            <!--<label>{{rateOverView.Month1}}</label>-->
+                                            <!--</td>-->
+
+                                            <!--<td ng-if="rateOverView.Month2ColSpan != 0" colspan="{{rateOverView.Month2ColSpan}}" id="cellMonth2" align="center">-->
+                                            <!--<label>{{rateOverView.Month2}}</label>-->
+                                            <!--</td>-->
+
+
+                                            <!--</tr>-->
+                                            <!--<tr style="height:30px">-->
+                                            <!--<td align="center">-->
+                                            <!--<label>Day</label>-->
+                                            <!--</td>-->
+                                            <!--&lt;!&ndash;<span ng-repeat="Day in rateOverView.Day">&ndash;&gt;-->
+                                            <!--<td ng-repeat="Day in rateOverView.Day" align="center" style="color:green;font-weight: bold;cursor: pointer;">-->
+                                            <!--<span  tooltipped data-position="bottom" data-delay="50" data-tooltip="{{Day.DayName}}" ng-class="{'GridBar3':Day.WeekDay == 1 || Day.WeekDay == 6 || Day.WeekDay == 7}">{{Day.Day}}</span>-->
+                                            <!--</td>-->
+
+                                            <!--&lt;!&ndash;<td ng-if="Day.WeekDay != 1 || Day.WeekDay != 6 || Day.WeekDay != 7" class="GridBar4" align="center" style="background-color:#e1e1e1;">{{Day.Day}}</td>&ndash;&gt;-->
+
+                                            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+
+
+                                            <!--</tr>-->
+                                        </table>
+                                        <table class="table table-bordered table-striped"  ng-repeat="room in rateOverView.Room">
+                                            <tr style="height:25px">
+                                                <td Style="width: 20%;" align="center">
+                                                    <label class="label-header" style="width: 160px;">{{rateOverView.Month1}}</label>
+                                                </td>
+                                                <td colspan="{{rateOverView.ColSpan}}" style="text-align: center;">
+
+                                                    <label class="label-header">{{room.RoomTypeName}}</label>
+                                                </td>
+
+                                                <!--<td ng-if="rateOverView.Month2ColSpan != 0" colspan="{{rateOverView.Month2ColSpan}}" id="cellMonth2" align="center">-->
+                                                <!--<label>{{rateOverView.Month2}}</label>-->
+                                                <!--</td>-->
+
+
+                                            </tr>
+                                            <tr style="height:25px">
+                                                <td align="center">
+                                                    <label>Day</label>
+                                                </td>
+                                                <!--<span ng-repeat="Day in rateOverView.Day">-->
+                                                <td ng-repeat="Day in rateOverView.Day" align="center" style="width:50px;color:green;font-weight: bold;cursor: pointer;">
+                                                    <span style="display: inline-block;width:19px;"  tooltipped data-position="bottom" data-delay="50" data-tooltip="{{Day.DayName}}" ng-class="{'GridBar3':Day.WeekDay == 1 || Day.WeekDay == 6 || Day.WeekDay == 7}">{{Day.Day}}</span>
+                                                </td>
+
+                                                <!--<td ng-if="Day.WeekDay != 1 || Day.WeekDay != 6 || Day.WeekDay != 7" class="GridBar4" align="center" style="background-color:#e1e1e1;">{{Day.Day}}</td>-->
+
+                                                <!--</span>-->
+
+
+                                            </tr>
+                                            <tr style="height:25px">
+                                                <td style="width:20%;padding:0px; white-space:nowrap;">
+
+                                                    <table style="height: 40px;">
+                                                        <tr>
+                                                            <!--<td style="padding: 0px;border-right: 1px solid #ddd;text-align: center;width:295px;"><label>{{room.RoomTypeName}}</label></td>-->
+                                                            <td style="padding: 0px;text-align: center;"><label>Allotment</label></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+
+                                                <!--<span ng-repeat="Day in rateOverView.RoomDay">-->
+                                                <td ng-repeat="Day in room.RoomDays" id="cellRoomDay" style="cursor:pointer;padding: 0px;" align="center">
+                                                    <div ng-class="{'Closed':Day.hotelRoomAvailabilityText == 'Closed',
+                                                        'RateMissing':Day.hotelRoomAvailabilityText == 'RoomRateMissing',
+                                                        'Full':Day.hotelRoomAvailabilityText == 'AvailableRoomCount',
+                                                        'Available':Day.hotelRoomAvailabilityText == '' || angular.isUndefined(Day.hotelRoomAvailabilityText)}"
+                                                         style="height: 40px;padding-top: 9px;">
+                                                        <span style="color:white;font-weight: bold;" tooltip="test">{{Day.lbtnAvailableRoomCount}}</span>
+                                                        <!--<input type="text"-->
+                                                        <!--style=" padding: 0px;-->
+                                                        <!--cursor: pointer;-->
+                                                        <!--height: 30px;-->
+                                                        <!--margin: 0px;-->
+                                                        <!--width: 50px;-->
+                                                        <!--text-align: center;-->
+                                                        <!--border: none;" ng-model="Day.lbtnAvailableRoomCount" only-digits/>-->
+                                                        <input type="hidden" id="hidDate_{{Day.DateID}}" value="{{Day.Date}}" />
+                                                        <input type="hidden" id="hidHotelAvailabilityStatus_{{Day.HotelRoomID}}_{{Day.DateID}}" value="{{Day.HotelAvailableStatus}}" />
+                                                        <input type="hidden" id="hidHotelRoomId_{{Day.HotelRoomID}}_{{Day.DateID}}" value="{{Day.HotelRoomID}}" />
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr style="height:25px">
+                                                <td style="width:20%;padding: 0px;">
+                                                    <table style="height: 40px;">
+                                                        <tr>
+                                                            <td style="padding: 0px;border-right: 1px solid #ddd;text-align: center;">
+                                                                <label>Non-Refundable</label>
+                                                            </td>
+                                                            <td style="text-align: left;padding: 0px;border: none;text-align: center;">
+                                                                <label>Rate</label>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+
+                                                <td style="padding: 0px;text-align: center;"  ng-repeat="f in room.NonRefundablePrices" id="cellRoomDay">
+                                                    <div style="height: 40px;padding-top: 9px;" ng-class="{'Closed':f.HotelAvailableStatus === '1'}" >
+                                                        <span>{{f.RoomPrice}}</span>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <tr style="height:25px">
+                                                <td style="width:20%;padding: 0px;text-align: center;">
+                                                    <table style="height: 40px;">
+                                                        <tr style="background-color: #f9f9f9;">
+                                                            <td style="padding: 0px;border-right: 1px solid #ddd;text-align: center;">
+                                                                <label>Refundable</label>
+                                                            </td>
+                                                            <td style="padding: 0px;border: none;text-align: center;"><label>Rate</label></td>
+                                                        </tr>
+                                                    </table>
+
+                                                </td>
+
+                                                <td style="padding: 0px;text-align: center;"  ng-repeat="f in room.RefundablePrices">
+                                                    <div style="height: 40px;padding-top: 9px;" ng-class="{'Closed':f.HotelAvailableStatus === '1'}" >
+                                                        <span>{{f.RoomPrice}}</span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr style="height:25px" class="GridBar">
+                                                <td align="center">
+                                                    <label>Open/Close</label>
+                                                </td>
+
+                                                <td ng-repeat="close in rateOverView.CloseOpenAvailabilityDay"
+                                                    style="cursor:pointer;text-align:center;" >
+                                                    <input type="hidden" id="hidValueDate_{{close.DateID}}" value="{{close.Date}}" />
+                                                    <a ng-if="close.IsValidForOpenClose" ng-click="CloseOpenAvailabilityCheck(room,close)"><img src="/img/closeopen.png"></a>
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <table border="0" cellpadding="0" cellspacing="5">
+                        <tr style="height:50px">
+                            <td style="width:25px;">
+                                <div class="Available" style="width:25px;height:25px;border:1px solid #c5ccda;"></div>
+                            </td>
+                            <td align="left" style="width:120px">
+                                <label class="divCaption">Available</label>
+                            </td>
+
+                            <td style="width:25px;">
+                                <div class="Closed" style="width:25px;height:25px;border:1px solid #c5ccda;"></div>
+                            </td>
+                            <td align="left" style="width:120px">
+                                <label class="divCaption">Closed</label>
+                            </td>
+
+                            <td style="width:25px;">
+                                <div class="RateMissing" style="width:25px;height:25px;border:1px solid #c5ccda;"></div>
+                            </td>
+                            <td align="left" style="width:120px">
+                                <label class="divCaption">No price submitted</label>
+                            </td>
+
+                            <td style="width:25px;">
+                                <div class="Full" style="width:25px;height:25px;border:1px solid #c5ccda;"></div>
+                            </td>
+                            <td align="left" style="width:150px">
+                                <label class="divCaption">All reserved</label>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

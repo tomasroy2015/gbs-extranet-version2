@@ -1,0 +1,681 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css"/>
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<style>
+    #custom-slider{
+        width: 100%;
+        display: flex;
+    }
+    .table{
+        font-size: 13px;
+    }
+    table>thead th {
+        font-weight: bold;
+        font-size: 14px;
+         text-transform: none;
+    }
+    .fa.fa-times-circle{
+        font-size: 16px;
+        padding-left: 10px;
+        cursor: pointer;
+    }
+    .fa.fa-times-circle:hover{
+        color:#122b40;
+    }
+    input.slider-input{
+        width: 8%;
+    }
+    .slider.slider-horizontal .slider-tick, .slider.slider-horizontal .slider-handle{
+        display: none;
+    }
+    .slider.slider-horizontal{
+        height: 20px;
+        margin-right: 10px;
+        width: 1250%;
+        /*margin-left: 5%;*/
+    }
+    .slider.slider-horizontal .slider-track{
+        height: 18px;
+    }
+    .slider.slider-horizontal .slider-selection{
+        background: #26a69a;
+    }
+    .slider-input{
+        display: block;
+        border: none;
+        margin-left: 5px;
+    }
+    .link1{ color:#bb7f37 !important}
+    .link2{ color:#446330 !important}
+    .link3{ color:#a02705 !important}
+    .link4{ color:#3a5fa3 !important}
+    .link5{ color:#49326d !important}
+    .link6{ color:#0700ff !important}
+    .data h3{
+        float: left;
+        width: 100%;
+        font-size: 21px;
+        margin: 0 0 5px 0;
+        color: #1b1e1f;
+        font-weight: normal;
+        margin-top: 3px;
+    }
+    .message {
+        display: none;
+        color: #313130;
+        background: #FAF7A8;
+        position: absolute;
+        top: 73px;
+        width: 240px;
+        margin-left: -8px;
+        font-size: 14px;
+        border: 3px solid #FFD633;
+        border-radius: 3px;
+    }
+    .msgspan {
+        position: inherit;
+    }
+
+    .anchorInfoImage:hover + .message {
+        display: block !important;
+        z-index: 10;
+    }
+
+    .ui-slider-horizontal {
+        background: #e0e0f7 !important;
+        border: 1px solid #c1c0f3 !important;
+        height: 40px !important;
+    }
+
+    .ui-slider-range {
+        background-color: #9dc6df;
+        -moz-border-radius-topleft: 4px;
+        -webkit-border-top-left-radius: 4px;
+        -khtml-border-top-left-radius: 4px;
+        border-top-left-radius: 4px;
+        -moz-border-radius-bottomleft: 4px;
+        -webkit-border-bottom-left-radius: 4px;
+        -khtml-border-bottom-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .ui-slider-handle {
+        /*background: url('<%=Page.ResolveUrl("/Image/sliderBig.png")%>') !important;*/
+        background: url('/Image/sliderBig.png') !important;
+        border: none !important;
+        width: 30px !important;
+        height: 46px !important;
+        cursor: pointer;
+        outline: none;
+        top: -3px !important;
+    }
+
+    .PromotionArrow {
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 10px 15px 10px;
+        border-color: transparent transparent #d8cad5 transparent;
+    }
+    .PromotionDescription {
+        background-color: #d8cad5;
+        color: #63425c;
+        width: 100%;
+        padding: 20px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .PromotionCaption {
+        font-size: 18px;
+        font-weight: bold;
+        color: #444444;
+        font-weight: bold;
+    }
+    .data{
+        width: 100%;
+    }
+    .iconbox{
+        width:6%;
+    }
+    .day{
+        width: 16%;
+    }
+    .link_btn{ float:left; background:#0CF; color:#fff !important; font-size:14px; padding:5px 12px; font-weight:bold !important;
+        text-decoration:none; border-radius:4px; border:none; cursor:pointer;}
+    .link_btn:hover{
+        background: #afefff;
+    }
+    .input-group{
+        margin-top: 5px;
+        width: 77%;
+    }
+    input[type=text]{
+        margin-bottom: 0px;
+        height: 29px;
+        border: 1px solid #ddd;
+    }
+    .list_item{
+        margin-left: 2%;
+        width: 10%;
+        text-align: center;
+        cursor: pointer;
+    }
+    .row.tab-desc{
+        background: #df8733;
+        border-radius: 4px;
+        padding: 8px;
+        margin: 0px;
+        min-height: 60px;
+        color:#fff;
+    }
+    .fa.fa-caret-up.arrow-up{
+        font-size: 36px;
+        /*color: #df8733;*/
+        top: -24px;
+        position: absolute;
+    }
+    .BasicDeal{
+        left:9%;
+    }
+    .browser-default.day-selection{
+        color: black;
+        height: 30px;
+        width: 30%;
+        margin: 0px 5px 0px 5px;
+        border:1px solid #9e9e9e;
+    }
+    .required{
+        border-color: #ff0000;
+    }
+    .MinimumStay{left:24%;}
+    .EarlyBooker{left:39%;}
+    .LastMinute{left:54%;}
+    .TwentyFourHourPromotion{left:69%;}
+    .Genius{left:84%;}
+    .text-label{
+        font-size: 14px;
+        font-weight: normal;
+        padding-right: 10%;
+    }
+    .caption{ float:left; width:500px; height:50px; background:#df8733; border-radius:8px; color:#333;
+        padding:3px 10px 0px 10px; line-height:20px; margin-top:10px; position:relative; }
+    .con{width: 0; height: 0;  border-bottom: 10px solid #df8733;  border-left: 10px solid transparent;
+        border-right: 10px solid transparent; position:absolute; top:-10px; left:33px }
+
+    .panel{
+        color: #000000;
+        background-color: #efefef;
+    }
+    .panel .panel-body{
+        color: #000;
+    }
+</style>
+<style ng-bind-html="barColorStyle"></style>
+<main>
+<!-- #### -->
+<!-- Body -->
+<!-- #### -->
+<section id="property" style="background: #efefef;">
+    <div class="row" style="margin-top: 2%">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Promotions
+                </h3>
+            </div>
+            <div class="panel-body">
+            <div class="row">
+            <form class = "form-horizontal" role = "form" name = "promotionForm" novalidate>
+            <div class="col-md-12" style="height: 96px;" >
+                <div class="col-md-2"></div>
+                <div class="col-md-9">
+                    <ul style="display: flex;">
+                        <li ng-repeat="tab in promotions" class="list_item">
+                        <span class="link1">
+                            <img src="img/Promotion_{{tab.PromotionType}}.png" alt="" ng-click="tabSelection(tab)" />
+                            <br /> <span ng-style="{'color':tab.Color}">{{tab.PromotionName}}</span>
+                        </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="col-md-12" style="margin-bottom: 10px;">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-7">
+                        <div class="row" style="margin: 0px;">
+                            <i class="fa fa-caret-up arrow-up" ng-style="setArrowColor"
+                               ng-class="{'BasicDeal':selectedPromotion.PromotionType == 'BasicDeal',
+                               'MinimumStay':selectedPromotion.PromotionType == 'MinimumStay',
+                               'EarlyBooker':selectedPromotion.PromotionType == 'EarlyBooker',
+                               'LastMinute':selectedPromotion.PromotionType == 'LastMinute',
+                               'TwentyFourHourPromotion':selectedPromotion.PromotionType == 'TwentyFourHourPromotion',
+                               'Genius':selectedPromotion.PromotionType == 'Genius'}" aria-hidden="true"></i>
+                        </div>
+                        <div class="row tab-desc" ng-style="setColor">
+                            <span>
+                               {{selectedPromotion.PromotionDescription}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+            <div class="col-md-12" >
+            <div class="col-md-1"></div>
+            <div class="col-md-10" style="background: #fff;border-radius: 4px;margin-bottom: 12px;">
+            <div class="row" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/per_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>Your deal discount percentage</h3>
+                    <p>Click and drag the slider to set it to the percentage discount you want to offer.</p>
+                    <p>
+                        <slider id="custom-slider" ng-model="customValue" min="0"
+                                step="1" max="100"
+                                value="20">
+                        </slider>
+                    </p>
+
+                </div>
+            </div>
+            <div class="row" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/cul_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>When can customers stay?</h3>
+                    <p>Click and drag the slider to set it to the percentage discount you want to offer.</p>
+                    <p style="display: flex;">
+                    <div class="col-md-4">
+                        <div class="form-horizontal" style="display: flex;">
+                            <label style="padding-top: 12px;width: 23%;">From:</label>
+                                    <span class="input-group">
+                                       <input input-date
+                                              type="text"
+                                              name="startDate"
+                                              id="inputStart"
+                                              format="dd/mm/yyyy"
+                                              ng-model="promotion.AccommodationStartDate"
+                                              container=""
+                                              months-full="{{ month }}"
+                                              months-short="{{ monthShort }}"
+                                              weekdays-full="{{ weekdaysFull }}"
+                                              weekdays-short="{{ weekdaysShort }}"
+                                              weekdays-letter="{{ weekdaysLetter }}"
+                                              today="today"
+                                              first-day="1"
+                                              clear="clear"
+                                              close="close"
+                                              select-years="100"
+                                              min="{{minDate}}"
+                                              on-set="onSet()"
+
+                                               />
+                                   <span class="input-group-btn">
+                                      <button class="btn btn-default" style="height: 31px;
+                                                                width: 50px;
+                                                                padding: 0px;
+                                                                margin-left: 0px;">
+                                          <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                      </button>
+                                    </span>
+                                    <span ng-if="promotion.AccommodationStartDate == null || promotion.AccommodationStartDate == ''" style="color:red;margin-left: 2px;">*</span>
+                                 </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-horizontal" style="display: flex;">
+                            <label  style="padding-top: 12px;width: 23%;">To:</label>
+                                   <span class="input-group">
+
+                                       <input input-date
+                                              type="text"
+                                              name="endDate"
+                                              id="inputEnd"
+                                              format="dd/mm/yyyy"
+                                              ng-model="promotion.AccommodationEndDate"
+                                              container=""
+                                              months-full="{{ month }}"
+                                              months-short="{{ monthShort }}"
+                                              weekdays-full="{{ weekdaysFull }}"
+                                              weekdays-short="{{ weekdaysShort }}"
+                                              weekdays-letter="{{ weekdaysLetter }}"
+                                              today="today"
+                                              first-day="1"
+                                              clear="clear"
+                                              close="close"
+                                              select-years="100"
+                                              min="{{minDate}}"
+                                              on-set="onSet()"
+                                              required />
+                                     <span class="input-group-btn">
+                                          <button class="btn btn-default" style="height: 31px;
+                                                                    width: 50px;
+                                                                    padding: 0px;
+                                                                    margin-left: 0px;">
+                                              <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                          </button>
+                                     </span>
+                                       <span ng-if="promotion.AccommodationEndDate == null || promotion.AccommodationEndDate == ''" style="color:red;margin-left: 2px;">*</span>
+                                   </span>
+                        </div>
+                    </div>
+                    </p>
+
+                    <!--<div class="col-md-12" style="display: flex;margin-top: 2%">-->
+                    <!--<div ng-repeat="day in promotionItems.DayDetails" class="day">-->
+                    <!--<input name="day" type="checkbox" value="" /> {{day.Name}}-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <div class="col-md-12"  style="position: relative;padding-left: 0px;padding-top: 2%;">
+                        <label ng-repeat="day in promotionItems.DaysDetails" class="checkbox-inline" style="padding-left: 5px;margin-left: 4%;height: 30px;">
+                            <input class="input-checkbox" style="width:16px;height: 16px;"
+                                   type="checkbox"
+                                   id="chk{{day.Name}}" name="chkDay"
+                                   value="{{day.ID}}"
+                                   checked>
+                                <span class="checkbox-text" style="font-size: 14px;">
+                                    {{day.Name}}
+                                </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/wa_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>Rate Plan</h3>
+                    <!--<div class="col-md-12" style="display: flex;">-->
+                    <!--<div ng-repeat="rate in promotionItems.PricePolicies">-->
+                    <!--<input type="radio" name="rate" id="{{rate.Name}}" value="{{rate.ID}}" checked/>-->
+                    <!--<label style="font-size: 14px;-->
+                    <!--font-weight: normal;-->
+                    <!--padding-right: 10px;-->
+                    <!--padding-left: 26px;"  for="{{rate.Name}}">{{rate.Name}}</label>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="col-md-3">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="rate" id="nonRefundable" ng-model="nonRefundable" value="2" ng-click="click_Refundoption(false)" />&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="nonRefundable">Non Refundable</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+                    <div class="col-md-9"  style="position: relative;padding-left: 0px;">
+                        <label ng-repeat="rate in promotionItems.PricePolicies" class="checkbox-inline" style="padding-left: 5px;margin-left: 6%;height: 30px;">
+                            <input class="input-checkbox" style="width:16px;height: 16px;"
+                                   type="checkbox"
+                                   id="chk{{rate.Name}}" name="chkRate"
+                                   value="{{rate.ID}}"
+                                   checked>
+                                <span class="checkbox-text" style="font-size: 14px;">
+                                    {{rate.Name}}
+                                </span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/room_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>Room </h3>
+                    <!--<div class="col-md-12" style="display: flex;">-->
+                    <!--<div ng-repeat="room in promotionItems.HotelRooms">-->
+                    <!--<input type="radio" name="room" id="{{room.RoomTypeName}}" value="{{room.ID}}" checked />-->
+                    <!--<label style="font-size: 14px;-->
+                    <!--font-weight: normal;-->
+                    <!--padding-right: 10px;-->
+                    <!--padding-left: 26px;"  for="{{room.RoomTypeName}}">{{room.RoomTypeName}}</label>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="col-md-2">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<input type="radio" name="room" id="double" ng-model="double" ng-click="click_Refundoption(false)" />&ndash;&gt;-->
+                    <!--&lt;!&ndash;<label for="double">Double</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+
+                    <div class="col-md-9"  style="position: relative;padding-left: 0px;">
+                        <label ng-repeat="room in promotionItems.HotelRooms" class="checkbox-inline" style="padding-left: 5px;margin-left: 6%;height: 30px;">
+                            <input class="input-checkbox" style="width:16px;height: 16px;"
+                                   type="checkbox"
+                                   id="chk{{room.Name}}" name="chkRoomType"
+                                   value="{{room.RoomID}}"
+                                   checked>
+                                <span class="checkbox-text" style="font-size: 14px;">
+                                    {{room.RoomTypeName}}
+                                </span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" ng-if="selectedPromotion.PromotionType == 'MinimumStay'" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/off_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>How long do customers need to stay?</h3>
+                    <div class="col-md-8">
+                        <div style="display: flex;">
+                            <select class="browser-default day-selection"
+                                    data-ng-model="promotion.DayCount"
+                                    ng-options="day.ID as day.Name for day in dayCount"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Day</option>
+                            </select>
+                            <span ng-if="promotion.DayCount == null" style="color:red;margin-left: 2px;">*</span>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" ng-if="selectedPromotion.PromotionType == 'EarlyBooker'" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/off_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>How far in advance can the deal be booked?</h3>
+                    <div class="col-md-8">
+                        <div style="display: flex;">
+                            <span>Starting from those many days in advance </span>
+                            <input type="text" ng-model="promotion.EarlyBookerMargin" style="height: 26px;
+                                                            width: 26%;
+                                                            border: 1px solid #9e9e9e;
+                                                            margin-left: 8px;" only-digits/>
+                            <span ng-if="promotion.EarlyBookerMargin == null" style="color:red;margin-left: 2px;">*</span>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" ng-if="selectedPromotion.PromotionType == 'LastMinute'" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/off_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>How far in advance can the deal be booked?</h3>
+                    <div class="col-md-8">
+                        <div style="display: flex;">
+                            <span>Starting from those many days in advance </span>
+                            <select class="browser-default day-selection"
+                                    data-ng-model="promotion.LastMinuteMargin"
+                                    ng-options="hour.ID as hour.Name for hour in hourCount"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Hour</option>
+                            </select>
+                            <span ng-if="promotion.LastMinuteMargin==null" style="color:red;margin-left: 2px;">*</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row" ng-if="selectedPromotion.PromotionType == 'TwentyFourHourPromotion'" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/off_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>Booking Date</h3>
+                    <p>
+                    <div class="col-md-4">
+                        <div class="form-horizontal">
+
+                                    <span class="input-group">
+                                       <input input-date
+                                              type="text"
+                                              name="created"
+                                              id="inputBooking"
+                                              ng-model="promotion.BookingDate"
+                                              container=""
+                                              format="dd/mm/yyyy"
+                                              months-full="{{ month }}"
+                                              months-short="{{ monthShort }}"
+                                              weekdays-full="{{ weekdaysFull }}"
+                                              weekdays-short="{{ weekdaysShort }}"
+                                              weekdays-letter="{{ weekdaysLetter }}"
+                                              today="today"
+                                              first-day="1"
+                                              clear="clear"
+                                              close="close"
+                                              select-years="100"
+                                              min="{{minDate}}"
+                                              on-set="onSet()"
+                                               />
+                                   <span class="input-group-btn">
+                                      <button class="btn btn-default" style="height: 31px;
+                                                                width: 50px;
+                                                                padding: 0px;
+                                                                margin-left: 0px;" ng-click="dtOpen1($event)">
+                                          <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                      </button>
+                                    </span>
+                                    <span ng-if="promotion.BookingDate == null || promotion.BookingDate == ''" style="color:red;margin-left: 2px;">*</span>
+
+                                 </span>
+                        </div>
+                    </div>
+                    </p>
+
+                </div>
+            </div>
+
+            <div class="row" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="/img/SecretDeal.png" alt="" /></div>
+                <div class="data">
+                    <h3>Secret Deal</h3>
+                    <div class="col-md-8"  style="position: relative;">
+                        <label  class="checkbox-inline" style="padding-left: 5px;">
+                            <input class="input-checkbox" style="width:16px;height: 16px;"
+                                   type="checkbox"
+                                   id="chkDeal" name="chkDeal"
+                                   value="1"
+                                   ng-model="promotion.SecretDeal"
+                                   checked>
+                                <span class="checkbox-text" style="font-size: 14px;">
+                                    Secret Deal
+                                </span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <p><input type="submit" class="link_btn" ng-click="activeDeal()" value="Active My Deal" text="Active My Deal"/></p>
+            </div>
+
+            <div class="row" style="display: flex;padding-top:10px;">
+                <div class="iconbox"><img src="images/off_icon.png" alt="" /></div>
+                <div class="data">
+                    <h3>Offer Available</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>
+                                    Promotion
+                                </th>
+                                <th>
+                                    Accommodation Start
+                                </th>
+                                <th>
+                                    Accommodation End
+                                </th>
+                                <th>
+                                    Days
+                                </th>
+                                <th>
+                                    Price Policies
+                                </th>
+                                <th>
+                                    RoomType
+                                </th>
+                                <th>
+                                    Discount
+                                </th>
+                                <th>
+                                    Secret Deal
+                                </th>
+                                <th>
+                                    Active
+                                </th>
+                                <th>
+                                    Created Date
+                                </th>
+                                <th>
+                                    Action
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="data in gridData">
+                                <td>{{data.PromotionName}}</td>
+                                <td>{{data.AccommodationStartDate | date: "MM/dd/yyyy HH:mm:ss"}}</td>
+                                <td>{{data.AccommodationEndDate | date: "MM/dd/yyyy HH:mm:ss"}}</td>
+                                <td>{{data.DayName}}</td>
+                                <td>{{data.PricePolicyName}}</td>
+                                <td>{{data.RoomNames}}</td>
+                                <td>{{data.DiscountPercentage}}</td>
+                                <td>
+                                    <i ng-if="data.SecretDeal" class="fa fa-check" aria-hidden="true"></i>
+                                    <i ng-if="!data.SecretDeal" class="fa fa-times" style="color:red;" aria-hidden="true"></i>
+                                </td>
+                                <td>
+                                    <i ng-if="data.Active" class="fa fa-check" aria-hidden="true"></i>
+                                    <i ng-if="!data.Active" class="fa fa-times" style="color:red;" aria-hidden="true"></i>
+                                </td>
+                                <td>{{data.CreateDate | date: "MM/dd/yyyy HH:mm:ss"}}</td>
+                                <td>
+                                    <i class="fa fa-times-circle" aria-hidden="true" ng-click="delete(data)"></i>
+                                </td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-1"></div>
+            </div>
+            </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--<section id="promotion" style="background: #efefef;">-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-12 center">-->
+            <!--<h4>Promotions</h4>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!---->
+<!--</section>-->
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

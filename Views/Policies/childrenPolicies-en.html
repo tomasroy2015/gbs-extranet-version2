@@ -1,0 +1,52 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Children and extra bed policies
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <h6>By providing details about whether or not you can accomodate children and/or offer extra beds will help your guest make an informed descision when booking your property.</h6>
+                        <div class="col-md-12" style="padding-bottom: 15px;">
+                            <h4 style="font-size:1.5rem;color:#5D6D7E">Overview of your existing policies</h4>
+                            <hr style="border-top: 2px solid #eee;"/>
+                            <h4 style="font-size:1.2rem;">Children and extra bed policies</h4>
+
+                   <span ng-if="childrenPolicySummary.length == 0">
+                       No Chlidren and extra bed policies have been set yet.
+                    </span>
+                            <ul ng-if="childrenPolicySummary.length > 0" style="list-style-type: circle;padding-left:2rem;">
+                                <li ng-repeat="summary in childrenPolicySummary" style="list-style-type: circle;">{{summary.Description}}</li>
+                            </ul>
+
+                            <hr style="border-top: 2px solid #eee;"/>
+                            <h6>Click update to self manage your policies.If the options that appear are not what you are looking for,you can click cancel.</h6>
+                            <input type="button" id="btnUpdate" value="Update" text="Update" class="btn btn-success" ng-click="add_policyClickHandler()"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

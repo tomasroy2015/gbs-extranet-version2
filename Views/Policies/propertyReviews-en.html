@@ -1,0 +1,99 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Reviews
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row" >
+                        <div class="col-md-12" style="padding-bottom: 12px;">
+                            <span style="font-size: 20px;font-weight: bold;color:green;">Average Property Point</span><br/>
+                            <span ng-if="policyReviews.length > 0" style="font-size: 16px;font-weight: bold;color:orange;">{{policyReviews[0].FirstAveragePoint}}/10- {{policyReviews[0].FirstReviewTypeEvaluationName}}</span><br/>
+                            <span style="font-size: 16px;font-weight: bold;">{{policyReviews[0].ReviewTypeCount1 > 0 ? policyReviews[0].ReviewTypeCount1 : 0}} Reviews</span>
+                        </div>
+
+                        <div class="col-md-12" ng-if="policyReviews.length > 0">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered">
+                                    <tr ng-repeat="review in policyReviews">
+                                        <td style="width:20%;font-weight: bold;color:rgb(37, 60, 113);font-size: 12px;">
+                                            {{review.ReviewTypeName}}
+                                        </td>
+                                        <td>
+                                            <div ng-style="{'width': review.height1,'-webkit-transition': 'width 2s','transition': 'width 2s','height': '20px','background-color': 'orange','border-radius':'2px'}">
+                                                <span style="float: right;padding-right: 3px;">{{review.AveragePoint*2}}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="policyReviews.length > 0">
+                        <div class="col-md-12" style="padding-bottom: 12px;">
+                            <span style="font-size: 20px;font-weight: bold;color:green;">Individual Reviews</span>
+                        </div>
+
+                        <div ng-repeat="header in individualReviews" class="col-md-6">
+                            <div class="col-md-12 thumbnail" style="background-color: #f9f9f9;">
+                                <div style="display: flex;">
+                                    <h5 style="font-size: 14px;font-weight: bold;width: 96%;">{{header.Name}}</h5>
+                                    <h5 style="font-size: 18px;font-weight: bold;color:#878787;">{{header.IndividualReviews[0].AveragePoint}}</h5>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <tr style="font-size: 14px;font-weight: bold;">
+                                            <td>Average</td>
+                                            <td>
+                                                <div ng-style="{'width': header.IndividualReviews[0].width1}" style="-webkit-transition: width 5s;transition: width 5s;height: 20px; background-color: green;border-radius:2px;">
+                                                    <span style="float: right;color:white;padding-right: 3px;">{{policyReviews[0].FirstReviewTypeEvaluationName}} ({{policyReviews[0].FirstAveragePoint}})</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr ng-repeat="reviewItem in header.IndividualReviews">
+                                            <td style="width:20%;font-weight: bold;color:rgb(37, 60, 113);font-size: 12px;">
+                                                {{reviewItem.ReviewTypeName}}
+                                            </td>
+                                            <td>
+                                                <div ng-style="{'width': reviewItem.width1,'-webkit-transition': 'width 2s','transition': 'width 2s','height': '20px','background-color': 'orange','border-radius':'2px'}">
+                                                    <span style="float: right;padding-right: 3px;">{{reviewItem.Point}}</span>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <ul>
+                                        <li><i class="fa fa-plus-square" style="color: rgb(50,205,50);margin-right: 5px;font-size: 16px;"></i>{{header.PositiveComment}}</li>
+                                        <li><i class="fa fa-minus-square" style="color: red;margin-right: 5px;font-size: 16px;"></i>{{header.NegativeComment}}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

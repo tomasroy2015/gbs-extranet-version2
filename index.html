@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html ng-app="gbsApp">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>GBS Extranet</title>
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="shortcut icon" href="favicon.ico"/>
+        <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css"/>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+        <script src="bower_components/angular/angular.min.js"></script>
+        <script src="table-export/tableExport.js"></script>
+        <script src="table-export/jquery.base64.js"></script>
+
+        <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.min.js"></script>
+        <script src="bower_components/angular-route/angular-route.min.js"></script>
+        <script src="bower_components/angular-materialize/src/angular-materialize.js"></script>
+        <script src="bower_components/angular-blockUI/angular-block-ui.js"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
+        <script src="bower_components/ui-bootstrap/ui-bootstrap-tpls-0.11.0.js"></script>
+        <script src="bower_components/angular-smart-table/dist/smart-table.min.js"></script>
+        <script src="bower_components/lodash/lodash.js"></script>
+        <script src="Directive/adminTable.js"></script>
+        <script src="bower_components/seiyria-bootstrap-slider/js/bootstrap-slider.js"></script>
+        <script src="bower_components/angular-bootstrap-slider/slider.js"></script>
+        <script src="Views/Shared/rzSlider/rzSlider.js"></script>
+        <!-- the application CSS file -->
+        <link href="Content/css/angular-block-ui.css" rel="stylesheet"/>
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+        <link href="bower_components/materialize/dist/css/materialize.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="/css/adminTable.css" type="text/css">
+        <link href="Content/css/Application.css" rel="stylesheet"/>
+
+        <!--Application Configuration file-->
+        <script src="app.js"></script>
+        <script src="Directive/inputNumberDirective.js"></script>
+
+        <!--Services-->
+        <script src="Service/AjaxServices.js"></script>
+        <script src="Service/dropdownService.js"></script>
+        <script src="Service/AccountsServices.js"></script>
+        <script src="Service/authorizationService.js"></script>
+        <script src="Service/propertyOperationService.js"></script>
+        <script src="Service/propertyFacilitiesService.js"></script>
+        <script src="Service/childrenPoliciesService.js"></script>
+        <script src="Service/cancelationPolicyService.js"></script>
+        <script src="Service/propertyPolicyService.js"></script>
+        <script src="Service/propertyReviewService.js"></script>
+        <script src="Service/PropertyStatisticService.js"></script>
+        <!--Factories-->
+        <script src="Factory/dropdownFactory.js"></script>
+        <script src="Factory/authorizationFactory.js"></script>
+        <script src="Factory/sessionFactory.js"></script>
+        <script src="Factory/accountFactory.js"></script>
+        <script src="Factory/mainFactory.js"></script>
+        <script src="Factory/propertyOperationFactory.js"></script>
+        <script src="Factory/propertyFacilitiesFactory.js"></script>
+        <script src="Factory/childrenPoliciesFactory.js"></script>
+        <script src="Factory/cancelationPolicyFactory.js"></script>
+        <script src="Factory/propertyPolicyFactory.js"></script>
+        <script src="Factory/propertyReviewFactory.js"></script>
+        <script src="Factory/propertyStatisticsFactory.js"></script>
+        <!--Controllers-->
+        <script src="Controllers/loginController.js"></script>
+        <script src="Controllers/resetPasswordController.js"></script>
+        <script src="Controllers/dashboardController.js"></script>
+        <script src="Controllers/countriesController.js"></script>
+        <script src="Controllers/regionController.js"></script>
+        <script src="Controllers/userOperationController.js"></script>
+        <script src="Controllers/parameterController.js"></script>
+        <script src="Controllers/authorizationController.js"></script>
+        <script src="Controllers/propertyInformationController.js"></script>
+        <script src="Controllers/propertyFacilitiesController.js"></script>
+        <script src="Controllers/childrenPoliciesController.js"></script>
+        <script src="Controllers/cancelationPolicyController.js"></script>
+        <script src="Controllers/propertyPolicyController.js"></script>
+        <script src="Controllers/propertyReviewController.js"></script>
+        <script src="Controllers/propertyStatisticsController.js"></script>
+        <script src="Controllers/hotelRateAvailabilityController.js"></script>
+        <script src="Controllers/roomRateAvailabilityController.js"></script>
+        <script src="Controllers/promotionController.js"></script>
+        <script src="Controllers/reservationController.js"></script>
+        <script src="Controllers/reservationDetailsController.js"></script>
+        <script src="Controllers/reservationHistoryController.js"></script>
+        <!--[if IE]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+    </head>
+    <body ng-cloak="">
+       <div id="view-container" class="container-fluid" data-ng-view=""></div>
+    </body>
+</html>

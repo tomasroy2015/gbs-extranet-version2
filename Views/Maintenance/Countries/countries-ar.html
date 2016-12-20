@@ -1,0 +1,29 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />
+<link href="/css/custom.css" rel="stylesheet" type="text/css"/>
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-ar.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+    <main>
+
+        <div class="main-content no-gutter">
+        <!-- #### -->
+        <!-- Body -->
+        <!-- #### -->
+            <section id="dashboard">
+                <div class="row">
+                  <admin-table config="countryTableConfig"></admin-table>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-ar.html'"></div>
+

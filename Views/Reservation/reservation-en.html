@@ -1,0 +1,287 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<!--<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />-->
+<link href="/css/custom.css" rel="stylesheet" type="text/css"/>
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<style type="text/css">
+    .table-bordered > thead > tr > th{
+        font-weight: bold;
+        text-transform: capitalize;
+        cursor: pointer;
+    }
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked{
+        opacity: 0;
+    }
+    select.browser-default {
+        color: #000;
+        border-color: #9e9e9e;
+        height: 30px;
+        padding-top: 0px;
+        font-size: 16px;
+    }
+    .select-wrapper{
+        background: none;
+    }
+    .input-group{
+        margin-top: 5px;
+        width: 77%;
+        padding-left: 5px;
+    }
+    input[type=text]{
+        margin-bottom: 0px;
+        height: 29px;
+        border: 1px solid #ddd;
+    }
+    .action-img{
+        height: 16px;
+        width: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+        -webkit-transition: all .55s ease;
+        -moz-transition: all .55s ease;
+        -ms-transition: all .55s ease;
+        -o-transition: all .55s ease;
+        transition: all .55s ease;
+    }
+    .action-img:hover{
+        /*margin-top: 10px;*/
+        /*color: #93a2ad;*/
+
+        -webkit-transform:scale(1.5); /* Safari and Chrome */
+        -moz-transform:scale(1.5); /* Firefox */
+        -ms-transform:scale(1.5); /* IE 9 */
+        -o-transform:scale(1.5); /* Opera */
+        transform:scale(1.5);
+    }
+</style>
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                       Your Bookings
+                    </h3>
+                </div>
+
+                <div class="panel-body admin-table-body-wrapper">
+                    <div class="row" style="border: 1px solid #ddd;
+                                            border-radius: 2px;
+                                            padding: 5px;">
+                        <div class="col-md-12" style="padding-left: 0px;">
+                            <div class="col-md-3 container-3">
+                                <span class="icon"><i class="fa fa-search"></i></span>
+                                <input type="search" id="search" ng-model="searchkey" ng-change="changeText()" placeholder="Search by keyword (optional)..." />
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="padding-left: 0px;">
+                            <div class="col-md-3" style="padding-left: 0px;">
+                                <select style="display:block;height: 36px;" id="selecGroup"
+                                        ng-model="selectedFilter"
+                                        ng-options="item.Name for item in filterItems">
+                                </select>
+                            </div>
+                            <div ng-if="selectedFilter.Type == 1 || selectedFilter.Type == 4 || selectedFilter.Type == 5 " class="col-md-9" style="padding-left: 0px;">
+
+                                <div class="col-md-4" style="padding-left: 0px;">
+                                    <div class="form-horizontal" style="display: flex;">
+                                        <label style="padding-top: 12px;width: 15%;">From</label>
+                                        <span class="input-group">
+                                           <input input-date
+                                                  type="text"
+                                                  name="startDate"
+                                                  id="inputStart"
+                                                  ng-model="startDate"
+                                                  format="yyyy/mm/dd"
+
+                                                  container=""
+                                                  months-full="{{ month }}"
+                                                  months-short="{{ monthShort }}"
+                                                  weekdays-full="{{ weekdaysFull }}"
+                                                  weekdays-short="{{ weekdaysShort }}"
+                                                  weekdays-letter="{{ weekdaysLetter }}"
+                                                  today="today"
+                                                  first-day="1"
+                                                  clear="clear"
+                                                  close="close"
+                                                  select-years="100"
+                                                  min="{{minDate}}"
+                                                  on-set="onSet()"
+
+                                                   />
+                                       <span class="input-group-btn">
+                                          <button class="btn btn-default" style="height: 31px;
+                                                                    width: 50px;
+                                                                    padding: 0px;
+                                                                    margin-left: 0px;">
+                                              <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                          </button>
+                                        </span>
+
+                                     </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4" style="padding-left: 0px;">
+                                    <div class="form-horizontal" style="display: flex;">
+                                        <label  style="padding-top: 12px;width: 12%;">To</label>
+                                       <span class="input-group">
+
+                                           <input input-date
+                                                  type="text"
+                                                  name="endDate"
+                                                  id="inputEnd"
+                                                  ng-model="endDate"
+                                                  format="yyyy/mm/dd"
+
+                                                  container=""
+                                                  months-full="{{ month }}"
+                                                  months-short="{{ monthShort }}"
+                                                  weekdays-full="{{ weekdaysFull }}"
+                                                  weekdays-short="{{ weekdaysShort }}"
+                                                  weekdays-letter="{{ weekdaysLetter }}"
+                                                  today="today"
+                                                  first-day="1"
+                                                  clear="clear"
+                                                  close="close"
+                                                  select-years="100"
+                                                  min="{{minDate}}"
+                                                  on-set="onSet()"
+                                                  required />
+                                         <span class="input-group-btn">
+                                              <button class="btn btn-default" style="height: 31px;
+                                                                        width: 50px;
+                                                                        padding: 0px;
+                                                                        margin-left: 0px;">
+                                                  <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                              </button>
+                                         </span>
+
+                                       </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4" ng-if="selectedFilter.Type == 2">
+                                <div class="form-horizontal"  style="display: flex;">
+                                   <label  style="padding-top: 12px;">Reservation No</label>
+                                   <span class="input-group">
+                                         <input type="text" id="numReservation" ng-model="reservationNo" only-digits/>
+                                   </span>
+                                </div>
+                            </div>
+                            <div class="col-md-4" ng-if="selectedFilter.Type == 3">
+                                <div class="form-horizontal" style="display: flex;">
+                                    <label  style="padding-top: 12px;">Guest Name</label>
+                                   <span class="input-group">
+                                         <input type="text" id="txtGuest" ng-model="guestName"/>
+                                   </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5" style="margin-top: 2%;padding-left: 0px;display: flex;">
+                            <input type="button" class="btn btn-success" value="Search" text="Search" style="margin-right: 5px;" ng-click="btn_Search()"/>
+                            <input type="button" class="btn btn-success" value="Clear" text="Clear" ng-click="btn_Clear()"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="admin-table-body">
+                            <form class="table-responsive">
+                                <div class="admin-table-wrapper authorization-container">
+                                    <table st-table="displayColl" st-safe-src="rowCollection"  id="smartTable" class="table table-bordered table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="ReservationID" st-sort-default="regular">Reservation Number<i st-sort="ReservationID"></i></th>
+                                                <th st-sort="ReservationDate" st-sort-default="regular">Book Date<i st-sort="ReservationDate"></i></th>
+                                                <th st-sort="Note">Guest Comments(s)<i st-sort="Note"></i></th>
+                                                <th st-sort="FullName">Guest Name(s)<i st-sort="FullName"></i></th>
+                                                <th st-sort="CheckInDate">Arrival<i st-sort="CheckInDate"></i></th>
+                                                <th st-sort="CheckOutDate">Departure<i st-sort="CheckOutDate"></i></th>
+                                                <th st-sort="Status">Status<i st-sort="Status"></i></th>
+                                                <th st-sort="PayableAmount">Total<i st-sort="PayableAmount"></i></th>
+                                                <th st-sort="Commission">Commission<i st-sort="Commission"></i></th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in displayColl">
+
+                                                <td><a href="" tooltipped data-position="bottom" data-delay="50" data-tooltip="Click here for reservation details" style="color: blue;" ng-click="reservationDetails(item.ReservationID)">{{item.ReservationID}}</a></td>
+                                                <td><span>{{item.ReservationDate | date: "dd/MM/yyyy HH:mm:ss"}}</span></td>
+                                                <td><span>{{item.Note}}</span></td>
+                                                <td><span>{{item.FullName}}</span></td>
+                                                <td><span>{{item.CheckInDate | date: "dd/MM/yyyy"}}</span></td>
+                                                <td><span>{{item.CheckOutDate | date: "dd/MM/yyyy"}}</span></td>
+                                                <td><span>{{item.Status}}</span></td>
+                                                <td><span>{{item.PayableAmount}}</span></td>
+                                                <td><span>{{item.Commission}}</span></td>
+                                                <td>
+                                                    <span style="display: flex">
+                                                        <img class="action-img" title="Booking Details" ng-src="images/viewBooking.png" ng-click="reservationDetails(item.ReservationID)"/>
+                                                        <img class="action-img" title="Booking History"  ng-src="images/bookingHistory.png" ng-click="reservationHistory(item.ReservationID,'History')"/>
+                                                        <img class="action-img" title="Credit Card Info"  ng-src="images/creditCard.png" style="height: 24px;margin-top: -4px;" ng-click="reservationHistory(item.ReservationID,'CC')"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-3">
+
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="btn-group pull-right">
+                                <button
+                                        type="button"
+                                        class="btn btn-default btn-sm"
+                                        ng-if="paging.prev"
+                                        title="{{'GO_TO_PAGE'}} {{page}}"
+                                        ng-click="setPage(paging.prev)">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </button>
+                                <button
+                                        type="button"
+                                        class="btn btn-default btn-sm"
+                                        title="{{'GO_TO_PAGE'}} {{page}}"
+                                        ng-repeat="page in paging.pages"
+                                        ng-class="{'active' : page === currentPage}"
+                                        ng-click="setPage(page)">
+                                    {{page}}
+                                </button>
+                                <button
+                                        type="button"
+                                        class="btn btn-default btn-sm"
+                                        ng-if="paging.next"
+                                        title="{{'GO_TO_PAGE'}} {{paging.next}}"
+                                        ng-click="setPage(paging.next)">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

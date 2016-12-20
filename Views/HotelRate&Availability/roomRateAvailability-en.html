@@ -1,0 +1,468 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+
+<main>
+<!-- #### -->
+<!-- Body -->
+<!-- #### -->
+<style>
+    .table > tbody > tr > td{
+        text-align: center;
+        padding: 0px;
+        line-height: 1;
+        vertical-align: middle;
+    }
+    label {
+        font-size: 12px;
+        color: #000;
+    }
+    input[type=text]{
+        text-align: center;
+    }
+    input[type=text]:disabled{
+        color:#000;
+    }
+    .GridTable {
+        border-collapse: collapse;
+    }
+    .GridTable {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #CCCCCC;
+        border-collapse: collapse;
+        background-color: #ebf4f8;
+    }
+
+    .GridTable th {
+        border-width: 1px;
+        padding: 1px;
+        border-style: inset;
+        border-color: gray;
+        background-color: white;
+        text-align: center;
+        /*-moz-border-radius:;*/
+    }
+
+    .GridTable td {
+        border-width: 1px;
+        padding: 1px;
+        border-style: solid;
+        border-color: #CCCCCC;
+        text-align: center;
+        /*-moz-border-radius:;*/
+    }
+
+    .GridBar {
+        background-color: #F7F2E0;
+        color: navy;
+        font-weight: bold;
+    }
+
+    .GridBar2 {
+        background-color: #ede8d7;
+        /*color: Maroon;*/
+        text-align: center;
+        font-weight: bold;
+        padding: 5px;
+        border: 1px solid #c5ccda;
+    }
+
+    .GridBar3 {
+        color: #DF7401;
+        font-weight: bold;
+        padding: 3px;
+    }
+
+    .GridBar4 {
+        background-color: #F7F2E0;
+        color: green;
+        font-weight: bold;
+    }
+    .Closed {
+        background-color: red;
+        /*width: 60px;*/
+        /*height: 41px;*/
+        /*border-radius: 50%;*/
+    }
+
+    .Full {
+        background-color: yellow;
+        /*width: 60px;*/
+        /*height: 41px;*/
+        /*border-radius: 50%;*/
+    }
+
+    .RateMissing {
+        background-color: #fbeec5;
+        /*width: 60px;*/
+        /*height: 41px;*/
+        /*border-radius: 50%;*/
+    }
+    .Available{
+        background-color: #7ABA7A;
+        /*width: 60px;*/
+        /*height: 41px;*/
+    }
+    .BlueBar {
+        background-color: #c4daed;
+        color: Navy;
+        font-weight: bold;
+        height: 25px;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .NoWrap {
+        white-space: nowrap;
+    }
+    .divCaption {
+        margin-left: 5px;
+        margin-top: 3px;
+        font-weight: bold;
+        color: black;
+        font-size: 14px;
+    }
+    .checkbox-text {
+        padding-top: 6px;
+        display: inline-block;
+        padding-left: 5px;
+        font-size: 12px;
+        font-weight: bold;
+        /*color: #253c71;*/
+    }
+    .row
+    {
+        margin-bottom: 12px;;
+    }
+
+    select.browser-default{
+        height: 35px;
+        border: 1px solid #878787;
+    }
+    .input-group{
+        margin-top: 5px;
+        width: 77%;
+    }
+    input[type=text]{
+        margin-bottom: 0px;
+        height: 29px;
+        border: 1px solid #ddd;
+    }
+</style>
+
+<section id="property">
+    <div class="row" style="margin-top: 2%">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Rate & Availability
+                </h3>
+            </div>
+            <div class="panel-body">
+            <div class="row" style="background-color: aliceblue; border-radius: 3px;">
+                <div class="col-md-12">
+                    <form name="dateForm" novalidate>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-horizontal" style="display: flex;">
+                                    <label style="padding-top: 12px;width: 23%;">From:</label>
+                       <span class="input-group">
+                           <input input-date
+                                  type="text"
+                                  name="created"
+                                  id="inputStart"
+                                  ng-model="startDate"
+                                  container=""
+                                  format="dd/mm/yyyy"
+                                  months-full="{{ month }}"
+                                  months-short="{{ monthShort }}"
+                                  weekdays-full="{{ weekdaysFull }}"
+                                  weekdays-short="{{ weekdaysShort }}"
+                                  weekdays-letter="{{ weekdaysLetter }}"
+                                  today="today"
+                                  first-day="1"
+                                  clear="clear"
+                                  close="close"
+                                  select-years="100"
+
+                                  on-set="onSet()"
+                                   />
+                         <span class="input-group-btn">
+                              <button class="btn btn-default" style="height: 31px;
+                                                        width: 50px;
+                                                        padding: 0px;
+                                                        margin-left: 0px;" ng-click="dtOpen1($event)">
+                                  <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                              </button>
+                         </span>
+
+                       </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-horizontal" style="display: flex;">
+                                    <label  style="padding-top: 12px;width: 23%;">To:</label>
+                       <span class="input-group">
+
+                           <input input-date
+                                  type="text"
+                                  name="created"
+                                  id="inputEnd"
+                                  ng-model="endDate"
+                                  container=""
+                                  format="dd/mm/yyyy"
+                                  months-full="{{ month }}"
+                                  months-short="{{ monthShort }}"
+                                  weekdays-full="{{ weekdaysFull }}"
+                                  weekdays-short="{{ weekdaysShort }}"
+                                  weekdays-letter="{{ weekdaysLetter }}"
+                                  today="today"
+                                  first-day="1"
+                                  clear="clear"
+                                  close="close"
+                                  select-years="100"
+
+                                  on-set="onSet()"
+                                   />
+                         <span class="input-group-btn">
+                              <button class="btn btn-default" style="height: 31px;
+                                                        width: 50px;
+                                                        padding: 0px;
+                                                        margin-left: 0px;">
+                                  <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                              </button>
+                         </span>
+                       </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4" style="display: flex;">
+                                <label style="padding-top: 12px;width: 20%;">Room</label>
+                                <select style="color: black;" class="browser-default"
+                                        data-ng-model="selectedRoom"
+                                        ng-options="room.ID as room.Name for room in rooms"
+                                        material-select  watch>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-3" style="display: flex;">
+                                <label style="padding-top: 12px;width: 30%;">Rate plan</label>
+                                <select style="color: black;" class="browser-default"
+                                        data-ng-model="selectedPrice"
+                                        ng-options="policy.ID as policy.Name for policy in pricePolicies"
+                                        material-select  watch>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-4" style="display: flex;">
+                                <label style="padding-top: 12px;width: 60%;">Accommodation Type</label>
+                                <select style="color: black;" class="browser-default"
+                                        data-ng-model="selectedPartner"
+                                        ng-options="partner.ID as partner.Name for partner in partners"
+                                        ng-change="selectUnit(header,policy.UnitID)"
+                                        material-select  watch>
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <!--<div class="col-md-8"  style="position: relative;display: flex;">-->
+                            <!--<label style="width: 69px;">Days</label>-->
+                            <!--<label ng-repeat="day in days" class="checkbox-inline">-->
+                            <!--<input class="input-checkbox" style="width:20px;height: 20px;"-->
+                            <!--type="checkbox"-->
+                            <!--id="chkDay_{{day.ID}}" name="chkDay"-->
+                            <!--value="{{day.ID}}"-->
+                            <!--checked>-->
+                            <!--<span class="checkbox-text" style="padding-top: 5px;width: 75px;">-->
+                            <!--{{day.Name}}-->
+                            <!--</span>-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <div class="col-md-8"  style="position: relative;padding-left: 0px;padding-top: 2%;">
+                                <label ng-repeat="day in days"
+                                       class="checkbox-inline" style="padding-left: 5px;margin-left: 4%;height: 30px;">
+                                    <input class="input-checkbox" style="width:16px;height: 16px;"
+                                           type="checkbox"
+                                           id="chkDay_{{day.ID}}" name="chkDay"
+                                           value="{{day.ID}}"
+                                           checked>
+                                <span class="checkbox-text" style="font-size: 16px;padding-top: 0px;font-weight: normal;">
+                                    {{day.Name}}
+                                </span>
+                                </label>
+                            </div>
+                            <div class="col-md-4" style="margin-top: 16px;">
+                                <input type="button" id="btnShow" value="Show" class="btn btn-success" ng-click="btnShow_click()"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 center">
+                    <div class="col-md-2" style=" display: flex;">
+                        <div style="width: 25px; height: 25px; border: 1px solid #c5ccda;background-color: #7ABA7A;"></div>
+                        <label class="divCaption">Available</label>
+                    </div>
+                    <div class="col-md-2" style=" display: flex;">
+                        <div style="width: 25px; height: 25px; border: 1px solid #c5ccda; background-color:red;"></div>
+                        <label class="divCaption">Closed</label>
+                    </div>
+                    <div class="col-md-2" style=" display: flex;">
+                        <div style="width: 25px; height: 25px; border: 1px solid #c5ccda; background-color: #fbeec5; "></div>
+                        <label style="margin-top:0px;" class="divCaption">No price submitted</label>
+                    </div>
+                    <div class="col-md-2" style=" display: flex;">
+                        <div style="width: 25px; height: 25px; border: 1px solid #c5ccda; background-color: yellow; "></div>
+                        <label class="divCaption">All reserved</label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" style="margin-top: 3%">
+                <div class="col-md-12 center">
+                    <span style="color:blue;font-weight: bold;font-size: 16px;">Currency: {{CurrentUser.CurrencyCode}}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 right">
+                    <div class="btn-group">
+                        <a class="dropdown-toggle btn btn-info btn-sm" data-toggle="dropdown" href="">
+                            <i class="glyphicon glyphicon-floppy-save"></i>
+                            Export as
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a tabindex="-1" href="" ng-click="exportTable('csv');">CSV</a></li>
+                            <li><a tabindex="-1" href="" ng-click="exportTable('excel');">EXCEL</a></li>
+                            <li><a tabindex="-1" href="" ng-click="exportTable('pdf');">PDF</a></li>
+                            <li><a tabindex="-1" href="" ng-click="exportTable('xml');">XML</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <a class="btn btn-info btn-sm">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            Import
+                            <b class="caret"></b>
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="row" >
+                <div class="admin-table-wrapper">
+                    <table class="table table-bordered admin-table">
+                        <thead>
+                        <tr align="center">
+                            <input type="hidden" value="{{val.MaxPeopleCount}}" id="hdnMaxPeopleCount" />
+                            <td ><label id="lblDate">Date</label></td>
+                            <td ><label id="lblDay">Day</label></td>
+                            <td ><label id="lblSinglePrice">Single Price</label>
+                                <div style="width: 125px;">
+                                    <input id="txtSinglePriceAppend" type="text" ng-model="singlePrice" style="height:26px;width:100px;border:1px solid #000;" only-digits/>
+                                    <i class="fa fa-caret-square-o-down" style="cursor: pointer;font-size: 20px" aria-hidden="true" ng-click="clickSingle()"></i>
+                                </div>
+                            </td>
+                            <td ng-if="roomRateAvailability[0].MaxPeopleCount>1" ><label id="lblDoublePrice">Double Price</label>
+                                <div style="width: 125px;">
+                                    <input id="txtDoublePriceAppend" type="text" ng-model="doublePrice"  style="height:26px;width:100px;border:1px solid #000;" only-digits/>
+                                    <i class="fa fa-caret-square-o-down" style="cursor: pointer;font-size: 20px" aria-hidden="true" ng-click="clickDouble()"></i>
+                                </div>
+                            </td>
+                            <td ng-if="roomRateAvailability[0].MaxPeopleCount>2" ><label id="lblRoomPrice">Room Price</label>
+                                <div style="width: 125px;">
+                                    <input id="txtRoomPriceAppend" type="text" ng-model="roomPrice"  style="height:26px;width:100px;border:1px solid #000;" only-digits/>
+                                    <i class="fa fa-caret-square-o-down" style="cursor: pointer;font-size: 20px" aria-hidden="true" ng-click="clickRoom()"></i>
+                                </div>
+                            </td>
+                            <td ><label id="lblRoomAvailability">Availability</label>
+                                <div style="width: 125px;">
+                                    <input id="txtAvailabilityAppend" type="text" ng-model="availability"  style="height:26px;width:100px;border:1px solid #000;" only-digits/>
+                                    <i class="fa fa-caret-square-o-down" style="cursor: pointer;font-size: 20px" aria-hidden="true" ng-click="clickAvailable()"></i>
+                                </div>
+                            </td>
+                            <td style="width: 60px;"><label id="lblMinimumStay">Minimum Stay</label></td>
+                            <td style="width: 60px;"><label id="lblCloseToArrival">CTA</label></td>
+                            <td style="width: 60px;"><label id="lblCloseToDeparture">CTD</label></td>
+                            <td style="width: 60px;"><label id="lblClosed">Closed</label></td>
+                        </tr>
+                        <tbody>
+                        <tr ng-repeat="val in roomRateAvailability">
+                            <!--<tr class="Available"> -->
+                            <td  align="center">
+                                <label id="lblDateName{{val.DayID}}">{{val.Day}} {{val.MonthName}}  {{val.Year}}</label>
+                                <input type="hidden" name="hiddenDateID" value="{{val.DateID}}"   id="hdnDateID{{val.DateID}} " />
+                                <input type="hidden" name="hiddenWeekDayID" value="{{val.WeekDay}}"    id="hdnWeekDayID{{val.WeekDay}}" />
+                            </td>
+                            <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" align="center">
+                                <label id="lblDayName{{val.DateID}}">  {{val.DayName}}  </label>
+                            </td>
+                            <td style="width: 125px;" ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" align="center">
+                                <input name="txtSinglePriceName" type="text" ng-disabled="val.Closed" style="height:26px;width:100px;margin: 3px 3px 3px 3px;" id="txtSinglePrice{{val.DateID}}" ng-model="val.SinglePrice" only-digits  />
+                            </td>
+                            <td style="width: 125px;" ng-class="{'Closed':val.Closed==true}" ng-if="val.MaxPeopleCount>1"  class="{{val.CssClass}}" align="center">
+                                <input type="text" name="txtDoublePriceName" ng-disabled="val.Closed" style="height:26px;width:100px;margin: 3px 3px 3px 3px;" id="txtDoublePrice{{val.DateID}}" ng-model="val.DoublePrice" only-digits/>
+
+                            </td>
+                            <td style="width: 125px;" ng-class="{'Closed':val.Closed==true}" ng-if="val.MaxPeopleCount>2"  class="{{val.CssClass}}" align="center">
+                                <input type="text" ng-disabled="val.Closed" name="txtRoomPriceName" style="height:26px;width:100px;margin: 3px 3px 3px 3px;" id="txtRoomPrice{{val.DateID}}" ng-model="val.RoomPrice" only-digits/>
+
+                            </td>
+                            <td style="width: 125px;" ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" align="center">
+                                <input type="text" name="txtAvailableRoomCountName" ng-disabled="val.Closed" style="height:26px;width:100px;margin: 3px 3px 3px 3px;" id="txtAvailableRoomCount{{val.DateID}}" ng-model= "val.AvailableRoomCount" only-digits/>
+
+                            </td>
+                            <td style="width: 125px;" ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}"  align="center">
+                                <input type="text" name="txtMinimumStayName" ng-disabled="val.Closed" style="height:26px;width:100px;margin: 3px 3px 3px 3px;" id="txtMinimumStay{{val.DateID}}" ng-model="val.MinimumStay" only-digits/>
+
+                            </td>
+                            <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" align="center">
+                                <input type="checkbox" style="width: 20px; height: 20px;"  ng-disabled="val.Closed" ng-model="val.CloseToArrival" ng-checked="val.CloseToArrival" id="ChkCloseToArrival{{val.DateID}}" name="CheckCloseToArrival" />
+                            </td>
+                            <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" align="center">
+
+                                <input type="checkbox" style="width: 20px; height: 20px;"  ng-disabled="val.Closed" ng-model="val.CloseToDeparture" ng-checked="val.CloseToDeparture" id="ChkCloseToDeparture{{val.DateID}}" name="CheckCloseToDeparture" />
+                            </td>
+                            <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" align="center">
+
+                                <input type="checkbox" style="width: 20px; height: 20px;" ng-checked="val.Closed" ng-model="val.Closed" id="ChkClosed{{val.DateID}}" name="CheckClosed" />
+
+                            </td>
+                            <!--</tr>-->
+                        </tr>
+                        </tbody>
+                        </thead>
+                    </table>
+                    <div style="position: fixed; bottom: 0;width: 100%;">
+                        <div class=" col-md-12 center" style="background-color: #f5f5f5;height: 80px;width: 98%;">
+                            <input style="width: 150px;height: 50px;margin-top: 18px;" type="button" class="btn btn-large" value="Save" ng-click="saveRoomRate()" text="Save"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

@@ -1,0 +1,217 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+
+<div ng-init="initializeMethod()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+<style>
+    .checkbox-inline input[type="checkbox"] {
+        margin-left: 0px;
+    }
+    .header-title{
+        background-color: #337ab7;
+    }
+</style>
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                       Property Facilities
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div  class="row">
+                        <div ng-if="header.PropertyFacilitiesItems.length > 0" ng-repeat="header in PropertyFacilities" class="col-md-4">
+                            <div class="col-md-12 thumbnail" ng-if="header.PropertyFacilitiesItems.length > 0"  >
+                                <h5 class="header-title" style="color:#fff;">{{header.AttributeHeaderName}}</h5>
+                                <div  style="margin-left: 5px;max-height: 500px;overflow-x: auto;">
+                                    <div  ng-repeat="item in header.PropertyFacilitiesItems">
+
+                                        <div style="border-bottom: 1px solid #878787" class="row">
+                                            <div  class="col-md-8" style="margin-bottom:8px;">
+
+                                                <label class="checkbox-inline">
+                                                    <input style="opacity: 1;width: 18px;height: 18px;"
+                                                           ng-model="item.hasAttribute"
+                                                           ng-click="chkAttribChecked(item.AttributeID)"
+                                                           id="chkMainAttribute{{item.AttributeID}}"
+                                                           type="checkbox"
+                                                           value="item.AttributeID"
+                                                           ng-checked="item.hasAttribute" >
+                                            <span style="padding-top: 3px;display: inline-block;padding-left: 5px;font-size: 14px;">
+                                             {{item.AttributeName}}
+                                            </span>
+                                                </label>
+                                            </div>
+                                            <div ng-if="item.Charged == true" class="col-md-4" style="float: left; width: 30%; height: 30px;">
+
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label style="width: 100%" class="checkbox-inline">
+                                                            <input style="opacity: 1;width: 18px;height: 18px;"
+                                                                   id="chkPaidAttribute{{item.AttributeID}}"
+                                                                   ng-model="item.Charged"
+                                                                   type="checkbox"
+                                                                   value="item.Charged" ng-disabled="!item.hasAttribute"
+
+                                                                   ng-checked="item.Charged">
+                                            <span style="padding-top: 3px;display: inline-block;padding-left: 5px;font-size: 14px;">
+                                                Paid
+                                            </span>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div ng-if="item.Charged == false" class="col-md-4" style="float: left; width: 30%; height: 30px;">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <label style="width: 100%" class="checkbox-inline">
+                                                            <input style="opacity: 1;width: 18px;height: 18px;"
+                                                                   id="chkPaidAttribute{{item.AttributeID}}"
+                                                                   ng-model="item.Charged"
+                                                                   value="item.Charged"
+                                                                   type="checkbox"
+                                                                   ng-disabled="!item.hasAttribute"
+                                                                   ng-checked="item.Charged">
+                                            <span style="padding-top: 3px;display: inline-block;padding-left: 5px;font-size: 14px;">
+                                                Paid
+                                            </span>
+                                                        </label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div  class="row" ng-show="item.Charged">
+
+                                                <div class="col-md-6">
+                                                    <span>Unit</span>
+                                                    <select id="selectUnit" style="display: block;margin-top:5px;height: 30px;"
+                                                            data-ng-model="item.selectedUnit"
+                                                            ng-options="unit.Name for unit in item.Units"></select>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <span>Price</span>
+                                                    <input class="form-control" ng-model="item.PaidAmount" style="margin-top: 2px;height: 30px;" type="number" id="num{{item.AttributeID}}" />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<accordion  close-others="oneAtATime">-->
+                            <!--<accordion-group heading="{{header.AttributeHeaderName}}">-->
+                            <!--<span  ng-repeat="item in header.PropertyFacilitiesItems">-->
+                            <!--<div style="border-bottom: 1px solid #878787" class="row">-->
+                            <!--<div  class="col-md-8" style="margin-bottom:8px;">-->
+
+                            <!--<label class="checkbox-inline">-->
+                            <!--<input style="opacity: 1;width: 18px;height: 18px;"-->
+                            <!--ng-model="item.hasAttribute"-->
+                            <!--ng-click="chkAttribChecked(item.AttributeID)"-->
+                            <!--id="chkMainAttribute{{item.AttributeID}}"-->
+                            <!--type="checkbox"-->
+                            <!--value="item.AttributeID"-->
+                            <!--ng-checked="item.hasAttribute" >-->
+                            <!--<span style="padding-top: 3px;display: inline-block;padding-left: 5px;font-size: 14px;">-->
+                            <!--{{item.AttributeName}}-->
+                            <!--</span>-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <!--<div ng-if="item.Charged == true" class="col-md-4" style="float: left; width: 30%; height: 30px;">-->
+
+                            <!--<div class="row">-->
+                            <!--<div class="col-md-4">-->
+                            <!--<label style="width: 100%" class="checkbox-inline">-->
+                            <!--<input style="opacity: 1;width: 18px;height: 18px;"-->
+                            <!--id="chkPaidAttribute{{item.AttributeID}}"-->
+                            <!--ng-model="item.Charged"-->
+                            <!--type="checkbox"-->
+                            <!--value="item.Charged" ng-disabled="!item.hasAttribute"-->
+
+                            <!--ng-checked="item.Charged">-->
+                            <!--<span style="padding-top: 3px;display: inline-block;padding-left: 5px;font-size: 14px;">-->
+                            <!--Paid-->
+                            <!--</span>-->
+                            <!--</label>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<div ng-show="item.Charged" class="col-md-8">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<select class="form-control" id="drpUnit{{item.AttributeID}}" style="color: black;border-color: black; font-weight: 400; height: 30px;padding: 2px 12px;"><option value="0" style="color: black;font-size: 15px;">Select</option><option value="11" style="color: black;font-size: 15px;">Per child</option><option value="13" style="color: black;font-size: 15px;">Per day</option><option value="15" style="color: black;font-size: 15px;">Per hour</option><option value="14" style="color: black;font-size: 15px;">Per minute</option><option value="9" style="color: black;font-size: 15px;">Per night</option><option value="12" style="color: black;font-size: 15px;">Per night Per child</option><option value="10" style="color: black;font-size: 15px;">Per night Per person</option><option value="8" style="color: black;font-size: 15px;" selected="">Per person</option><option value="16" style="color: black;font-size: 15px;">Per stay</option></select>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--</div>-->
+
+                            <!--</div>-->
+                            <!--<div ng-if="item.Charged == false" class="col-md-4" style="float: left; width: 30%; height: 30px;">-->
+                            <!--<div class="row">-->
+                            <!--<div class="col-md-4">-->
+                            <!--<label style="width: 100%" class="checkbox-inline">-->
+                            <!--<input style="opacity: 1;width: 18px;height: 18px;"-->
+                            <!--id="chkPaidAttribute{{item.AttributeID}}"-->
+                            <!--ng-model="item.Charged"-->
+                            <!--type="checkbox"-->
+                            <!--value="item.Charged" ng-disabled="!item.hasAttribute"-->
+
+                            <!--ng-checked="item.Charged">-->
+                            <!--<span style="padding-top: 3px;display: inline-block;padding-left: 5px;font-size: 14px;">-->
+                            <!--Paid-->
+                            <!--</span>-->
+                            <!--</label>-->
+                            <!--</div>-->
+
+                            <!--</div>-->
+
+                            <!--</div>-->
+
+                            <!--<div  class="row" ng-show="item.Charged">-->
+                            <!--&lt;!&ndash;<div class="col-md-1">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span>Unit</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--<div class="col-md-5">-->
+                            <!--<span>Unit</span>-->
+                            <!--<select  class="form-control" id="drpUnit{{item.AttributeID}}" style="color: black;border-color: black; font-weight: 400;height: 30px;padding: 2px 12px;><option value="0" style="color: black;font-size: 15px;">Select</option><option value="11" style="color: black;font-size: 15px;">Per child</option><option value="13" style="color: black;font-size: 15px;">Per day</option><option value="15" style="color: black;font-size: 15px;">Per hour</option><option value="14" style="color: black;font-size: 15px;">Per minute</option><option value="9" style="color: black;font-size: 15px;">Per night</option><option value="12" style="color: black;font-size: 15px;">Per night Per child</option><option value="10" style="color: black;font-size: 15px;">Per night Per person</option><option value="8" style="color: black;font-size: 15px;" selected="">Per person</option><option value="16" style="color: black;font-size: 15px;">Per stay</option></select>-->
+                            <!--</div>-->
+                            <!--&lt;!&ndash;<div class="col-md-1">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span>Price</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--<div class="col-md-4">-->
+                            <!--<span>Price</span>-->
+                            <!--<input class="form-control" style="margin-top: -15px" type="number" id="num{{item.AttributeID}}" />-->
+
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</span>-->
+                            <!--</accordion-group>-->
+
+                            <!--</accordion>-->
+                        </div>
+
+                        <div style="position: fixed; bottom: 0;width: 100%;">
+                            <div class=" col-md-12 center" style="background-color: #f5f5f5;height: 80px;width: 98%;">
+                                <input style="width: 150px;height: 50px;margin-top: 18px;" type="button" class="btn btn-large" value="Save" ng-click="saveFacilities()" text="Save"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

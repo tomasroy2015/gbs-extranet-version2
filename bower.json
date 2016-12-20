@@ -1,0 +1,8 @@
+{
+  "name": "gbs-extranet",
+  "description": "gbs-api",
+  "version": "1.0.0",
+  "homepage": "https://gbsextranet.com/",
+  "license": "Giarte",
+  "private": true
+}

@@ -1,0 +1,100 @@
+/*-------------------------------------------------
+                    app.css
+-------------------------------------------------*/
+
+/* fallback */
+/*@font-face {*/
+    /*font-family: 'Material Icons';*/
+    /*font-style: normal;*/
+    /*font-weight: 400;*/
+    /*src: local('Material Icons'), local('MaterialIcons-Regular'), url('../fonts/materalize.woff2') format('woff2');*/
+/*}*/
+
+/*.material-icons {*/
+    /*font-family: 'Material Icons';*/
+    /*font-weight: normal;*/
+    /*font-style: normal;*/
+    /*font-size: 24px;*/
+    /*line-height: 1;*/
+    /*letter-spacing: normal;*/
+    /*text-transform: none;*/
+    /*display: inline-block;*/
+    /*white-space: nowrap;*/
+    /*word-wrap: normal;*/
+    /*direction: ltr;*/
+    /*-webkit-font-feature-settings: 'liga';*/
+    /*-webkit-font-smoothing: antialiased;*/
+/*}*/
+
+@font-face {
+    font-family : 'AkkuratStd-Regular';
+    src         : url('../fonts/AkkuratStd-Regular.otf') format('opentype');
+}
+
+body {
+    font-family              : 'Open Sans', Tahoma, Arial, helvetica, sans-serif;
+    -webkit-text-size-adjust : none;
+    text-size-adjust         : none;
+    /*font-size                : 1.2em;*//*12px/10px*/
+    font-size                : 14px;
+    /* height: 100%; */
+}
+
+#dashboard-panel > .panel-body{
+    font-size: 12pt;
+    /*font-weight: bold;*/
+    cursor: pointer;
+    min-height: 120px;
+}
+#dashboard-panel > .panel-body:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    filter: Alpha(opacity=70);
+}
+.property-label{
+    font-size: 12px;
+    font-weight: bold;
+}
+.property-value{
+    font-size: 12px;
+}
+.header-title {
+    color: rgb(255, 255, 255);
+    background-color: #007894;
+    height: 42px;
+    padding-top: 11px;
+    padding-left: 8px;
+    border-radius: 3px;
+    font-size: 16px;
+}
+.make-enable{
+    display: block;
+}
+
+/*input[type=checkbox]:checked:after {*/
+    /*content: "\2714";*/
+    /*background: #ed8323;*/
+    /*color: #fff;*/
+    /*font-weight: bold;*/
+/*}*/
+/*input[type=checkbox] {*/
+     /*display: inline-block;*/
+     /*vertical-align: middle;*/
+     /*margin: 0;*/
+     /*padding: 0;*/
+     /*width: 18px;*/
+     /*height: 18px;*/
+     /*border: 1px solid #ccc;*/
+     /*cursor: pointer;*/
+     /*top: -1px;*/
+     /*left: -7px;*/
+     /*float: left;*/
+     /*text-align: center;*/
+     /*-webkit-transition: 0.3s;*/
+     /*-moz-transition: 0.3s;*/
+     /*-o-transition: 0.3s;*/
+     /*-ms-transition: 0.3s;*/
+     /*transition: 0.3s;*/
+     /*position: relative;*/
+     /*overflow: hidden;*/
+ /*}*/

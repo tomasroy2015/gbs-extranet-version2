@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="Views/Policies/addPolicy.css"/>
+<div class="row">
+    <div class="col-md-12 right" style="margin-top: 2%;">
+        <span><i ng-click="closeWindow()" class="fa fa-times-circle fa-lg close"></i></span>
+    </div>
+</div>
+<div class="row" ng-repeat="header in propertyPolicies" >
+    <div class="col-md-12" >
+        <div class="row">
+            <div class="row">
+                <h5 class="header-title">{{header.Name}}</h5>
+                <span class="label-text">{{header.Description}}</span>
+            </div>
+            <div class="row">
+                <div class="col-md-4" ng-repeat="policy in header.PropertyPolicyItems">
+                    <!--<div class="col-md-6">-->
+                        <h6 id="headerAttribute{{policy.ID}}" class="header-subtitle">{{policy.Name}}</h6>
+                        <div style="height: 18px" ng-if="policy.Name.length<=0"></div>
+                        <select ng-if="!policy.IsChargedItem"
+                                 id="selectAttribute{{policy.ID}}"
+                                 class="policy-combo browser-default"
+                                data-ng-model="policy.UnitID"
+                                ng-options="pUnit.ID as pUnit.Name for pUnit in policy.PolicyItemUnits"
+                                ng-change="selectUnit(header,policy.UnitID)"
+                                material-select  watch>
+                                <option value="" ng-selected="true">Please select..</option>
+                        </select>
+                        <div id="numPrice{{policy.ID}}" style="margin-left: 0px;" class="currency-container" ng-if="policy.IsChargedItem">
+                            <span class="currency-text">{{CurrentUser.CurrencyCode}}</span>
+                            <span style="display:flex;">
+                                <input style="border-radius:0px;" class="currency-input" type="number" ng-model="policy.Price"/>
+                                <select class="price-unit browser-default"
+                                        data-ng-model="policy.PriceUnitID"
+                                        ng-init="policy.PriceUnitID = policy.PriceUnitID || priceUnits[0].ID"
+                                        ng-options="pUnit.ID as pUnit.Name for pUnit in priceUnits"
+                                        material-select  watch>
+
+                                </select>
+                            </span>
+
+                        </div>
+                    <!--</div>-->
+                </div>
+            </div>
+
+        </div>
+        <hr/>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 center" style="margin-top: 12px;">
+        <input type="button" class="btn btn-success btn-policy" id="btnSavePolicy" ng-click="btn_savePolicy()" value="Save policy settings"/>
+        <input type="button" class="btn btn-success btn-policy" id="btnCancelPolicy" value="Cancel" ng-click="btn_Cancel()"/>
+    </div>
+</div>
+
+
+

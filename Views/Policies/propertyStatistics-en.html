@@ -1,0 +1,278 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+        <style type="text/css">
+            #statMenu > li{
+                font-size: 16px;
+                padding: 4px;
+                margin-bottom: 2px;
+            }
+            #statMenu > li.active{
+                background-color: #eee;
+            }
+            #statMenu > li:hover{
+                cursor: pointer;
+                background-color: #eee;
+            }
+        </style>
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Statistics
+                    </h3>
+                </div>
+                <div class="panel-body">
+                <div class="row">
+                <div class="col-sm-2">
+                    <ul id="statMenu">
+                        <li ng-class="{'active':selMenu == Type.Statistics}" ng-click="clickType(Type.Statistics)"><a>Statistics</a></li>
+                        <li ng-class="{'active':selMenu == Type.Reservation}" ng-click="clickType(Type.Reservation)"><a>Reservation Statistics</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-10" ng-if="selMenu == Type.Statistics">
+                <tabset>
+                <tab active="true">
+                    <tab-heading style="font-weight: bold;">Daily Statistics</tab-heading>
+                    <div class="row">
+                        <form name="dateForm" novalidate>
+                            <div class="col-md-3 center">
+                                <div class="form-horizontal">
+                                       <span class="input-group">
+
+                                         <!--<input input-date-->
+                                                <!--type="text"-->
+                                                <!--ng-model="startDate"-->
+                                                <!--container=""-->
+                                                <!--format="dd/mm/yyyy"-->
+                                                <!--today="today"-->
+
+                                                <!--clear="clear"-->
+                                                <!--close="close"-->
+                                                <!--required-->
+                                                 <!--/>-->
+                                           <input input-date
+                                                  type="text"
+                                                  name="created"
+                                                  id="inputStart"
+                                                  ng-model="startDate"
+                                                  container=""
+                                                  format="dd/mm/yyyy"
+                                                  months-full="{{ month }}"
+                                                  months-short="{{ monthShort }}"
+                                                  weekdays-full="{{ weekdaysFull }}"
+                                                  weekdays-short="{{ weekdaysShort }}"
+                                                  weekdays-letter="{{ weekdaysLetter }}"
+                                                  today="today"
+                                                  first-day="1"
+                                                  clear="clear"
+                                                  close="close"
+                                                  select-years="100"
+
+                                                  on-set="onSet()"
+                                                   />
+                                         <span class="input-group-btn">
+                                              <button class="btn btn-default" style="height: 31px;
+                                                                        width: 50px;
+                                                                        padding: 0px;
+                                                                        margin-left: 0px;" ng-click="dtOpen1($event)">
+                                                  <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                              </button>
+                                         </span>
+
+                                       </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 center">
+                                <div class="form-horizontal">
+                                           <span class="input-group">
+
+                                             <!--<input input-date-->
+                                                    <!--type="text"-->
+                                                    <!--ng-model="endDate"-->
+                                                    <!--container=""-->
+                                                    <!--format="dd/mm/yyyy"-->
+                                                    <!--today="today"-->
+                                                    <!--min="{{minDate}}"-->
+                                                    <!--clear="clear"-->
+                                                    <!--close="close"-->
+                                                    <!--required-->
+                                                     <!--/>-->
+                                               <input input-date
+                                                      type="text"
+                                                      name="created"
+                                                      id="inputEnd"
+                                                      ng-model="endDate"
+                                                      container=""
+                                                      format="dd/mm/yyyy"
+                                                      months-full="{{ month }}"
+                                                      months-short="{{ monthShort }}"
+                                                      weekdays-full="{{ weekdaysFull }}"
+                                                      weekdays-short="{{ weekdaysShort }}"
+                                                      weekdays-letter="{{ weekdaysLetter }}"
+                                                      today="today"
+                                                      first-day="1"
+                                                      clear="clear"
+                                                      close="close"
+                                                      select-years="100"
+
+                                                      on-set="onSet()"
+                                                       />
+                                             <span class="input-group-btn">
+                                                  <button class="btn btn-default" style="height: 31px;
+                                                                            width: 50px;
+                                                                            padding: 0px;
+                                                                            margin-left: 0px;">
+                                                      <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                                  </button>
+                                             </span>
+                                           </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 left">
+                                <!--<input-->
+                                <!--type="text"-->
+                                <!--class="form-control"-->
+                                <!--datepicker-popup="dd-MM-yyyy"-->
+                                <!--ng-required="field.validation.required"-->
+                                <!--ng-model="startDate"-->
+                                <!--is-open="showdp" />-->
+                                <!--<span class="input-group-btn">-->
+                                <!--<button-->
+                                <!--type="button"-->
+                                <!--class="btn btn-default btn-sm"-->
+
+                                <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                                <!--</button>-->
+                                <!--</span>-->
+                                <input type="button" id="btnShow" value="Show" class="btn btn-success" style="margin-top:4%;" ng-click="btnShow_click()"/>
+                            </div>
+                        </form>
+                        <div class="col-md-12" ng-if="dailyStatistics.length > 0">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Day
+                                        </th>
+                                        <th>
+                                            Number of Views / Reservations
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="statistics in dailyStatistics">
+                                        <td style="display:flex;">
+                                            {{statistics.Day}} {{statistics.MonthName}} {{statistics.DayName}}
+                                        </td>
+
+                                        <td>
+                                            {{statistics.HitCount}} / {{statistics.ReservationCount}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab  ng-click="click_Month()">
+                    <tab-heading style="font-weight: bold;">Monthly Statistics</tab-heading>
+                    <div class="row">
+                        <div class="col-md-4" style="margin-top: 3%">
+                            <select
+                                    ng-model="selectedYear"
+                                    ng-options="item.ID as item.Name for item in ::statisticsYears"
+                                    ng-change="selectStatisticsYear(selectedYear)"
+                                    material-select watch>
+                            </select>
+                        </div>
+                        <div class="col-md-12" ng-if="monthlyStatistcs.length > 0">
+                            <div class="table-responsive" style="margin-top: 3%">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Month
+                                        </th>
+                                        <th>
+                                            Number of Views / Reservations
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="statistics in monthlyStatistcs">
+                                        <td>
+                                            {{statistics.MonthName}}
+                                        </td>
+
+                                        <td>
+                                            {{statistics.HitCount}} / {{statistics.ReservationCount}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab ng-click="click_Year()">
+                    <tab-heading style="font-weight: bold;">Annual Statistics</tab-heading>
+                    <div class="row">
+                        <div class="col-md-12" ng-if="yearlyStatistcs.length > 0">
+                            <div class="table-responsive" style="margin-top: 3%">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            Year
+                                        </th>
+                                        <th>
+                                            Number of Views / Reservations
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="statistics in yearlyStatistcs">
+                                        <td>
+                                            {{statistics.Year}}
+                                        </td>
+
+                                        <td>
+                                            {{statistics.HitCount}} / {{statistics.ReservationCount}}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                </tabset>
+                </div>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

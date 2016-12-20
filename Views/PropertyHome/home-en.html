@@ -1,0 +1,265 @@
+
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />
+<link href="/css/pages/dashboard.css" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<main>
+
+<div class="main-content no-gutter">
+
+<section id="dashboard">
+<div class="row">
+    <div class="col s12 m12 center">
+        <h5>Welcome {{CurrentUser.UserInfo._fullName}}</h5>
+        <h6>{{currentDate | date:'dd, MMMM yyyy'}},{{currentDate | date:'EEEE'}}</h6>
+    </div>
+</div>
+<div class="row">
+    <div class="col s12 m4">
+        <div id="dashboard-panel" class="panel panel-stats main lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+                    <!--Registered Members-->
+                </div>
+                <div class="subtitle">
+                    <!--<span>We have active members in GBS</span>-->
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <span><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    Click to view and modify your property information, features, conditions, rooms and photos
+                </span>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m4">
+        <div id="dashboard-panel" class="panel panel-stats blue-grey  lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+                    <!--Properties-->
+                </div>
+                <div class="subtitle">
+                    <!--<span>We have Approved Properties in GBS</span>-->
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <span><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                   Click to update room rates daily or long term
+                </span>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m4">
+        <div id="dashboard-panel" class="panel panel-stats alternative lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+                    <!--New Messages-->
+                </div>
+                <div class="subtitle">
+                    <!--<span>Messages Received and Unread</span>-->
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <span><i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                Click to update room availability daily or long term
+                    </span>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col s12 m6">
+        <div id="boxSubscribersPerDay" class="panel panel-stats alternative lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+
+                </div>
+                <div class="subtitle">
+                    <span>People to check in the property in the near future</span>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <table st-table="displayColl" st-safe-src="rowCollection"  id="smartTable" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Reservation Owner</th>
+                        <th>CheckIn Date</i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m6">
+        <div id="box3NewsletterSignups" class="panel panel-stats blue-grey lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+                </div>
+                <div class="subtitle">
+                    <span>People to check out the property in the near future</span>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <table st-table="displayColl" st-safe-src="rowCollection"  id="smartTable" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Reservation Owner</th>
+                        <th>Cancel Date</i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col s12 m6">
+        <div id="box4NewsletterSignups" class="panel panel-stats blue-grey lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+
+                </div>
+                <div class="subtitle">
+                    <span>Recent reservations for the property</span>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <table st-table="displayColl" st-safe-src="rowCollection"  id="smartTable" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Reservation Owner</th>
+                        <th>CheckIn Date</i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m6">
+        <div id="box4NewsletterSignups" class="panel panel-stats blue-grey lighten-1 white-text z-depth-1">
+            <div class="panel-header">
+                <div class="title">
+
+                </div>
+                <div class="subtitle">
+                    <span>Recent reservation cancellation for the property</span>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <table st-table="displayColl" st-safe-src="rowCollection"  id="smartTable" class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Reservation ID</th>
+                        <th>Reservation Owner</th>
+                        <th>Cancel Date</i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer valign-wrapper">
+                <div class="col s6 valign center-align bordered">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+</div>
+</main>
+
+
+<!-- ###### -->
+<!-- Footer -->
+<!-- ###### -->
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+
+<!-- ################ -->
+<!-- Page javascripts -->
+<!-- ################ -->
+
+<script src="/bower_components/slimscroll/jquery.slimscroll.js" type="text/javascript"></script>
+<script src="/js/pages/dashboard.js" type="text/javascript"></script>

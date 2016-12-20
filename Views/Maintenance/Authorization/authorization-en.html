@@ -1,0 +1,108 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />
+<link href="/css/custom.css" rel="stylesheet" type="text/css"/>
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<main>
+    <div class="main-content no-gutter">
+        <div class="row">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title ng-binding">
+                        Authorization Management
+                    </h3>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <label>User Groups</label>
+                            <select style="display:block;" id="selecGroup"
+                                    ng-model="selectedGroup"
+                                    ng-options="item.Info for item in securityGroups"
+                                    ng-change="securityChanged(selectedGroup)"></select>
+                            <br/>
+                            <button class="btn btn-success" ng-click="btnSave()">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body admin-table-body-wrapper">
+                    <div class="admin-table-body">
+                        <form class="table-responsive">
+                            <div class="admin-table-wrapper authorization-container">
+                                <table st-table="displayColl" st-safe-src="rowCollection"  id="smartTable" class="table table-bordered table-striped table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th st-sort="Code" st-sort-default="regular">Code<i st-sort="Code"></i></th>
+                                        <th st-sort="Description">Description<i st-sort="Description"></i></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="item in displayColl">
+                                        <td class="check-column">
+                                            <input type="checkbox" value="item.HasValue" ng-checked="item.HasValue"
+                                                   style="width: 18px; height: 20px;" ng-model="item.HasValue"/>
+                                        </td>
+                                        <td><span>{{item.Code}}</span></td>
+                                        <td><span>{{item.Description}}</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-xs-3">
+
+                        </div>
+                        <div class="col-xs-9">
+                            <div class="btn-group pull-right">
+                                <button
+                                        type="button"
+                                        class="btn btn-default btn-sm"
+                                        ng-if="paging.prev"
+                                        title="{{'GO_TO_PAGE'}} {{page}}"
+                                        ng-click="setPage(paging.prev)">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </button>
+                                <button
+                                        type="button"
+                                        class="btn btn-default btn-sm"
+                                        title="{{'GO_TO_PAGE'}} {{page}}"
+                                        ng-repeat="page in paging.pages"
+                                        ng-class="{'active' : page === currentPage}"
+                                        ng-click="setPage(page)">
+                                    {{page}}
+                                </button>
+                                <button
+                                        type="button"
+                                        class="btn btn-default btn-sm"
+                                        ng-if="paging.next"
+                                        title="{{'GO_TO_PAGE'}} {{paging.next}}"
+                                        ng-click="setPage(paging.next)">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

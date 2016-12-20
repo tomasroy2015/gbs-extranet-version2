@@ -1,0 +1,300 @@
+<link rel="stylesheet" href="Views/Policies/addPolicy.css"/>
+<div class="row">
+    <div class="col-md-12 right" style="margin-top: 2%;">
+        <span><i ng-click="closeWindow()" class="fa fa-times-circle fa-lg close"></i></span>
+    </div>
+</div>
+<div class="row" ng-repeat="item in childrenPolicies" >
+    <div class="col-md-12" >
+        <div class="row">
+            <h5 ng-hide="item.PolicyType == ChildPolicyType.ExistingBed && !IsExtraBedNeeded && !IsAbleToAccommodate" class="header-title">{{item.Name}}</h5>
+            <span ng-hide="item.PolicyType == ChildPolicyType.ExistingBed && !IsExtraBedNeeded && !IsAbleToAccommodate" class="label-text">{{item.Description}}</span>
+
+            <div class="col-md-12" ng-repeat="policy in item.ChildrenPolicyItems">
+                <div ng-if="policy.IsProviderNeeded" class="row row-content">
+                    <h6 class="header-subtitle">{{policy.Name}}</h6>
+                    <h6 ng-if="item.PolicyType == ChildPolicyType.Children && IsAbleToAccommodate" class="header-subtitle">All children are welcome.</h6>
+                    <h6 ng-if="item.PolicyType == ChildPolicyType.Children && !IsAbleToAccommodate" class="header-subtitle">Children cannot be accommodated at the hotel.</h6>
+                    <div class="row" ng-if=" !policy.IsExtrabedItem">
+                        <div class="col-md-1 accom-opt" ng-class="{'set-background':IsAbleToAccommodate}"  ng-click="click_accommodate(policy,true)">
+                            <span>Yes</span>
+                        </div>
+                        <div class="col-md-1 accom-opt" ng-class="{'set-background':!IsAbleToAccommodate}" ng-click="click_accommodate(policy,false)">
+                            <span>No</span>
+                        </div>
+                    </div>
+                    <div class="row" ng-if="policy.IsExtrabedItem">
+                        <div class="col-md-1 accom-opt" ng-class="{'set-background':IsExtraBedNeeded}" ng-click="click_extrabed(policy,true)">
+                            <span>Yes</span>
+                        </div>
+                        <div class="col-md-1 accom-opt" ng-class="{'set-background':!IsExtraBedNeeded}" ng-click="click_extrabed(policy,false)">
+                            <span>No</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-content">
+                    <div ng-if="!policy.IsCheckedItem && policy.IsExtrabedItem && IsExtraBedNeeded">
+                        <h6 class="header-subtitle">Select the number of extra beds that can be added</h6>
+                        <!--<select class="select-box" ng-model="policy.NoOfExtraBed">-->
+                            <!--<option value="1" selected>1</option>-->
+                            <!--<option value="2">2</option>-->
+                            <!--<option value="3">3</option>-->
+                            <!--<option value="4">4</option>-->
+                        <!--</select>-->
+                        <input class="select-number" type="number" ng-model="policy.NoOfExtraBed" />
+                        <h6 class="header-subtitle">Tick the box if you can accommodate the following guests in extra beds.</h6>
+                        <span class="label-text">These are the bed options that can be added upon request</span>
+                    </div>
+                    <div class="col-md-12" ng-if="policy.IsCheckedItem && policy.IsExtrabedItem && IsExtraBedNeeded">
+                        <h6 class="header-subtitle">
+                            <label  class="checkbox-inline">
+                                <input class="input-checkbox"
+                                       ng-model="policy.IsAttributeSelected"
+                                       type="checkbox"
+                                       value="policy.IsAttributeSelected"
+                                       ng-checked="policy.IsAttributeSelected">
+                            <span class="checkbox-text">
+                                {{policy.Name}}
+                            </span>
+                            </label>
+                        </h6>
+                        <div class="price-container">
+                            <span ng-if="policy.HasChildUnit">
+                                 <!--<select class="select-box">-->
+                                     <!--<option value="1" selected>Up to 6 years old</option>-->
+                                     <!--<option value="2">Up to 12 years old</option>-->
+                                     <!--<option value="3">Up to 16 years old</option>-->
+                                 <!--</select>-->
+                                 <select class="policy-combo browser-default"
+                                          ng-model="policy.ChildUnitID" class="browser-default"
+                                          ng-options="item.ID as item.Name for item in ::childUnits"
+                                          material-select  watch>
+                                     <option value="" ng-selected="true">Please select..</option>
+                                 </select>
+                            </span>
+                            <span class="price-text" style="padding-left: 10px;">
+                                {{policy.PriceLabel}}
+                            </span>
+                            <div class="currency-container">
+                                <span class="currency-text">{{CurrentUser.CurrencyCode}}</span>
+                                <span><input class="currency-input" type="number" ng-model="policy.Price"/></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-if="policy.IsCheckedItem && policy.IsExistingBedItem && (IsAbleToAccommodate || IsExtraBedNeeded)">
+                        <h6 class="header-subtitle">
+                            <label  class="checkbox-inline">
+                                <input class="input-checkbox"
+                                       ng-model="policy.IsAttributeSelected"
+                                       type="checkbox"
+                                       value="policy.IsAttributeSelected"
+                                       ng-checked="policy.IsAttributeSelected" >
+                            <span class="checkbox-text">
+                                {{policy.Name}}
+                            </span>
+                            </label>
+                        </h6>
+                        <div class="price-container">
+                            <span ng-if="policy.HasChildUnit">
+                                 <!--<select class="select-box">-->
+                                     <!--<option value="1" selected>Up to 6 years old</option>-->
+                                     <!--<option value="2">Up to 12 years old</option>-->
+                                     <!--<option value="3">Up to 16 years old</option>-->
+                                 <!--</select>-->
+                                 <select class="policy-combo browser-default"
+                                         ng-model="policy.ChildUnitID" class="browser-default"
+                                         ng-options="item.ID as item.Name for item in ::childUnits"
+                                         material-select  watch>
+                                     <option value="" ng-selected="true">Please select..</option>
+                                 </select>
+                            </span>
+                            <span class="price-text" style="padding-left: 10px;">
+                                {{policy.PriceLabel}}
+                            </span>
+                            <div class="currency-container">
+                                <span class="currency-text">{{CurrentUser.CurrencyCode}}</span>
+                                <span><input class="currency-input" type="number" ng-model="policy.Price" /></span>
+                            </div>
+                        </div>
+                        <div style="display: flex;padding-top: 10px;margin-right: 10px;">
+                            <span class="price-text">
+                               Select the number of children that can stay in existing bed options.
+                            </span>
+                            <!--<select class="select-box" style="max-width:140px;margin-left: 2%" ng-model="policy.NoOfChildExistingBed">-->
+                                <!--<option value="1" selected>1</option>-->
+                                <!--<option value="2">2</option>-->
+                                <!--<option value="3">3</option>-->
+                                <!--<option value="4">4</option>-->
+                            <!--</select>-->
+                            <input style="margin-left: 2%;" class="select-number" type="number" ng-model="policy.NoOfChildExistingBed" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    <hr ng-hide="item.PolicyType == ChildPolicyType.ExistingBed && !IsExtraBedNeeded && !IsAbleToAccommodate"/>
+    </div>
+    <!--<div class="col-md-12">-->
+
+        <!--<div class="row">-->
+            <!--<h5 class="header-title">Children </h5>-->
+            <!--<h6 class="header-subtitle">Can you accommodate children?(you can specify the prices and ages later)</h6>-->
+            <!--<div class="row">-->
+                <!--<div class="col-md-1 accom-opt" ng-class="{'set-background':IsAbleToAccommodate}" ng-click="click_accommodate(true)">-->
+                    <!--<span>Yes</span>-->
+                <!--</div>-->
+                <!--<div class="col-md-1 accom-opt" ng-class="{'set-background':!IsAbleToAccommodate}" ng-click="click_accommodate(false)">-->
+                    <!--<span>No</span>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<hr/>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+            <!--<h5 class="header-title">Extra bed options</h5>-->
+            <!--<span class="label-text">These are the bed options that can be added upon request</span>-->
+            <!--<div class="row">-->
+                <!--<h6 class="header-subtitle">Can you provide extra beds?</h6>-->
+                <!--<div class="col-md-1 accom-opt" ng-class="{'set-background':IsExtraBedNeeded}" ng-click="click_extrabed(true)">-->
+                    <!--<span>Yes</span>-->
+                <!--</div>-->
+                <!--<div class="col-md-1 accom-opt" ng-class="{'set-background':!IsExtraBedNeeded}" ng-click="click_extrabed(false)">-->
+                    <!--<span>No</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div ng-if="IsExtraBedNeeded" class="row">-->
+            <!--<h6 class="header-subtitle">Select the number of extra beds that can be added</h6>-->
+            <!--<select class="select-box">-->
+                <!--<option value="1" selected>1</option>-->
+                <!--<option value="2">2</option>-->
+                <!--<option value="3">3</option>-->
+                <!--<option value="4">4</option>-->
+            <!--</select>-->
+            <!--<h6 class="header-subtitle">Tick the box if you can accommodate the following guests in extra beds.</h6>-->
+            <!--<span class="label-text">These are the bed options that can be added upon request</span>-->
+            <!--<div class="col-md-12">-->
+                <!--<h6 class="header-subtitle">-->
+                    <!--<label  class="checkbox-inline">-->
+                        <!--<input class="input-checkbox" type="checkbox">-->
+                        <!--<span class="checkbox-text">-->
+                            <!--Children upto 2 years old in cots-->
+                        <!--</span>-->
+                    <!--</label>-->
+                <!--</h6>-->
+                <!--<div class="price-container">-->
+                    <!--<span class="price-text">-->
+                        <!--Enter the price per night, per child-->
+                    <!--</span>-->
+                    <!--<div class="currency-container">-->
+                        <!--<span class="currency-text">EUR</span>-->
+                        <!--<span><input class="currency-input" type="number" /></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<h6 class="header-subtitle">-->
+                    <!--<label  class="checkbox-inline">-->
+                        <!--<input class="input-checkbox" type="checkbox">-->
+                        <!--<span class="checkbox-text">-->
+                            <!--Children-->
+                        <!--</span>-->
+                    <!--</label>-->
+                <!--</h6>-->
+                <!--<div class="price-container">-->
+                    <!--<span>-->
+                         <!--<select class="select-box">-->
+                             <!--<option value="1" selected>Up to 6 years old</option>-->
+                             <!--<option value="2">Up to 12 years old</option>-->
+                             <!--<option value="3">Up to 16 years old</option>-->
+                         <!--</select>-->
+                    <!--</span>-->
+                    <!--<span class="price-text" style="padding-left: 10px;">-->
+                        <!--Enter the price per night, per child-->
+                    <!--</span>-->
+                    <!--<div class="currency-container">-->
+                        <!--<span class="currency-text">EUR</span>-->
+                        <!--<span><input class="currency-input" type="number" /></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<h6 class="header-subtitle">-->
+                    <!--<label  class="checkbox-inline">-->
+                        <!--<input class="input-checkbox" type="checkbox">-->
+                        <!--<span class="checkbox-text">-->
+                            <!--Adults-->
+                        <!--</span>-->
+                    <!--</label>-->
+                <!--</h6>-->
+                <!--<div class="price-container">-->
+                    <!--<span class="price-text">-->
+                        <!--Enter the price per night, per adult-->
+                    <!--</span>-->
+                    <!--<div class="currency-container">-->
+                        <!--<span class="currency-text">EUR</span>-->
+                        <!--<span><input class="currency-input" type="number" /></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<hr/>-->
+        <!--<div ng-if="IsExtraBedNeeded" class="row">-->
+            <!--<h5 class="header-title">Existing bed options</h5>-->
+            <!--<span class="label-text">These are the standard bed options you provide.</span>-->
+            <!--<div class="col-md-12">-->
+                <!--<h6 class="header-subtitle">-->
+                    <!--<label  class="checkbox-inline">-->
+                        <!--<input class="input-checkbox" type="checkbox">-->
+                        <!--<span class="checkbox-text">-->
+                            <!--Children-->
+                        <!--</span>-->
+                    <!--</label>-->
+                <!--</h6>-->
+                <!--<div class="price-container">-->
+                    <!--<span>-->
+                         <!--<select class="select-box">-->
+                             <!--<option value="1" selected>Up to 6 years old</option>-->
+                             <!--<option value="2">Up to 12 years old</option>-->
+                             <!--<option value="3">Up to 16 years old</option>-->
+                         <!--</select>-->
+                    <!--</span>-->
+                    <!--<span class="price-text" style="padding-left: 10px;">-->
+                        <!--Enter the price per night, per child-->
+                    <!--</span>-->
+                    <!--<div class="currency-container">-->
+                        <!--<span class="currency-text">EUR</span>-->
+                        <!--<span><input class="currency-input" type="number" /></span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div style="display: flex;padding-top: 10px;margin-right: 10px;">-->
+                    <!--<span class="price-text">-->
+                         <!--Select the number of children that can stay in existing bed options.-->
+                    <!--</span>-->
+                    <!--<select class="select-box" style="max-width:140px;margin-left: 2%">-->
+                        <!--<option value="1" selected>1</option>-->
+                        <!--<option value="2">2</option>-->
+                        <!--<option value="3">3</option>-->
+                        <!--<option value="4">4</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+
+
+            <!--</div>-->
+
+        <!--</div>-->
+
+
+    <!--</div>-->
+
+</div>
+<div class="row">
+    <div class="col-md-12 center" style="margin-top: 12px;">
+        <input type="button" class="btn btn-success btn-policy" id="btnSavePolicy" ng-click="btn_savePolicy()" value="Save policy settings"/>
+        <input type="button" class="btn btn-success btn-policy" id="btnCancelPolicy" value="Cancel" ng-click="btn_Cancel()"/>
+    </div>
+</div>
+
+
+

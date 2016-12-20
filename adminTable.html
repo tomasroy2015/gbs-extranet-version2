@@ -1,0 +1,1433 @@
+<div class="panel panel-primary"> 
+  <!--AdminTable Heading-->
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      {{config.title}}
+      <span class="pull-right hidden-xs">
+      {{'SHOWING' | translator}} <b ng-if="totalRows > rowsPerPage">{{rowsPerPage}}</b><b ng-if="!(totalRows > rowsPerPage)">{{totalRows}}</b> / {{'TOTAL' | translator}} <b>{{totalRows}}</b>
+      -
+      {{'CURRENT_PAGE' | translator}} : <b>{{currentPage}}</b>
+      </span>
+    </h3>
+  </div>  
+  <!-- AdminTable Control Navigations-->
+  <div class="panel-footer">
+    <div class="row">       
+      <div class="col-xs-12">
+        <button 
+          type="button" 
+          ng-if="config.actions && config.actions.add && !config.actions.add.form.opened"
+          ng-click="config.actions.add.form.opened=true;"
+          class="btn btn-danger btn-sm">
+          {{ 'NEW' | translator }} <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <button 
+          type="button" 
+          ng-if="config.actions && config.actions.add && config.actions.add.form.opened"
+          ng-click="config.actions.add.form.opened=false;"
+          class="btn btn-sm btn-warning">
+          {{ 'CANCEL' | translator }} <span class="glyphicon glyphicon-remove"></span>
+        </button>
+        <button 
+          class="btn btn-success btn-sm" 
+          type="button"
+          title="{{config.isCollapsedFilter && 'Click to hide filter' || 'Click to show filter options' }}" 
+          ng-show="!config.actions || !config.actions.add || !config.actions.add.form.opened" 
+          ng-click="config.isCollapsedFilter = !config.isCollapsedFilter;">
+          {{ 'FILTER' | translator }}
+          <i class="glyphicon glyphicon-chevron-right" ng-show="!config.isCollapsedFilter"></i>
+          <i class="glyphicon glyphicon-chevron-down" ng-show="config.isCollapsedFilter"></i>
+        </button>  
+        <button 
+          class="btn btn-primary btn-sm" 
+          ng-show="!config.actions || !config.actions.add || !config.actions.add.form.opened" 
+          ng-click="setModeView((modeView === 'grid') ? 'table' : 'grid');"> 
+          <span 
+            title="{{'VIEW_AS_GRID' | translator}}"
+            class="glyphicon glyphicon-th" 
+            ng-if="modeView === 'table'" ></span>
+          <span 
+            title="{{'VIEW_AS_TABLE' | translator}}"
+            class="glyphicon glyphicon-th-list" 
+            ng-if="modeView === 'grid'"></span>
+        </button>
+        
+        <div
+          ng-show="!config.actions || !config.actions.add || !config.actions.add.form.opened" 
+          class="btn-group">
+          <a class="dropdown-toggle btn btn-warning btn-sm" data-toggle="dropdown" href="">
+              {{'HIDE_COLUMNS' | translator}}
+              <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu drop-down-menu-check-list" role="menu">
+              <li ng-repeat="col in config.cols track by $index">
+                  <label class="checkbox">
+                      <input type="checkbox" ng-model="col.hidden">
+                      {{col.label}}
+                  </label>
+              </li>
+          </ul>
+        </div>
+
+        <div
+          ng-show="!config.actions || !config.actions.add || !config.actions.add.form.opened" 
+          class="btn-group">
+          <a class="dropdown-toggle btn btn-info btn-sm" data-toggle="dropdown" href="">
+              <i class="glyphicon glyphicon-floppy-save"></i>
+              {{'EXPORT' | translator}} Export as
+              <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a tabindex="-1" href="" ng-click="exportTable('json');">Json</a></li>
+            <li><a tabindex="-1" href="" ng-click="exportTable('xml');">Xml</a></li>
+            <li><a tabindex="-1" href="" ng-click="exportTable('sql');">Sql</a></li>
+            <li><a tabindex="-1" href="" ng-click="exportTable('csv');">Csv</a></li>
+            <li><a tabindex="-1" href="" ng-click="exportTable('txt');">Txt</a></li>
+            <li><a tabindex="-1" href="" ng-click="exportTable('excel');">Excel</a></li>
+          </ul>
+        </div>
+        <div class="btn-group btn-sm pull-right">
+          <button 
+            ng-repeat="opt in config.rowsPerPageOptions"
+            type="button" 
+            title="{{'SHOW_NUM_ROWS_PER_PAGE' | translator:({'numRows' : opt})}}" 
+            class="btn btn-default btn-sm" 
+            ng-class="{'active' : rowsPerPage === opt}" 
+            ng-click="setLimitLength(opt)">
+            {{opt}}
+          </button>
+        </div>
+      </div>      
+    </div>
+  </div>
+  <!--Body - Main content-->
+  <div class="panel-body admin-table-body-wrapper">
+    <div class="admin-table-body">
+      <!--Alert Error Field-->
+      <div class="well well-bg" ng-if="errors.length > 0">
+        <div class="alert alert-danger alert-dismissible" role="alert" ng-repeat="error in errors">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>{{error}}</strong>
+        </div>
+      </div>
+      <!--Add Form Open-->
+      <div ng-if="config.actions && config.actions.add && config.actions.add.form.opened">
+        <div class="col-md-12">
+            <div class="col-md-12 center">
+                <h4 class="text-center">{{config.actions.add.form.label}}</h4>
+            </div>
+
+          <form class="form-horizontal" role="form" name="adminTableNewRowForm">
+            <div class="form-group col-md-6" ng-repeat="field in config.actions.add.form.fields" >
+              <label class="col-md-4 control-label">{{field.label}}</label>
+              <div class="col-md-8">
+                <input 
+                  ng-model="config.actions.add.data[field.slugRequest]"
+                  ng-if="field.type == 'number'" 
+                  type="number" 
+                  ng-required="field.validation.required"
+                  min="{{field.validation.min}}"
+                  max="{{field.validation.max}}"
+                  form-dynamic-name="field.slugRequest" 
+                  class="form-control">
+                  <span ng-if="field.type == 'json'" ng-init="config.actions.add.data[field.slugRequest]=field.initJsonVal">
+                    <jsoneditor ng-model="config.actions.add.data[field.slugRequest]"></jsoneditor>
+                  </span>
+                <input 
+                  ng-if="field.type == 'file'"
+                  type="file" 
+                  class="form-control"
+                  form-dynamic-name="field.slugRequest"
+                  ng-required="field.validation.required"
+                  ng-model="config.actions.add.data[field.slugRequest]"
+                  file-model="config.actions.add.data[field.slugRequest]"/>
+                <textarea
+                  auto-expand-textarea 
+                  ng-if="field.type == 'text'" 
+                  ng-model="config.actions.add.data[field.slugRequest]"
+                  class="form-control"
+                  type="text"
+                  form-dynamic-name="field.slugRequest"
+                  ng-required="field.validation.required"
+                  ng-minlength="{{field.validation.minlength}}"
+                  ng-maxlength="{{field.validation.maxlength}}"
+                  placeholder="{{field.placeholder}}"></textarea>
+                <input
+                  ng-if="field.type == 'password'" 
+                  ng-model="config.actions.add.data[field.slugRequest]"
+                  class="form-control"
+                  type="password"
+                  form-dynamic-name="field.slugRequest"
+                  ng-required="field.validation.required"
+                  ng-minlength="{{field.validation.minlength}}"
+                  ng-maxlength="{{field.validation.maxlength}}"
+                  placeholder="{{field.placeholder}}"/>
+                <input
+                  ng-if="field.type == 'email'" 
+                  ng-model="config.actions.add.data[field.slugRequest]"
+                  class="form-control"
+                  type="email"
+                  form-dynamic-name="field.slugRequest"
+                  ng-required="field.validation.required"
+                  ng-minlength="{{field.validation.minlength}}"
+                  ng-maxlength="{{field.validation.maxlength}}"
+                  placeholder="{{field.placeholder}}"/>
+                <input ng-if="field.type == 'checkbox'"
+                         ng-model="config.actions.add.data[field.slugRequest]"
+                         style="width: 18px;height: 20px;"
+                         type="checkbox"
+                         form-dynamic-name="field.slugRequest"/>
+                <span ng-if="field.type == 'timestamp'" class="input-group">
+                  <!--<input -->
+                    <!--type="text" -->
+                    <!--class="form-control" -->
+                    <!--form-dynamic-name="field.slugRequest"-->
+                    <!--datepicker-popup="dd-MM-yyyy" -->
+                    <!--ng-disabled="true"-->
+                    <!--ng-required="field.validation.required"-->
+                    <!--ng-model="config.actions.add.data[field.slugRequest]" -->
+                    <!--is-open="field.dpkOpened" />-->
+                  <!--<span class="input-group-btn">-->
+                    <!--<button -->
+                      <!--type="button" -->
+                      <!--class="btn btn-default btn-sm" -->
+                      <!--ng-click="$event.preventDefault();$event.stopPropagation();field.dpkOpened=!field.dpkOpened;">-->
+                      <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                    <!--</button>-->
+                  <!--</span>-->
+                  <input input-date
+                         type="text"
+                         ng-model="config.actions.add.data[field.slugRequest]"
+                         container=""
+                         format="dd/mm/yyyy"
+
+                         today="today"
+                         clear="clear"
+                         close="close"
+                        />
+                </span>
+                <span ng-if="field.type == 'selectCascade'">
+                  <input 
+                    type="hidden" 
+                    class="form-control" 
+                    form-dynamic-name="field.slugRequest"
+                    ng-model="config.actions.add.data[field.slugRequest]" 
+                    ng-required="field.validation.required"/>
+                  <select
+                    style="margin-top: 5px;"
+                    ng-repeat="selector in field.selectors track by $index"
+                    ng-change="refreshAddFormCascadeSelectors(field.selectors, $index, field.slugRequest);"
+                    ng-model="selector.selectedValue"
+                    class="form-control">
+                    <option value="" disabled>{{selector.placeholder}}</option>
+                    <option 
+                      value="{{opt[selector.model]}}" 
+                      ng-repeat="opt in selector.options">
+                      {{opt[selector.optionText]}}
+                    </option>
+                  </select>
+                </span>
+                <select 
+                  ng-if="field.type == 'select'" 
+                  class="form-control"
+                  form-dynamic-name="field.slugRequest" 
+                  ng-required="field.validation.required"
+                  ng-model="config.actions.add.data[field.slugRequest]">
+                  <option value="" disabled>{{field.placeholder}}</option>
+                  <option 
+                    value="{{opt[field.model]}}" 
+                    ng-selected="opt[field.model] == config.actions.add.data[field.slugRequest]"
+                    ng-repeat="opt in field.options">
+                    {{opt[field.optionText]}}
+                  </option>
+                </select>  
+                <ul  
+                  class="list-unstyled"                 
+                  ng-if="field.validation"   
+                  class="help-block">
+                  <li
+                    class="text-danger"
+                    ng-show="adminTableNewRowForm.{{field.slugRequest}}.$error.required">
+                    <strong>{{'ERROR_REQUIRED' | translator:(field)}}</strong>
+                  </li>
+                  <li
+                    class="text-danger"
+                    ng-show="adminTableNewRowForm.{{field.slugRequest}}.$error.email">
+                    <strong>{{'ERROR_EMAIL' | translator:(field)}}</strong>
+                  </li>
+                  <li
+                    class="text-danger" 
+                    ng-show="adminTableNewRowForm.{{field.slugRequest}}.$error.min">
+                    <strong>{{'ERROR_MIN' | translator:({'label': field.label, 'min': field.validation.min})}}</strong>
+                  </li>
+                  <li
+                    class="text-danger" 
+                    ng-show="adminTableNewRowForm.{{field.slugRequest}}.$error.max">
+                    <strong>{{'ERROR_MAX' | translator:({'label': field.label, 'max': field.validation.max})}}</strong>
+                  </li>
+                  <li
+                    class="text-danger" 
+                    ng-show="adminTableNewRowForm.{{field.slugRequest}}.$error.minlength">
+                    <strong>{{'ERROR_MIN_LENGTH' | translator:({'label': field.label, 'minlength': field.validation.minlength})}}</strong>
+                  </li>
+                  <li
+                    class="text-danger" 
+                    ng-show="adminTableNewRowForm.{{field.slugRequest}}.$error.maxlength">
+                    <strong>{{'ERROR_MAX_LENGTH' | translator:({'label': field.label, 'maxlength': field.validation.maxlength})}}</strong>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-offset-2 col-md-10">
+                <button 
+                  type="button" 
+                  class="btn btn-success"
+                  ng-disabled="adminTableNewRowForm.$invalid"
+                  ng-click="addNewRow()">
+                  {{'SUBMIT' | translator}} 
+                  <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <button 
+                  type="button"
+                  class="btn btn-warning"
+                  ng-click="config.actions.add.form.opened=false;config.actions.add.data={};">
+                  {{'CANCEL' | translator}}
+                  <span class="glyphicon glyphicon-remove"></span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>          
+      </div>
+      <!--Add Form Close-->
+      <div ng-if="!config.actions || !config.actions.add || !config.actions.add.form.opened">
+        <!-- Filter Form-->
+        <div collapse="!config.isCollapsedFilter">
+          <div class="well well-bg">
+            <form 
+              class="form-horizontal ng-pristine ng-valid" 
+              role="form">
+              <div 
+                class="form-group" 
+                ng-repeat="filterItem in config.advanceFilter">
+                <div ng-if="filterItem.type === 'text'">
+                  <label class="col-sm-2 control-label">
+                    {{filterItem.label}}
+                  </label>
+                  <div class="col-sm-3">
+                    <select 
+                      class="form-control" 
+                      ng-model="filterItem.condition" 
+                      title="{{'SELECT_CONDITION' | translator}}" 
+                      ng-change="filterItem.value=null;">
+                      <option value="" disabled>{{ 'SELECT_CONDITION' | translator }}</option>
+                      <option value="match">{{ 'FILTER_MATCH' | translator }}</option>
+                      <option value="like">{{ 'FILTER_SEARCH' | translator }}</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6">
+                    <input 
+                      type="text" 
+                      placeholder="{{filterItem.label + ' ' + filterItem.condition}}"
+                      title="{{filterItem.condition && filterItem.label + ' ' + filterItem.condition || ('SELECT_CONDITION_FIRST' | translator)}}" 
+                      class="form-control" 
+                      ng-disabled="!filterItem.condition"
+                      ng-model="filterItem.value">
+                  </div>
+                  <div class="col-sm-1">
+                    <button 
+                      type="button" 
+                      class="btn btn-warning btn-sm" 
+                      ng-disabled="!filterItem.condition"
+                      title="{{ 'CANCEL' | translator }}" 
+                      ng-click="filterItem.value=null;filterItem.condition='';">
+                      <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                  </div>
+                </div>
+                <div ng-if="filterItem.type === 'number'">
+                  <label class="col-sm-2 control-label">
+                    {{filterItem.label}}
+                  </label>
+                  <div class="col-sm-3">
+                    <select 
+                      class="form-control" 
+                      ng-model="filterItem.condition" 
+                      title="{{'SELECT_CONDITION' | translator}}"
+                      ng-change="filterItem.value=null;">
+                      <option value="" disabled>{{ 'SELECT_CONDITION' | translator }}</option>
+                      <option value="equal">{{ 'FILTER_EQUAL' | translator }}</option>
+                      <option value="less">{{ 'FILTER_LESS' | translator }}</option>
+                      <option value="more">{{ 'FILTER_MORE' | translator }}</option>
+                      <option value="between">{{ 'FILTER_BETWEEN' | translator }}</option>
+                    </select>
+                  </div>
+                  <div 
+                    class="col-sm-6" 
+                    ng-if="filterItem.condition!=='between'">
+                    <input 
+                      type="number"
+                      placeholder="{{filterItem.label + ' ' + filterItem.condition}}"
+                      title="{{filterItem.condition && filterItem.label + ' ' + filterItem.condition || ('SELECT_CONDITION_FIRST' | translator)}}"
+                      class="form-control" 
+                      ng-disabled="!filterItem.condition"
+                      ng-model="filterItem.value">
+                  </div>
+                  <div ng-if="filterItem.condition==='between'">
+                    <div class="col-sm-3">
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        placeholder="{{filterItem.label}} {{ 'FILTER_MORE' | translator }}"
+                        title="{{filterItem.label}} {{ 'FILTER_MORE' | translator }}"
+                        ng-disabled="!filterItem.condition"
+                        ng-model="filterItem.value.more">
+                    </div>
+                    <div class="col-sm-3">
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        ng-disabled="!filterItem.condition"
+                        placeholder="{{filterItem.label}} {{ 'FILTER_LESS' | translator }}"
+                        title="{{filterItem.label}} {{ 'FILTER_LESS' | translator }}"
+                        ng-model="filterItem.value.less">
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <button 
+                      type="button" 
+                      class="btn btn-warning btn-sm" 
+                      ng-disabled="!filterItem.condition"
+                      title="{{ 'CANCEL' | translator }}" 
+                      ng-click="filterItem.value=null;filterItem.condition='';">
+                      <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                  </div>
+                </div>
+                <div ng-if="filterItem.type === 'timestamp'">
+                  <label class="col-sm-2 control-label">
+                    {{filterItem.label}}
+                  </label>
+                  <div class="col-sm-3">
+                    <select 
+                      class="form-control" 
+                      ng-model="filterItem.condition" 
+                      title="{{'SELECT_CONDITION' | translator}}"
+                      ng-change="filterItem.value=null;">
+                      <option value="" disabled>{{ 'SELECT_CONDITION' | translator }}</option>
+                      <option value="less">{{ 'FILTER_LESS' | translator }}</option>
+                      <option value="more">{{ 'FILTER_MORE' | translator }}</option>
+                      <option value="between">{{ 'FILTER_BETWEEN' | translator }}</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6" ng-if="filterItem.condition!=='between'">
+                    <span class="input-group">
+                      <!--<input -->
+                        <!--type="text" -->
+                        <!--class="form-control" -->
+                        <!--datepicker-popup="dd-MM-yyyy" -->
+                        <!--ng-model="filterItem.value" -->
+                        <!--title="{{filterItem.condition && 'Click on calendar button' || ('SELECT_CONDITION_FIRST' | translator)}}"-->
+                        <!--title="{{filterItem.label + ' ' + filterItem.condition}}"-->
+                        <!--ng-disabled="true"-->
+                        <!--is-open="filterItem.dpkOpened" />-->
+                      <!--<span class="input-group-btn">-->
+                        <!--<button -->
+                          <!--type="button" -->
+                          <!--class="btn btn-default" -->
+                          <!--title="{{filterItem.condition && filterItem.label + ' ' + filterItem.condition || ('SELECT_CONDITION_FIRST' | translator)}}"-->
+                          <!--ng-disabled="!filterItem.condition"-->
+                          <!--ng-click="$event.preventDefault();$event.stopPropagation();filterItem.dpkOpened=!filterItem.dpkOpened;">-->
+                          <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                        <!--</button>-->
+                      <!--</span>-->
+                      <input input-date
+                             type="text"
+                             ng-model="filterItem.value"
+                             container=""
+                             format="dd/mm/yyyy"
+
+                             today="today"
+                             clear="clear"
+                             close="close"
+                             />
+                    </span>
+                  </div>
+                  <div ng-if="filterItem.condition==='between'">
+                    <div class="col-sm-3">
+                      <span class="input-group">
+                        <!--<input -->
+                          <!--type="text" -->
+                          <!--class="form-control" -->
+                          <!--datepicker-popup="dd-MM-yyyy" -->
+                          <!--placeholder="{{filterItem.label}} {{ 'FILTER_MORE' | translator }}"-->
+                          <!--title="Click on calendar button"-->
+                          <!--ng-model="filterItem.value.more" -->
+                          <!--ng-disabled="true"-->
+                          <!--is-open="filterItem.dpkMoreOpened" />-->
+                        <!--<span class="input-group-btn">-->
+                          <!--<button -->
+                            <!--type="button" -->
+                            <!--class="btn btn-default" -->
+                            <!--ng-disabled="!filterItem.condition"-->
+                            <!--ng-click="$event.preventDefault();$event.stopPropagation();filterItem.dpkMoreOpened=!filterItem.dpkMoreOpened;">-->
+                            <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                          <!--</button>-->
+                        <!--</span>-->
+                        <input input-date
+                               type="text"
+                               ng-model="filterItem.value.more"
+                               container="" format="dd/mm/yyyy"
+                               today="today"
+                               clear="clear"
+                               close="close"/>
+                      </span>
+                    </div>
+                    <div class="col-sm-3">
+                      <span class="input-group">
+                        <!--<input -->
+                          <!--type="text" -->
+                          <!--class="form-control"-->
+                          <!--ng-disabled="true" -->
+                          <!--placeholder="{{filterItem.label}} {{ 'FILTER_LESS' | translator }}"-->
+                          <!--title="Click on calendar button"-->
+                          <!--datepicker-popup="dd-MM-yyyy" -->
+                          <!--ng-model="filterItem.value.less" -->
+                          <!--is-open="filterItem.dpkLessOpened" />-->
+                        <!--<span class="input-group-btn">-->
+                          <!--<button -->
+                            <!--type="button" -->
+                            <!--class="btn btn-default"-->
+                            <!--ng-disabled="!filterItem.condition" -->
+                            <!--ng-click="$event.preventDefault();$event.stopPropagation();filterItem.dpkLessOpened=!filterItem.dpkLessOpened;">-->
+                            <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                          <!--</button>-->
+                        <!--</span>-->
+                        <input input-date
+                               type="text"
+                               ng-model="filterItem.value.less"
+                               container=""
+                               format="dd/mm/yyyy"
+                               today="today"
+                               clear="clear"
+                               close="close"/>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-sm-1">
+                    <button 
+                      type="button" 
+                      class="btn btn-warning btn-sm" 
+                      ng-disabled="!filterItem.condition"
+                      title="{{ 'CANCEL' | translator }}" 
+                      ng-click="filterItem.value=null;filterItem.condition='';">
+                      <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                  </div>
+                </div>
+                <div ng-if="filterItem.type === 'select'">
+                  <label class="col-sm-2 control-label">{{filterItem.label}}</label>
+                  <div class="col-sm-3">
+                    <select 
+                      class="form-control" 
+                      ng-model="filterItem.condition" 
+                      title="{{'SELECT_CONDITION' | translator}}"
+                      ng-change="filterItem.value='';">
+                      <option value="" disabled>{{'SELECT_CONDITION' | translator}}</option>
+                      <option value="multipleSelect">{{'FILTER_MULTI_SELECT' | translator}}</option>
+                      <option value="singleSelect">{{'FILTER_SINGLE_SELECT' | translator}}</option>
+                    </select>
+                  </div>
+                  <div class="col-sm-6" ng-if="filterItem.condition!=='multipleSelect'">
+                    <select 
+                      class="form-control" 
+                      title="{{filterItem.condition && '' || ('SELECT_CONDITION_FIRST' | translator)}}"
+                      ng-model="filterItem.value" 
+                      ng-disabled="!filterItem.condition"
+                      ng-if="filterItem.options">
+                      <option value="" disabled>{{'SELECT' | translator}} {{filterItem.label}}</option>
+                      <option 
+                        value="{{opt[filterItem.model]}}" 
+                        ng-selected="opt[filterItem.model] == filterItem.value"
+                        ng-repeat="opt in filterItem.options">
+                        {{opt[filterItem.optionText]}}
+                      </option>
+                    </select>
+                  </div>
+                  <div 
+                    class="col-sm-6" 
+                    ng-if="filterItem.condition==='multipleSelect'">
+                    <ul class="list-unstyled">
+                      <li ng-repeat="opt in filterItem.options">
+                        <label class="checkbox-inline">
+                          <input 
+                            type="checkbox" 
+                            value="opt[filterItem.model]" 
+                            ng-checked="filterItem.value.indexOf(opt[filterItem.model]) > -1" 
+                            ng-click="filterItem.toggleSelection(opt[filterItem.model])"> 
+                            <span class="label label-primary">
+                              {{opt[filterItem.optionText]}}
+                            </span>
+                        </label>
+                      </li>
+                    </ul>     
+                  </div>
+                  <div class="col-sm-1">
+                    <button 
+                      type="button" 
+                      class="btn btn-warning btn-sm" 
+                      ng-disabled="!filterItem.condition"
+                      title="{{ 'CANCEL' | translator }}" 
+                      ng-click="filterItem.value=null;filterItem.condition='';">
+                      <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                  </div>
+                </div>
+                <div ng-if="filterItem.type === 'selectCascade'">
+                  <label class="col-sm-2 control-label">{{filterItem.label}}</label>
+                  <div class="col-sm-9">
+                    <input 
+                      type="hidden" 
+                      class="form-control" 
+                      form-dynamic-name="filterItem.slugRequest"
+                      ng-model="filterItem.value"/>
+                    <select
+                      style="margin-top: 5px;"
+                      ng-repeat="selector in filterItem.selectors track by $index"
+                      ng-change="refreshFilterFormCascadeSelectors(filterItem.selectors, $index, filterItem.slugRequest, filterItem);"
+                      ng-model="selector.selectedValue"
+                      class="form-control cell-edit-input-selectcascade">
+                      <option value="" disabled>{{selector.placeholder}}</option>
+                      <option 
+                        ng-selected="selector.selectedValue == opt[selector.model]"
+                        value="{{opt[selector.model]}}" 
+                        ng-repeat="opt in selector.options">
+                        {{opt[selector.optionText]}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-sm-1">
+                    <button 
+                      type="button" 
+                      class="btn btn-warning btn-sm" 
+                      ng-disabled="!filterItem.condition"
+                      title="{{ 'CANCEL' | translator }}" 
+                      ng-click="filterItem.value=null;filterItem.condition='';">
+                      <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button 
+                    type="submit" 
+                    class="btn btn-success" 
+                    ng-click="applyFilter()">
+                    {{ 'APPLY' | translator }}
+                  </button>
+                  <button 
+                    type="submit" 
+                    class="btn btn-warning" 
+                    ng-click="config.isCollapsedFilter=false;">
+                    {{ 'CANCEL' | translator }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <form class="table-responsive" name="adminTableEditRowForm">
+          <div class="admin-table-wrapper">   
+            <!--Modeview Table-->
+            <table id="admin-table" ng-show="modeView === 'table'" class="table table-bordered table-striped table-hover admin-table" ng-if="rows.length > 0">
+              <thead>
+                <tr>
+                  <th ng-if="config.editMode">
+                    <input 
+                      title="{{allRowChecked && 'Uncheck All Rows' || 'Check All Rows' }}" 
+                      type="checkbox"
+                      style="width: 18px;height: 20px;"
+                      ng-model="allRowChecked" 
+                      ng-click="checkAllRow()">
+                  </th>                  
+                  <th ng-if="config.editMode">
+                    <div class="row-btn-actions-group" ng-if="checkedRows.length > 0 && config.actions">
+                      <button 
+                        type="button" 
+                        class="btn btn-danger btn-xs" 
+                        title="Delete {{checkedRows.length}} checked rows"
+                        ng-click="deleteRows()"
+                        ng-if="config.actions.delete">
+                        <i class="glyphicon glyphicon-trash"></i>
+                      </button> 
+                    </div>                    
+                  </th>
+                  <th 
+                    ng-repeat="colHeading in config.cols track by $index" 
+                    ng-show="!colHeading.hidden"
+                    width="{{colHeading.width}}">
+                    <div
+                      admin-table-drop="true"
+                      admin-table-drop-success="onReorderColsCompleted($index, $data, $event)" 
+                      class="th">
+                      <a 
+                        title="{{'DRAG_DROP_TO_REORDER' | translator}}"
+                        href="" 
+                        admin-table-drag="true" 
+                        admin-table-drag-data="colHeading">
+                        {{colHeading.label}}
+                      </a>
+                      <span 
+                        class="sort-col-up" 
+                        title="{{'SORT_BY_ASC' | translator:(colHeading)}}"
+                        ng-click="setOrder(colHeading.model, 'ASC')"
+                        ng-if="colHeading.sortable"
+                        ng-class="{'active' : requestData.order.orderBy === colHeading.model && requestData.order.order === 'ASC'}">
+                        <small>&#9650;</small>                      
+                      </span>
+                      <span 
+                        class="sort-col-down" 
+                        title="{{'SORT_BY_DESC' | translator:(colHeading)}}"
+                        ng-click="setOrder(colHeading.model, 'DESC')"
+                        ng-if="colHeading.sortable"
+                        ng-class="{'active' : requestData.order.orderBy === colHeading.model && requestData.order.order === 'DESC'}">
+                        <small>&#9660;</small>
+                      </span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="row in rows" ng-class="{'admin-table-border': row.openFormEdit}">
+                  <td ng-if="config.editMode" align="center">
+                    <input 
+                      title="{{row.checked && 'Uncheck this row' || 'Check this row' }}"
+                      style="width: 18px;height: 20px;"
+                      type="checkbox" 
+                      ng-model="row.checked" 
+                      ng-click="checkOneRow(row)">
+                  </td>
+                  <td align="center" ng-if="config.actions">
+                    <div class="row-btn-actions-group">
+                      <button 
+                        type="button" 
+                        class="btn btn-warning btn-xs" 
+                        title="{{ 'EDIT' | translator }}"
+                        ng-if="!row.openFormEdit"
+                        ng-disabled="config.rowEditFormOpened"
+                        ng-click="row.openFormEdit=true;row.editForm={};row.checkEditForm={};config.rowEditFormOpened=true;clearEditFormCascadeSelectors(config.cols);">
+                        <i class="glyphicon glyphicon-wrench"></i>
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-info btn-xs" 
+                        title="{{ 'SAVE' | translator }}"
+                        ng-disabled="adminTableEditRowForm.$invalid"
+                        ng-if="row.openFormEdit"
+                        ng-click="editRow(row);config.rowEditFormOpened=false;">
+                        <i class="glyphicon glyphicon-ok"></i>
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-default btn-xs" 
+                        title="{{ 'CANCEL' | translator }}"
+                        ng-if="row.openFormEdit"
+                        ng-click="row.openFormEdit=false;config.rowEditFormOpened=false;">
+                        <i class="glyphicon glyphicon-remove"></i>
+                      </button>
+                      <button 
+                        type="button" 
+                        class="btn btn-danger btn-xs" 
+                        title="{{ 'DELETE' | translator }}"
+                        ng-disabled="config.rowEditFormOpened"
+                        ng-click="deleteRow(row)"
+                        ng-if="config.actions.delete">
+                        <i class="glyphicon glyphicon-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                  <td 
+                    ng-repeat="col in config.cols track by $index" 
+                    ng-show="!col.hidden"
+                    align="{{col.align}}">
+                    <!--Inline Row Edit Form Close-->
+                    <div ng-if="!row.openFormEdit || !col.editForm">
+                      <span ng-switch="col.type">
+                        <span ng-switch-when="timestamp">
+                          <span 
+                            class="label label-default"
+                            timestamp="row[col.model]">
+                            {{row[col.model]}}
+                          </span>
+                        </span>
+                        <span ng-switch-when="active">
+                          <span class="label label-success" ng-if="row[col.model]" title="{{col.placeholderActive}}">
+                            <span class="glyphicon glyphicon-ok"></span>
+                          </span>
+                          <span class="label label-default" ng-if="!row[col.model]" title="{{col.placeholderInactive}}">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                          </span>
+                        </span>
+                        <span ng-switch-when="alert">
+                          <span class="label label-danger" ng-if="row[col.model]" title="{{col.placeholder}}">
+                            <span class="glyphicon glyphicon-warning-sign"></span>
+                          </span>
+                        </span>
+                        <span ng-switch-when="image">
+                          <img src="{{row[col.model]}}" ng-src="{{row[col.model]}}" class="img-thumbnail img-responsive cell-type-image">
+                        </span>
+                        <span ng-switch-when="json">
+                          <jsoneditor ng-model="row[col.model]" json-submit-config="row['__jsonSubmitConfig__']"></jsoneditor>
+                        </span>
+                        <span ng-switch-when="email">
+                          <a href="mailto:{{row[col.model]}}">{{row[col.model]}}</a>
+                        </span>
+                        <span ng-switch-when="link">
+                          <a ng-if="row[col.model].length > 100" href="{{row[col.model]}}">
+                            <span shorten-text="row[col.model]"></span>
+                          </a>
+                          <a ng-if="!(row[col.model].length > 100)" href="{{row[col.model]}}">
+                            {{row[col.model]}}
+                          </a>                      
+                        </span>
+                        <span ng-switch-when="advanceLink">
+                          <a href="{{row[col.linkModel]}}">
+                            {{row[col.model]}}
+                          </a>                      
+                        </span>
+                          <span ng-switch-when="checkbox">
+                              <input type="checkbox" style="width: 18px;height: 20px;" value="row[col.model]" ng-model="row[col.model]" ng-checked="row[col.model]" ng-disabled="true"/>
+                          </span>
+                        <span ng-switch-default>
+                          <span ng-if="row[col.model].length > 100" shorten-text="row[col.model]">
+                          </span>
+                          <span ng-if="!(row[col.model].length > 100)">
+                            {{row[col.model]}}
+                          </span>                      
+                        </span>
+                      </span>
+                    </div>
+                    <!--Inline Row Edit Form Open-->
+                    <div ng-if="row.openFormEdit && col.editForm">                  
+                      <div  ng-switch="col.editForm.type">
+                          <span ng-switch-when="checkbox">
+                              <input
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      value="{{row[col.model]}}"
+                                      ng-checked="{{row[col.model]}}"
+                                      type="checkbox" style="width:18px;height: 20px;"
+                                      form-dynamic-name="col.editForm.slugRequest">
+                          </span>
+                          <span ng-switch-when="number">
+                              <input
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                      type="number"
+                                      value="{{row[col.model]}}"
+                                      ng-required="col.editForm.validation.required"
+                                      min="{{col.editForm.validation.min}}"
+                                      max="{{col.editForm.validation.max}}"
+                                      ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                      form-dynamic-name="col.editForm.slugRequest"
+                                      class="form-control input-sm">
+                          </span>
+                          <span ng-switch-when="file">
+                              <input
+                                      type="file"
+                                      ng-required="col.editForm.validation.required"
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      class="form-control input-sm cell-edit-input-file"
+                                      form-dynamic-name="col.editForm.slugRequest"
+                                      file-model="row.editForm[col.editForm.slugRequest]"/>
+
+                          </span>
+
+                          <span ng-switch-when="text">
+                              <textarea
+                              auto-expand-textarea
+                              ng-model="row.editForm[col.editForm.slugRequest]"
+                              ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                              type="text"
+                              value="{{row[col.model]}}"
+                              name="{{col.editForm.slugRequest}}"
+                              ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                              ng-required="col.editForm.validation.required"
+                              ng-minlength="{{col.editForm.validation.minlength}}"
+                              ng-maxlength="{{col.editForm.validation.maxlength}}"
+                              placeholder="{{col.editForm.placeholder}}"
+                              form-dynamic-name="col.editForm.slugRequest"
+                              class="form-control input-sm cell-edit-input-text"></textarea>
+                          </span>
+
+                          <span ng-switch-when="password">
+                               <input
+                                       ng-model="row.editForm[col.editForm.slugRequest]"
+                                       ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                       type="password"
+                                       value="{{row[col.model]}}"
+                                       name="{{col.editForm.slugRequest}}"
+                                       ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                       ng-required="col.editForm.validation.required"
+                                       ng-minlength="{{col.editForm.validation.minlength}}"
+                                       ng-maxlength="{{col.editForm.validation.maxlength}}"
+                                       placeholder="{{col.editForm.placeholder}}"
+                                       form-dynamic-name="col.editForm.slugRequest"
+                                       class="form-control input-sm"/>
+                          </span>
+                          <span ng-switch-when="email">
+                              <input
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                      type="email"
+                                      value="{{row[col.model]}}"
+                                      name="{{col.editForm.slugRequest}}"
+                                      ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                      ng-required="col.editForm.validation.required"
+                                      ng-minlength="{{col.editForm.validation.minlength}}"
+                                      ng-maxlength="{{col.editForm.validation.maxlength}}"
+                                      placeholder="{{col.editForm.placeholder}}"
+                                      form-dynamic-name="col.editForm.slugRequest"
+                                      class="form-control input-sm"/>
+                          </span>
+
+                        <span ng-switch-when="timestamp" class="input-group input-group-sm cell-edit-input-timestamp">
+                          <!--<input -->
+                            <!--type="text" -->
+                            <!--class="form-control" -->
+                            <!--ng-disabled="true"-->
+                            <!--datepicker=""-->
+                            <!--datepicker-popup="dd-MM-yyyy" -->
+                            <!--ng-model="row.editForm[col.editForm.slugRequest]"-->
+                            <!--ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"-->
+                            <!--datepicker-init="row[col.model]"-->
+                            <!--form-dynamic-name="col.editForm.slugRequest"-->
+                            <!--is-open="col.editForm.dpkOpened" />-->
+                          <!--<span class="input-group-btn">-->
+                            <!--<button -->
+                              <!--type="button" -->
+                              <!--class="btn btn-default btn-sm" -->
+                              <!--ng-click="$event.preventDefault();$event.stopPropagation();col.editForm.dpkOpened=!col.editForm.dpkOpened;">-->
+                              <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                            <!--</button>-->
+                          <!--</span>-->
+                          <input input-date
+                                 type="text"
+                                 name="created"
+                                 id="inputCreated"
+                                 ng-model="row.editForm[col.editForm.slugRequest]"
+                                 container=""
+                                 format="dd-MM-yyyy"
+
+                                 today="today"
+                                 clear="clear"
+                                 close="close"
+                                  />
+                        </span>
+                        <span ng-switch-when="select">
+                            <select
+                                    ng-required="col.editForm.validation.required"
+                                    class="form-control input-sm cell-edit-input-select"
+                                    ng-init="row.editForm[col.editForm.slugRequest] = row[col.editForm.slugRequest]"
+                                    form-dynamic-name="col.editForm.slugRequest"
+                                    ng-model="row.editForm[col.editForm.slugRequest]"
+                                    ng-change="row.checkEditForm[col.editForm.slugRequest]=true;">
+                                <option value="" disabled>{{col.editForm.placeholder}}</option>
+                                <option
+                                        value="{{opt[col.editForm.model]}}"
+                                        ng-selected="opt[col.editForm.model] == row.editForm[col.editForm.slugRequest]"
+                                        ng-repeat="opt in col.editForm.options">
+                                    {{opt[col.editForm.optionText]}}
+                                </option>
+                            </select>
+                        </span>
+                        <span ng-switch-when="selectCascade">
+                          <blockquote>
+                            <small>{{row[col.model]}}</small>
+                          </blockquote>
+                          <input 
+                            type="hidden" 
+                            class="form-control" 
+                            form-dynamic-name="col.editForm.slugRequest"
+                            ng-model="row.editForm[col.editForm.slugRequest]" 
+                            ng-required="col.editForm.validation.required"/>
+                          <select
+                            style="margin-top: 5px;"
+                            ng-repeat="selector in col.editForm.selectors track by $index"
+                            id="{{$index}}"
+                            ng-change="refreshEditFormCascadeSelectors(col.editForm.selectors, $index, col.editForm.slugRequest, row);"
+                            ng-model="selector.selectedValue"
+                            class="form-control cell-edit-input-selectcascade">
+                            <option value="" disabled>{{selector.placeholder}}</option>
+                            <option
+                              value="{{opt[selector.model]}}"
+                              ng-repeat="opt in selector.options">
+                              {{opt[selector.optionText]}}
+                            </option>
+                          </select>
+                        </span>
+                      </div>
+                      <ul  
+                        class="list-unstyled"                 
+                        ng-if="col.editForm.validation"
+                        class="help-block">
+                        <li
+                          class="text-danger"
+                          ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.required">
+                          <small>
+                            <strong>{{'ERROR_REQUIRED' | translator:({'label': col.label})}}</strong>
+                          </small>                      
+                        </li>
+                        <li
+                          class="text-danger" 
+                          ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.email">
+                          <small>
+                            <strong>{{'ERROR_EMAIL' | translator:({'label': col.label})}}</strong>
+                          </small>
+                        </li>
+                        <li
+                          class="text-danger" 
+                          ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.min">
+                          <small>
+                            <strong>{{'ERROR_MIN' | translator:({'label': col.label, 'min': col.editForm.validation.min})}}</strong>
+                          </small>
+                        </li>
+                        <li
+                          class="text-danger" 
+                          ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.max">
+                          <small>
+                            <strong>{{'ERROR_MAX' | translator:({'label': col.label, 'max': col.editForm.validation.max})}}</strong>
+                          </small>
+                        </li>
+                        <li
+                          class="text-danger"
+                          ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.minlength">
+                          <small>
+                            <strong>{{'ERROR_MIN_LENGTH' | translator:({'label': col.label, 'minlength': col.editForm.validation.minlength})}}</strong>
+                          </small>
+                        </li>
+                        <li
+                          class="text-danger"
+                          ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.maxlength">
+                          <small>
+                            <strong>{{'ERROR_MAX_LENGTH' | translator:({'label': col.label, 'maxlength': col.editForm.validation.maxlength})}}</strong>
+                          </small>
+                        </li>
+                      </ul>          
+                    </div>
+                  </td>                  
+                </tr>              
+              </tbody>
+            </table>
+            <!--Modeview Grid-->
+            <div ng-show="modeView === 'grid'" class="row">
+              <div 
+                ng-class="{'col-md-12' : row.openFormEdit , 'col-md-4' : !row.openFormEdit}"
+                class="admin-table-col-md-4" 
+                ng-repeat="row in rows track by $index">
+                <div class="table-responsive">
+                  <hr ng-if="$index > 2" >
+                  <table class="table table-bordered table-hover" ng-class="{'admin-table-border': row.openFormEdit}">
+                    <tbody>
+                      <tr ng-repeat="col in config.cols track by $index" ng-show="!col.hidden">
+                        <th class="col-md-3">
+                          <a
+                            ng-disabled="!col.sortable" 
+                            href="" 
+                            ng-click="setOrder(col.model, (requestData.order.order === 'ASC') ? 'DESC' : 'ASC');">
+                            <b>{{col.label}}</b>
+                            <span 
+                              ng-if="col.sortable && requestData.order.orderBy === col.model && requestData.order.order === 'ASC'">
+                              <small>&#9650;</small>                      
+                            </span>
+                            <span 
+                              ng-if="col.sortable && requestData.order.orderBy === col.model && requestData.order.order === 'DESC'">
+                              <small>&#9660;</small>
+                            </span>
+                          </a>                            
+                        </th>
+                        <td class="col-md-9">
+                          <!--Grid Edit Form Close-->
+                          <div ng-if="!row.openFormEdit || !col.editForm">
+                            <span ng-switch="col.type">
+                              <span ng-switch-when="timestamp">
+                                <span 
+                                  class="label label-default"
+                                  timestamp="row[col.model]">
+                                  {{row[col.model]}}
+                                </span>
+                              </span>
+                              <span ng-switch-when="active">
+                                <span class="label label-success" ng-if="row[col.model]" title="{{col.placeholderActive}}">
+                                  <span class="glyphicon glyphicon-ok"></span>
+                                </span>
+                                <span class="label label-default" ng-if="!row[col.model]" title="{{col.placeholderInactive}}">
+                                  <span class="glyphicon glyphicon-ban-circle"></span>
+                                </span>
+                              </span>
+                              <span ng-switch-when="alert">
+                                <span class="label label-danger" ng-if="row[col.model]" title="{{col.placeholder}}">
+                                  <span class="glyphicon glyphicon-warning-sign"></span>
+                                </span>
+                              </span>
+                              <span ng-switch-when="image">
+                                <img src="{{row[col.model]}}" ng-src="{{row[col.model]}}" class="img-thumbnail img-responsive">
+                              </span>
+                              <span ng-switch-when="json">
+                                <div style="width: 200px;"><jsoneditor ng-model="row[col.model]"></jsoneditor></div>
+                                
+                              </span>
+                              <span ng-switch-when="email">
+                                <a href="mailto:{{row[col.model]}}">{{row[col.model]}}</a>
+                              </span>
+                              <span ng-switch-when="link">
+                                <a ng-if="row[col.model].length > 100" href="{{row[col.model]}}">
+                                  <span shorten-text="row[col.model]"></span>
+                                </a>
+                                <a ng-if="!(row[col.model].length > 100)" href="{{row[col.model]}}">
+                                  {{row[col.model]}}
+                                </a>                      
+                              </span>
+                              <span ng-switch-when="advanceLink">
+                                <a href="{{row[col.linkModel]}}">
+                                  {{row[col.model]}}
+                                </a>                      
+                              </span>
+                            <span ng-switch-when="checkbox">
+                                <input type="checkbox" style="width: 18px;height: 20px;"
+                                       value="{{row[col.model]}}" ng-checked="{{row[col.model]}}" ng-disabled="true"/>
+                            </span>
+                              <span ng-switch-default>
+                                <span ng-if="row[col.model].length > 100" shorten-text="row[col.model]">
+                                </span>
+                                <span ng-if="!(row[col.model].length > 100)">
+                                  {{row[col.model]}}
+                                </span>                      
+                              </span>
+                            </span>
+                          </div>
+                          <!--Grid Edit Form Open-->
+                          <div ng-if="row.openFormEdit && col.editForm">                  
+                            <div  ng-switch="col.editForm.type">
+                              <span ng-switch-when="checkbox">
+                                  <input
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      value="{{row[col.model]}}"
+                                      ng-checked="{{row[col.model]}}"
+                                      type="checkbox" style="width:18px;height: 20px;"
+                                      form-dynamic-name="col.editForm.slugRequest">
+                               </span>
+                              <span ng-switch-when="number" >
+                                  <input
+                                    ng-model="row.editForm[col.editForm.slugRequest]"
+                                    ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                    type="number"
+                                    value="{{row[col.model]}}"
+                                    ng-required="col.editForm.validation.required"
+                                    min="{{col.editForm.validation.min}}"
+                                    max="{{col.editForm.validation.max}}"
+                                    ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                    form-dynamic-name="col.editForm.slugRequest"
+                                    class="form-control input-sm">
+                              </span>
+                              <span ng-switch-when="file">
+                                  <input
+                                      type="file"
+                                      ng-required="col.editForm.validation.required"
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      class="form-control input-sm cell-edit-input-file"
+                                      form-dynamic-name="col.editForm.slugRequest"
+                                      file-model="row.editForm[col.editForm.slugRequest]"/>
+                              </span>
+
+                               <span ng-switch-when="text" >
+                                  <textarea
+                                    auto-expand-textarea
+                                    ng-model="row.editForm[col.editForm.slugRequest]"
+                                    ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                    type="text"
+                                    value="{{row[col.model]}}"
+                                    name="{{col.editForm.slugRequest}}"
+                                    ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                    ng-required="col.editForm.validation.required"
+                                    ng-minlength="{{col.editForm.validation.minlength}}"
+                                    ng-maxlength="{{col.editForm.validation.maxlength}}"
+                                    placeholder="{{col.editForm.placeholder}}"
+                                    form-dynamic-name="col.editForm.slugRequest"
+                                    class="form-control input-sm cell-edit-input-text"></textarea>
+                               </span>
+                             <span ng-switch-when="password">
+                                  <input
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                      type="password"
+                                      value="{{row[col.model]}}"
+                                      name="{{col.editForm.slugRequest}}"
+                                      ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                      ng-required="col.editForm.validation.required"
+                                      ng-minlength="{{col.editForm.validation.minlength}}"
+                                      ng-maxlength="{{col.editForm.validation.maxlength}}"
+                                      placeholder="{{col.editForm.placeholder}}"
+                                      form-dynamic-name="col.editForm.slugRequest"
+                                      class="form-control input-sm"/>
+                             </span>
+                              <span ng-switch-when="email">
+                                  <input
+                                          ng-model="row.editForm[col.editForm.slugRequest]"
+                                          ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"
+                                          type="email"
+                                          value="{{row[col.model]}}"
+                                          name="{{col.editForm.slugRequest}}"
+                                          ng-init="row.editForm[col.editForm.slugRequest] = row[col.model]"
+                                          ng-required="col.editForm.validation.required"
+                                          ng-minlength="{{col.editForm.validation.minlength}}"
+                                          ng-maxlength="{{col.editForm.validation.maxlength}}"
+                                          placeholder="{{col.editForm.placeholder}}"
+                                          form-dynamic-name="col.editForm.slugRequest"
+                                          class="form-control input-sm"/>
+                              </span>
+                              <span ng-switch-when="timestamp" class="input-group input-group-sm cell-edit-input-timestamp">
+                                <!--<input -->
+                                  <!--type="text" -->
+                                  <!--class="form-control" -->
+                                  <!--ng-disabled="true"-->
+                                  <!--datepicker-popup="dd-MM-yyyy" -->
+                                  <!--ng-model="row.editForm[col.editForm.slugRequest]"-->
+                                  <!--ng-change="row.checkEditForm[col.editForm.slugRequest]=true;"-->
+                                  <!--datepicker-init="row[col.model]"-->
+                                  <!--form-dynamic-name="col.editForm.slugRequest"-->
+                                  <!--is-open="col.editForm.dpkOpened" />-->
+                                <!--<span class="input-group-btn">-->
+                                  <!--<button -->
+                                    <!--type="button" -->
+                                    <!--class="btn btn-default btn-sm" -->
+                                    <!--ng-click="$event.preventDefault();$event.stopPropagation();col.editForm.dpkOpened=!col.editForm.dpkOpened;">-->
+                                    <!--<i class="glyphicon glyphicon-calendar"></i>-->
+                                  <!--</button>-->
+                                <!--</span>-->
+                                <input input-date
+                                       type="text"
+                                       ng-model="row.editForm[col.editForm.slugRequest]"
+                                       container=""
+                                       format="dd/mm/yyyy"
+
+                                       today="today"
+                                       clear="clear"
+                                       close="close"/>
+                              </span>
+                              <span ng-switch-when="selectCascade">
+                                <blockquote>
+                                  <small>{{row[col.model]}}</small>
+                                </blockquote>
+                                <input 
+                                  type="hidden" 
+                                  class="form-control" 
+                                  form-dynamic-name="col.editForm.slugRequest"
+                                  ng-model="row.editForm[col.editForm.slugRequest]" 
+                                  ng-required="col.editForm.validation.required"/>
+                                <select
+                                  style="margin-top: 5px;"
+                                  ng-repeat="selector in col.editForm.selectors track by $index"
+                                  ng-change="refreshEditFormCascadeSelectors(col.editForm.selectors, $index, col.editForm.slugRequest, row);"
+                                  ng-model="selector.selectedValue"
+                                  class="form-control cell-edit-input-selectcascade">
+                                  <option value="" disabled>{{selector.placeholder}}</option>
+                                  <option
+                                    value="{{opt[selector.model]}}"
+                                    ng-repeat="opt in selector.options">
+                                    {{opt[selector.optionText]}}
+                                  </option>
+                                </select>
+                              </span>
+                            <span  ng-switch-when="select">
+                              <select
+                                      ng-required="col.editForm.validation.required"
+                                      class="form-control input-sm cell-edit-input-select"
+                                      ng-init="row.editForm[col.editForm.slugRequest] = row[col.editForm.slugRequest]"
+                                      form-dynamic-name="col.editForm.slugRequest"
+                                      ng-model="row.editForm[col.editForm.slugRequest]"
+                                      ng-change="row.checkEditForm[col.editForm.slugRequest]=true;">
+                                  <option value="" disabled>{{col.editForm.placeholder}}</option>
+                                  <option
+                                          value="{{opt[col.editForm.model]}}"
+                                          ng-selected="opt[col.editForm.model] == row.editForm[col.editForm.slugRequest]"
+                                          ng-repeat="opt in col.editForm.options">
+                                      {{opt[col.editForm.optionText]}}
+                                  </option>
+                              </select>
+                            </span>
+                            </div>
+                            <ul  
+                              class="list-unstyled"                 
+                              ng-if="col.editForm.validation"
+                              class="help-block">
+                              <li
+                                class="text-danger"
+                                ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.required">
+                                <small>
+                                  <strong>{{'ERROR_REQUIRED' | translator:({'label': col.label})}}</strong>
+                                </small>                      
+                              </li>
+                              <li
+                                class="text-danger" 
+                                ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.email">
+                                <small>
+                                  <strong>{{'ERROR_EMAIL' | translator:({'label': col.label})}}</strong>
+                                </small>
+                              </li>
+                              <li
+                                class="text-danger" 
+                                ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.min">
+                                <small>
+                                  <strong>{{'ERROR_MIN' | translator:({'label': col.label, 'min': col.editForm.validation.min})}}</strong>
+                                </small>
+                              </li>
+                              <li
+                                class="text-danger" 
+                                ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.max">
+                                <small>
+                                  <strong>{{'ERROR_MAX' | translator:({'label': col.label, 'max': col.editForm.validation.max})}}</strong>
+                                </small>
+                              </li>
+                              <li
+                                class="text-danger"
+                                ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.minlength">
+                                <small>
+                                  <strong>{{'ERROR_MIN_LENGTH' | translator:({'label': col.label, 'minlength': col.editForm.validation.minlength})}}</strong>
+                                </small>
+                              </li>
+                              <li
+                                class="text-danger"
+                                ng-show="adminTableEditRowForm.{{col.editForm.slugRequest}}.$error.maxlength">
+                                <small>
+                                  <strong>{{'ERROR_MAX_LENGTH' | translator:({'label': col.label, 'maxlength': col.editForm.validation.maxlength})}}</strong>
+                                </small>
+                              </li>
+                            </ul>          
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" ng-if="config.actions" colspan="2">
+                          <div class="row-btn-actions-group">
+                            <button 
+                              type="button" 
+                              class="btn btn-warning btn-xs" 
+                              title="{{ 'EDIT' | translator }}"
+                              ng-if="!row.openFormEdit"
+                              ng-disabled="config.rowEditFormOpened"
+                              ng-click="row.openFormEdit=true;row.editForm={};row.checkEditForm={};config.rowEditFormOpened=true;clearEditFormCascadeSelectors(config.cols);">
+                              <i class="glyphicon glyphicon-wrench"></i>
+                            </button>
+                            <button 
+                              type="button" 
+                              class="btn btn-info btn-xs" 
+                              title="{{ 'SAVE' | translator }}"
+                              ng-disabled="adminTableEditRowForm.$invalid"
+                              ng-if="row.openFormEdit"
+                              ng-click="editRow(row);config.rowEditFormOpened=false;">
+                              <i class="glyphicon glyphicon-ok"></i>
+                            </button>
+                            <button 
+                              type="button" 
+                              class="btn btn-default btn-xs" 
+                              title="{{ 'CANCEL' | translator }}"
+                              ng-if="row.openFormEdit"
+                              ng-click="row.openFormEdit=false;config.rowEditFormOpened=false;">
+                              <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                            <button 
+                              type="button" 
+                              class="btn btn-danger btn-xs" 
+                              title="{{ 'DELETE' | translator }}"
+                              ng-disabled="config.rowEditFormOpened"
+                              ng-click="deleteRow(row)"
+                              ng-if="config.actions.delete">
+                              <i class="glyphicon glyphicon-trash"></i>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>                 
+              </div>
+            </div>
+            <div>
+              <table id="admin-table-export-{{adminTableId}}" class="table table-striped admin-table-export">
+                <thead>
+                  <tr>                
+                    <th 
+                      ng-repeat="colHeading in config.cols track by $index" 
+                      ng-if="!colHeading.hidden">
+                      {{colHeading.label}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="row in rows" >
+                    <td 
+                      ng-repeat="col in config.cols track by $index" ng-switch="col.type">
+                      {{row[col.model]}}
+                    </td>                  
+                  </tr>              
+                </tbody>
+              </table>
+            </div>
+            <div ng-if="rows.length === 0" class="alert alert-danger" role="alert">
+              <h4>{{ 'NO_RECORDS_FOUND' | translator }}</h4>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-xs-3">
+        <!--<select-->
+          <!--ng-model="currentLanguage"-->
+          <!--ng-change="setLanguage(currentLanguage);"-->
+          <!--class="form-control">-->
+          <!--<option value="" disabled>{{'SELECT_LANGUAGE' | translator}}</option>-->
+          <!--<option -->
+            <!--value="{{lang.slug}}" -->
+            <!--ng-selected="lang.slug == currentLanguage"            -->
+            <!--ng-repeat="lang in supportedLanguages">-->
+            <!--{{lang.label}}-->
+          <!--</option>-->
+        <!--</select>  -->
+      </div>
+      <div class="col-xs-9">
+        <div class="btn-group pull-right">
+          <button 
+            type="button" 
+            class="btn btn-default btn-sm" 
+            ng-if="paging.prev" 
+            title="{{'GO_TO_PAGE' | translator}} {{page}}"
+            ng-click="setPage(paging.prev)">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-default btn-sm" 
+            title="{{'GO_TO_PAGE' | translator}} {{page}}"
+            ng-repeat="page in paging.pages" 
+            ng-class="{'active' : page === currentPage}" 
+            ng-click="setPage(page)">
+            {{page}}
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-default btn-sm" 
+            ng-if="paging.next" 
+            title="{{'GO_TO_PAGE' | translator}} {{paging.next}}"
+            ng-click="setPage(paging.next)">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
+        </div>
+      </div>
+    </div>              
+  </div>
+</div>

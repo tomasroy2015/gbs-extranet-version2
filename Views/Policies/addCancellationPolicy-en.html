@@ -1,0 +1,307 @@
+<link rel="stylesheet" href="Views/Policies/addPolicy.css"/>
+<style>
+    .modal .modal-content .accom-opt{
+        text-align: left;
+        padding-left: 5px;
+         padding-top: 0px;
+        height: 28px;
+    }
+    .modal .modal-content select:disabled{
+        color: rgba(0, 0, 0, 0.3);
+    }
+    [type="radio"]:checked + label:after, [type="radio"].with-gap:checked + label:after{
+        background-color: #fff;
+        border: 4px solid #26a69a;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12" style="padding: 0px;border-bottom: 1px solid #878787;">
+        <div class="col-md-6">
+            <h5 style="font-weight: bold;color:#253c71;">{{title}}</h5>
+        </div>
+        <div class="col-md-6 right" style="margin-top: 2%;">
+            <span><i ng-click="closeWindow()" class="fa fa-times-circle fa-lg close"></i></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" >
+        <div class="row">
+            <h5 class="header-title">Cancellation Preference</h5>
+            <span class="label-text"></span>
+
+            <div class="col-md-12">
+                <div class="row row-content">
+                    <h6 class="header-subtitle">Would you like to display this rate?</h6>
+                    <div class="row" style="display: flex;">
+                        <div class="col-md-1">
+                           <span>Public</span>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>Yes</span>-->
+                            <p>
+                                <input type="radio" name="public" ng-model="policy.IsPublicDisplay" id="yespublic" value="true"  />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="yespublic">Yes</label>
+                            </p>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>No</span>-->
+                            <p>
+                                <input type="radio" name="public" id="nopublic" ng-model="policy.IsPublicDisplay"  value="false" />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="nopublic">No</label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" style="display: flex;margin-top: 8px;">
+                        <div class="col-md-1">
+                            <span>Private</span>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>Yes</span>-->
+                            <p>
+                                <input type="radio" name="private" id="yesprivate" ng-model="policy.IsPrivateDisplay" value="true"  />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="yesprivate">Yes</label>
+                            </p>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>No</span>-->
+                            <p>
+                                <input type="radio" name="private" id="noprivate" ng-model="policy.IsPrivateDisplay"  value="false" />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="noprivate">No</label>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-content">
+                    <h6 class="header-subtitle">Would you like to display this rate at promotions?</h6>
+                    <div class="row">
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>Yes</span>-->
+                            <p>
+                                <input type="radio" name="promotion" id="yespromotion" ng-model="policy.IsPromotionDisplay" value="true"  />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="yespromotion">Yes</label>
+                            </p>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>No</span>-->
+                            <p>
+                                <input type="radio" name="promotion" id="nopromotion" ng-model="policy.IsPromotionDisplay"  value="false" />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="nopromotion">No</label>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row row-content">
+                    <h6 class="header-subtitle">Is there a period when the guest can cancel free of charge?</h6>
+                    <div class="row">
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>Yes</span>-->
+                            <p ng-click="clickPreference(true)">
+                                <input type="radio" name="period" id="yes" ng-model="policy.IsPeriodExists" ng-checked="IsNonRefund" value="true"  />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="yes">Yes</label>
+                            </p>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>No</span>-->
+                            <p ng-click="clickPreference(false)">
+                                <input type="radio" name="period" id="no" ng-model="policy.IsPeriodExists" ng-checked="!IsNonRefund"  value="false" />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="no">No</label>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <hr/>
+    </div>
+
+</div>
+<div class="row" >
+    <div class="col-md-12" >
+        <div class="row">
+            <h5 class="header-title">Specify Conditions</h5>
+            <span class="label-text"></span>
+
+            <div class="col-md-12" ng-if="IsNonRefund">
+                <div class="row row-content">
+                    <h6 class="header-subtitle">How long before the arrival can the guest cancel free of charge?</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select class="policy-combo browser-default"
+                                    ng-model="policy.ArrivalTypeID" class="browser-default"
+                                    ng-options="item.ID as item.Name for item in ::arrivalDays"
+                                    ng-change="selectArrival()"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Please select..</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row row-content">
+                    <h6 class="header-subtitle" ng-if="IsNonRefund && policy.ArrivalTypeID <= 0">How much is the guest charged for cancellation in the 2 days before arrival?</h6>
+                    <h6 class="header-subtitle" ng-if="IsNonRefund && policy.ArrivalTypeID > 0">How much is the guest charged for cancellation {{arrivalDayText}}?</h6>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select class="policy-combo browser-default"
+                                    ng-model="policy.ArrivalRateID" class="browser-default"
+                                    ng-options="item.ID as item.Name for item in ::cancelCharges"
+                                    ng-change="selectedChargeBox()"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Please select..</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-12" ng-if="!IsNonRefund">
+                <div class="row row-content">
+                    <h6 class="header-subtitle">How much is the guest charged for cancellation?</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select class="policy-combo browser-default"
+                                    ng-model="policy.CancelRateID" class="browser-default"
+                                    ng-options="item.ID as item.Name for item in ::cancelCharges"
+                                    ng-change="rateSelectChange()"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Please select..</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select class="policy-combo browser-default" style="margin-top: 2%;"
+                                    ng-model="nPolicy.selectedTime" class="browser-default"
+                                    ng-options="item.ID as item.Name for item in ::arrivalDays"
+                                    ng-change="daySelectChange()"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Please select..</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="row row-content">
+                    <h6 class="header-subtitle">How much is the guest charged for cancellation {{daySelectText.replace("until","within")}}?</h6>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <select class="policy-combo browser-default" ng-disabled="nPolicy.selectedTime <= 0 || policy.CancelRateID == null"
+                                    class="browser-default" ng-model="nPolicy.selectedRateID"
+                                    ng-options="item.ID as item.Name for item in ::cancelCharges"
+                                    ng-change="rate2SelectChange()"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Please select..</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr/>
+    </div>
+    <div class="col-md-12" ng-if = "IsNonRefund || (policy.CancelRateID > 0 && nPolicy.selectedTime > 0 && nPolicy.selectedRateID > 0)">
+        <h6 class="header-subtitle">Policy Summary</h6>
+        <p id="policy" ng-if="IsNonRefund && (policy.ArrivalTypeID <= 0 || policy.ArrivalRateID <= 0)">The guest can cancel free of charge until 2 days before arrival.The guest will be charged the first night if they cancel in the 2 days before arrival.</p>
+        <p id="policy" ng-if="IsNonRefund && policy.ArrivalTypeID > 0 && policy.ArrivalRateID > 0">The guest can cancel free of charge {{arrivalDayText}}.The guest will be charged {{arrivalRateText}} if they cancel {{arrivalDayText.replace("until","after")}}.</p>
+        <p id="policy" ng-if="!IsNonRefund && (policy.CancelRateID > 0 && nPolicy.selectedTime > 0 && nPolicy.selectedRateID > 0)">The guest will be charged {{rateSelectText}} if they cancel after reservation and a further {{percentText}} of the total price if they cancel {{daySelectText.replace("until","within")}}</p>
+        <hr/>
+    </div>
+</div>
+<div class="row" ng-if="IsNonRefund  || (policy.CancelRateID > 0 && nPolicy.selectedTime > 0 && nPolicy.selectedRateID > 0)">
+    <div class="col-md-12" >
+        <div class="row">
+            <h5 class="header-title">Additional Requirement</h5>
+            <span class="label-text"></span>
+
+            <div class="col-md-12">
+                <div class="row row-content">
+                    <h6 class="header-subtitle">Do you require prepayment?</h6>
+                    <div class="row">
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>Yes</span>-->
+                            <p ng-click="clickPrepayment(true)">
+                                <input type="radio" name="payment" ng-model="policy.IsPrepayment" id="yespay" ng-checked="IsPrepayment"  value="true" />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="yespay">Yes</label>
+                            </p>
+                        </div>
+                        <div class="col-md-2 accom-opt">
+                            <!--<span>No</span>-->
+                            <p ng-click="clickPrepayment(false)">
+                                <input type="radio" name="payment" ng-model="policy.IsPrepayment" id="nopay" ng-checked="!IsPrepayment"  value="false" />
+                                <label style="width: 100%;font-weight: normal;padding-left: 26px;" for="nopay">No</label>
+                            </p>
+                        </div>
+
+                    </div>
+                    <div class="row" ng-if="IsNonRefund">
+                        <div class="col-md-12" ng-if="IsPrepayment">
+
+                            <div class="row" style="margin-top: 2%">
+                                <p class="header-subtitle">When do you want to charge the prepayment?</p>
+                                <div class="col-md-4 accom-opt" ng-repeat="item in prepayments">
+                                    <!--<span>Yes</span>-->
+                                    <p ng-click="clickPrepaymentCharge(item)">
+                                        <input type="radio" name="prepayment" ng-model="policy.PrepaymentTypeID" ng-checked="!item.IsAfterReservation" id="res_{{item.ID}}"  value="{{item.ID}}" />
+                                        <label style=" width: 100%;
+                                                font-weight: normal;
+                                                padding-left: 26px;
+                                                text-overflow: ellipsis;
+                                                overflow: hidden;
+                                                white-space: nowrap;" for="res_{{item.ID}}">{{item.Name}}</label>
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <hr/>
+    </div>
+    <div class="col-md-12">
+        <h6 class="header-subtitle">Prepayment Summary</h6>
+        <p id="payment" ng-if="!IsPrepayment">You do not require prepayment: in case of cancellation you take care of collecting your cancellation fee directly from the guest.</p>
+        <p id="payment" ng-if="IsNonRefund && IsPrepayment &&  (policy.ArrivalRateID == null ||
+                          policy.ArrivalTypeID == null ) && selectedPayment.IsAfterReservation">
+            Prepayment policy:The guest will be charged a prepayment of the first night after reservation.You can collect this prepayment from the guest anytime after the reservation is made.
+        </p>
+        <p id="payment" ng-if="IsNonRefund && IsPrepayment && (policy.ArrivalRateID == null ||
+                          policy.ArrivalTypeID == null) && !selectedPayment.IsAfterReservation">
+            Prepayment policy:The guest will be charged a prepayment of the first night in the 2 days before arrival.You can only collect this prepayment from the guest in the 2 days before arrival.
+        </p>
+        <p id="payment" ng-if="IsNonRefund && IsPrepayment && policy.ArrivalRateID >0 &&
+                          policy.ArrivalTypeID > 0 && !selectedPayment.IsAfterReservation">
+            Prepayment policy:The guest will be charged a prepayment of {{arrivalRateText}} {{arrivalDayText.replace("until","after")}}.You can only collect this prepayment from the guest {{arrivalDayText.replace("until","after")}}.
+        </p>
+        <p id="payment" ng-if="IsNonRefund && IsPrepayment && policy.ArrivalRateID >0 &&
+                          policy.ArrivalTypeID > 0 && selectedPayment.IsAfterReservation">
+            Prepayment policy:The guest will be charged a prepayment of {{arrivalRateText}} {{arrivalDayText.replace("until","after")}} of reservation.You can only collect this prepayment from the guest {{arrivalDayText.replace("until","after")}} when the reservation is made.
+        </p>
+        <p id="payment" ng-if="!IsNonRefund && IsPrepayment && (policy.CancelRateID > 0 && nPolicy.selectedTime > 0 && nPolicy.selectedRateID > 0)">The guest will be charged a prepayment of {{rateSelectText}} after reservation and a further {{percentText}} of the total price {{daySelectText.replace("until","within")}}.
+           Please be aware that this is two part prepayment,The first installment can be charged at the time of booking and for the second installment please refer to your cancellation policy
+        </p>
+
+        <hr/>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12 center" style="margin-top: 12px;">
+        <input type="button" class="btn btn-success btn-policy" id="btnSavePolicy" ng-click="btn_savePolicy()" value="Create Policy"/>
+        <input type="button" class="btn btn-success btn-policy" id="btnCancelPolicy" value="Cancel" ng-click="btn_Cancel()"/>
+    </div>
+</div>

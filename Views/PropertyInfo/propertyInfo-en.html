@@ -1,0 +1,185 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<!--<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />-->
+<!--<link href="/css/custom.css" rel="stylesheet" type="text/css"/>-->
+
+<div ng-init="initializeMethod()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<style type="text/css">
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked{
+        opacity: 0;
+    }
+    select.browser-default {
+        color: #000;
+        border-color: #9e9e9e;
+        height: 30px;
+        padding-top: 0px;
+        font-size: 16px;
+    }
+</style>
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        General Information
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-12 center"> <h4>General Information</h4></div>-->
+                    <!--</div>-->
+                    <div class="row">
+                        <div class="col-md-2 property-label">Property Code</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.ID}}</div>
+                        <div class="col-md-2 property-label" >Property Name</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.Name}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Country</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.CountryName}}</div>
+                        <div class="col-md-2 property-label">City</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.CityName}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Property Address</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.Address}}</div>
+                        <div class="col-md-2 property-label">Property PostCode</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.PostCode}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Property Phone</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.Phone}}</div>
+                        <div class="col-md-2 property-label">Property Fax</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.Fax}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Firm</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.FirmName}}</div>
+                        <div class="col-md-2 property-label">Property Type</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.HotelTypeName}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Property Class</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.HotelClassName}}</div>
+                        <div class="col-md-2 property-label">Hotel Chain</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.HotelChainName}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Type of Accomodation</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.HotelAccommodationTypeName}}</div>
+                        <div class="col-md-2 property-label">Rooms</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.RoomCount}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Number of Floors</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.FloorCount}}</div>
+                        <div class="col-md-2 property-label">Property Construction Date</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.BuiltYear}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Last Restoration Date</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.RenovationYear}}</div>
+                        <div class="col-md-2 property-label">Property Website</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.WebAddress}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Property Description</div>
+                        <div class="col-md-10 property-value">{{PropertyInfo.Description}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Property E-mail</div>
+                        <div class="col-md-4 property-value">{{PropertyInfo.Email}}</div>
+                        <div class="col-md-1 property-label">Check-In</div>
+                        <div class="col-md-2 property-value">
+
+                            <select id="selecGroup" class="browser-default"
+                                    ng-model="PropertyInfo.CheckinStart"
+                                    ng-options="item.TimeID as item.Name for item in ::PropertyInfo.CheckInFromList"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Select</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2" style="display: flex;padding: 0px;">
+                            <span>-</span>
+
+                            <select id="selecGroup" class="browser-default"
+                                    style="margin-left: 5%;"
+                                    ng-model="PropertyInfo.CheckinEnd"
+                                    ng-options="item.TimeID as item.Name for item in ::PropertyInfo.CheckInToList"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Select</option>
+                            </select>
+                        </div>
+                        <!--<div class="col-md-2 property-value">-->
+                        <!--<select id="selecGroup" class="browser-default"-->
+                        <!--ng-model="PropertyInfo.CheckinEnd"-->
+                        <!--ng-options="item.TimeID as item.Name for item in ::PropertyInfo.CheckInToList"-->
+                        <!--material-select  watch>-->
+                        <!--<option value="" ng-selected="true">Select</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 property-label">Credit Cards Accepted by the Property</div>
+                        <div class="col-md-4 property-value">
+                            <select
+                                    ng-model="selectedCards" ng-change="cardsChanged(selectedCards)"
+                                    ng-options="card.ID as card.Name for card in ::PropertyInfo.AllCreditCardList"
+                                    material-select multiple watch>
+
+                            </select>
+                        </div>
+                        <div class="col-md-1 property-label">Check-out</div>
+                        <div class="col-md-2 property-value">
+
+                            <select id="selecGroup" class="browser-default"
+                                    ng-model="PropertyInfo.CheckoutStart"
+                                    ng-options="item.TimeID as item.Name for item in ::PropertyInfo.CheckOutFromList"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Select</option>
+                            </select>
+
+                        </div>
+                        <div class="col-md-2" style="display: flex;padding: 0px;">
+                            <span>-</span>
+                            <select id="selecGroup" class="browser-default"
+                                    style="margin-left: 5%;"
+                                    ng-model="PropertyInfo.CheckoutEnd"
+                                    ng-options="item.TimeID as item.Name for item in ::PropertyInfo.CheckOutToList"
+                                    material-select  watch>
+                                <option value="" ng-selected="true">Select</option>
+                            </select>
+                        </div>
+                        <!--<div class="col-md-2 property-value">-->
+                        <!--<select id="selecGroup" class="browser-default"-->
+                        <!--ng-model="PropertyInfo.CheckoutEnd"-->
+                        <!--ng-options="item.TimeID as item.Name for item in ::PropertyInfo.CheckOutToList"-->
+                        <!--material-select  watch>-->
+                        <!--<option value="" ng-selected="true">Select</option>-->
+                        <!--</select>-->
+                        <!--</div>-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 center">
+                            <input style="width: 150px;" type="button" class="btn btn-large" value="Save" ng-click="saveProperty()" text="Save"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

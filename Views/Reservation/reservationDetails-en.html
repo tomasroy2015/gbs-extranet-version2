@@ -1,0 +1,390 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<!--<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />-->
+<!--<link href="/css/custom.css" rel="stylesheet" type="text/css"/>-->
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<style type="text/css">
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked{
+        opacity: 0;
+    }
+    select.browser-default {
+        color: #000;
+        border-color: #9e9e9e;
+        height: 30px;
+        padding-top: 0px;
+        font-size: 16px;
+    }
+
+    .tblUsers {
+        text-align: left;
+    }
+
+    .tblUsers th, td {
+        padding-top: 10px;
+    }
+
+    .tblUsers td {
+        padding-left: 15px;
+    }
+    .GridTable {
+        border-width: 1px;
+        border-style: solid;
+        border-color: #CCCCCC;
+        border-collapse: collapse;
+        background-color: #ebf4f8;
+    }
+
+    .GridTable td {
+        border-width: 1px;
+        padding: 1px;
+        border-style: solid;
+        border-color: #CCCCCC;
+        -moz-border-radius:2px;
+    }
+    .NoWrap {
+        white-space: nowrap;
+    }
+    .spacewidth{
+        width:25%;
+    }
+    .table-bordered > tbody > tr > td> label {
+        font-weight: normal;
+    }
+</style>
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Property Reservation
+                    </h3>
+                </div>
+                <div class="panel-body">
+
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Property</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Property}}</div>-->
+                        <!--<div class="col-md-2 property-label" >Rooms</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.RoomCount}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Reservation ID</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.ReservationID}}</div>-->
+                        <!--<div class="col-md-2 property-label">Number of Persons</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.PeopleCount}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Booking Date</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.ReservationDate| date: "dd/MM/yyyy"}}</div>-->
+                        <!--<div class="col-md-2 property-label">Payable Amount</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.PayableAmount}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Reservation Status</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Status}}</div>-->
+                        <!--<div class="col-md-2 property-label">Commission</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Commission}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Reservation Owner</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.ReservationOwner}}</div>-->
+                        <!--<div class="col-md-2 property-label">Check In Date</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.CheckInDate| date: "dd/MM/yyyy"}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Guest Note</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Note}}</div>-->
+                        <!--<div class="col-md-2 property-label">Check Out Date</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.CheckOutDate| date: "dd/MM/yyyy"}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row" ng-if="promotions.length > 0">-->
+                        <!--<div class="col-md-2 property-label">Reservation Promotions</div>-->
+                        <!--<div class="col-md-10 property-value">-->
+                            <!--<li ng-repeat="promotion in promotionItems">-->
+                                <!--{{promotion}}-->
+                            <!--</li>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Number of Nights</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.NightCount}}</div>-->
+                        <!--<div class="col-md-2 property-label">Email</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Email}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Phone</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Phone}}</div>-->
+                        <!--<div class="col-md-2 property-label">Address</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.Address}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Postal Code</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.PostCode}}</div>-->
+                        <!--<div class="col-md-2 property-label">City</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.City}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-2 property-label">Country</div>-->
+                        <!--<div class="col-md-4 property-value">{{PropertyInfo.CountryName}}</div>-->
+                    <!--</div>-->
+                    <!--<div class="row" style="border: 1px solid #878787; border-radius: 4px;">-->
+
+                        <!--<span ng-repeat="room in reservations">-->
+                            <!--<div class="col-md-12 center">-->
+                                <!--<h5>Rooms {{reservations.length}} {{room.Rooms}}</h5>-->
+                            <!--</div>-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-2 property-label">Reservation Status</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.Status}}</div>-->
+                                <!--<div class="col-md-2 property-label">Type of Accommodation</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.AccommodationName}}</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-2 property-label">Guest Name</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.GuestFullName}}</div>-->
+                                <!--<div class="col-md-2 property-label">Number of Persons</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.PeopleCount}}</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-2 property-label">Bed Selection</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.SelectedBedText}}</div>-->
+                                <!--<div class="col-md-2 property-label">Total Room Price</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.Currencysymbol}}{{room.RoomPrice}}</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-2 property-label">Price for Single Night</div>-->
+                                <!--<div class="col-md-10">-->
+                                    <!--<table class="GridTable">-->
+                                        <!--<tr>-->
+
+                                            <!--<td align="center" class="NoWrap" ng-repeat="day in room.RoomRateDetailslist" style="padding:4px;">-->
+                                                <!--<b>{{day.Day}} &nbsp; {{day.MonthName}}</b>-->
+                                            <!--</td>-->
+
+                                        <!--</tr>-->
+                                        <!--<tr>-->
+
+                                            <!--<td align="center" ng-repeat="detail in room.RoomRateDetailslist" class="NoWrap">-->
+                                                <!--{{detail.CurrencySymbol}} {{detail.RoomPrice}}-->
+                                            <!--</td>-->
+
+                                        <!--</tr>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                             <!--<div class="row">-->
+                                 <!--<div class="col-md-2 property-label">Traveller Profile</div>-->
+                                 <!--<div class="col-md-4 property-value">{{room.TravellerTypeName}}</div>-->
+                                 <!--<div class="col-md-2 property-label">Estimated Arrival Time</div>-->
+                                 <!--<div class="col-md-4 property-value">{{room.EstimatedArrivalTime}}</div>-->
+                             <!--</div>-->
+
+                            <!--<div class="row">-->
+                                <!--<div class="col-md-2 property-label">Cancellation Policy</div>-->
+                                <!--<div class="col-md-4 property-value">{{room.CancelPolicyDesc}}</div>-->
+                            <!--</div>-->
+                        <!--</span>-->
+                    <!--</div>-->
+
+                    <div class="table-responsive" style="margin-top: 1%;">
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+                            <tr>
+                                <th class="spacewidth"><label>Property</label> </th>
+                                <td class="spacewidth"><label>{{PropertyInfo.Property}}</label></td>
+                                <th class="spacewidth"><label>Rooms</label></th>
+                                <td class="spacewidth"><label>{{PropertyInfo.RoomCount}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><label>Reservation No</label></th>
+                                <td><label>{{PropertyInfo.ReservationID}}</label></td>
+                                <th><label>Number of Persons</label></th>
+                                <td><label>{{PropertyInfo.PeopleCount}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><label>Booking Date</label></th>
+                                <td><label>{{PropertyInfo.ReservationDate| date: "dd/MM/yyyy"}}</label></td>
+                                <th><label>Payable Amount</label></th>
+                                <td><label>{{PropertyInfo.PayableAmount}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><label>Reservation Status</label></th>
+                                <td><label>{{PropertyInfo.Status}}</label></td>
+                                <th><label>Commission</label></th>
+                                <td><label>{{PropertyInfo.Commission}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><label>Reservation Owner</label></th>
+                                <td>{{PropertyInfo.ReservationOwner}}</td>
+                                <th><label>Property Conditions</label></th>
+                                <td>
+                                    <div ng-repeat="detail in reservations track by $index">
+                                        <div ng-if="detail == reservations[0]" ng-repeat="condition in detail.PropertyConditionslist track by $index">
+                                            <li>{{condition}}</li>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>Check-in Date</label></th>
+                                <td><label>{{PropertyInfo.CheckInDate| date: "dd/MM/yyyy"}}</label></td>
+                                <th><label>Guest Note</label></th>
+                                <td><label>{{PropertyInfo.Note}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><label>Check-out Date</label></th>
+                                <td><label>{{PropertyInfo.CheckOutDate| date: "dd/MM/yyyy"}}</label></td>
+                                <th><label>Promotion</label></th>
+                                <td>
+                                  <span  ng-repeat="promotion in promotionItems">
+                                       <li>{{promotion}}</li>
+                                  </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label>Number of Nights</label></th>
+                                <td><label>{{PropertyInfo.NightCount}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><labe>E-mail</labe></th>
+                                <td><label>{{PropertyInfo.Email}}</label></td>
+                            </tr>
+                            <tr>
+                                <th><labe>Phone</labe></th>
+                                <td><label>{{PropertyInfo.Phone}}</label></td>
+
+                            </tr>
+                            <tr>
+                                <th><labe>Address</labe></th>
+                                <td><label>{{PropertyInfo.Address}}</label></td>
+
+                            </tr>
+                            <tr>
+                                <th><labe>Postal Code</labe></th>
+                                <td><label>{{PropertyInfo.PostCode}}</label></td>
+
+                            </tr>
+                            <tr>
+                                <th><labe>City</labe></th>
+                                <td><label>{{PropertyInfo.City}}</label></td>
+
+                            </tr>
+                            <tr>
+                                <th><label>Country</label></th>
+                                <td><label>{{PropertyInfo.CountryName}}</label></td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive">
+
+                     <span ng-repeat="PropertyConditions in reservations">
+                        <table class="table table-striped table-bordered">
+                            <tbody>
+
+                              <tr>
+                                  <th colspan="2">
+                                      <h5 style="color: black; text-align: center;">Room {{reservations.length}} - {{PropertyConditions.Rooms}}</h5>
+                                  </th>
+                              </tr>
+                                <tr>
+                                    <th><label>Reservation Status</label></th>
+                                    <td><label>{{PropertyConditions.Status}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Type of Accommodation</label> </th>
+                                    <td> <label>{{PropertyConditions.AccommodationName}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Guest Name</label> </th>
+                                    <td> <label>{{PropertyConditions.GuestFullName}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Number of Persons</label>  </th>
+                                    <td> <label>{{PropertyConditions.PeopleCount}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Bed Selection</label></th>
+                                    <td> <label>{{PropertyConditions.SelectedBedText}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Total Room Price</label></th>
+                                    <td> <label>{{PropertyConditions.Currencysymbol}}  {{PropertyConditions.RoomPrice}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th><label>Price for Single Night</label></th>
+
+                                    <td>
+                                        <table ng-if="PropertyConditions.RoomRateDetailslist.length > 0" class="GridTable">
+                                            <tr>
+
+
+                                                    <td ng-repeat="day in PropertyConditions.RoomRateDetailslist track by $index" align="center" class="NoWrap" style="padding:4px;">
+                                                        <b>{{day.Day}} &nbsp; {{day.MonthName}}</b>
+                                                    </td>
+
+                                            </tr>
+                                            <tr>
+
+                                                    <td ng-repeat="day in PropertyConditions.RoomRateDetailslist track by $index" align="center" class="NoWrap" style="padding:4px;">
+                                                        <b>{{day.CurrencySymbol}} &nbsp; {{day.RoomPrice}}</b>
+                                                    </td>
+
+
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <th> <label>Traveler Profile</label> </th>
+                                    <td> <label>{{PropertyConditions.TravellerTypeName}}</label></td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Estimated Arrival Time</label></th>
+                                    <td> <label>{{PropertyConditions.EstimatedArrivalTime}}</label> </td>
+                                </tr>
+                                <tr>
+                                    <th> <label>Cancellation Policy</label></th>
+                                    <td>
+                                        <label>{{PropertyConditions.CancelPolicy}}</label> <br />
+                                        <label>{{PropertyConditions.CancelPolicyDesc}}</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </span>
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 center">
+                        <input style="width: 150px;" type="button" class="btn btn-success" value="Back" ng-click="backToHome()" text="Back"/>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+
