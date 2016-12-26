@@ -1,0 +1,200 @@
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<!--<link href="/css/themes/alternative/red.css" id="ssAlternativeColor" rel="stylesheet" type="text/css" />-->
+<!--<link href="/css/custom.css" rel="stylesheet" type="text/css"/>-->
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<!-- ####### -->
+<!-- Content -->
+<!-- ####### -->
+<style type="text/css">
+    .Photosbody {
+        font-family: Verdana, Geneva, sans-serif;
+        font-size: 13px;
+        color: #333;
+        background: url(../bg.jpg);
+    }
+
+    .FilterTable {
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        border-radius: 7px;
+        background-color: #ece7cf;
+        padding: 5px 10px 10px 10px;
+        border: 1px solid #ddd7b4;
+    }
+</style>
+<main>
+    <!-- #### -->
+    <!-- Body -->
+    <!-- #### -->
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Property Photos
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <!--<table align="center" style="width:100%;padding-left:3px;">-->
+                        <!--<tr align="center">-->
+                            <!--<td>-->
+                                <!--<table align="center" border="0">-->
+                                    <!--<tr align="center" style="font-weight:bold;color:blue;">-->
+
+                                        <!--<td align="center" align="center" style="padding:8px;width:2%;">-->
+                                            <!--<label style="color:blue;font-weight:bold;">[ </label>-->
+                                            <!--<a style="color: red; cursor: pointer" id="">General Photos</a>-->
+                                            <!--<input type="hidden" id="hdnRecordID" value="@ViewBag.HotelID" />-->
+                                            <!--<input type="hidden" id="hdnPropertyName" value="@Resources.HotelGeneralPhotos" />-->
+                                            <!--<input type="hidden" id="hdnPartID" value="1" />-->
+                                            <!--<label style="color: blue;font-weight:bold;"> ]</label>-->
+                                        <!--</td>-->
+
+
+                                        <!--<td ng-repeat="room in photoProperty.HotelRooms track by $index" align="center" style="width: 16%;padding:8px;">-->
+                                            <!--<label style="color:blue;font-weight:bold;">[ </label>-->
+                                            <!--<a style="color:blue;cursor:pointer">{{room.RoomTypeName}}</a>-->
+                                            <!--<label style="color:blue;font-weight:bold;">] </label>-->
+                                        <!--</td>-->
+
+                                    <!--</tr>-->
+                                <!--</table>-->
+
+                            <!--</td>-->
+
+                        <!--</tr>-->
+                        <!--<tr align="center">-->
+                            <!--<td><label id="lblPhotosHeaderName" style="color: black; text-align: center;font-size:15px;font-weight:bold">General Photos of The Property</label></td>-->
+
+                        <!--</tr>-->
+
+                    <!--</table>-->
+                    <tabset>
+                        <tab ng-click="GetHotelPhotos(CurrentUser.HotelID,1)" active="true">
+                            <tab-heading style="font-weight: bold;">General Photos</tab-heading>
+                            <div class="col-md-12">
+                                <div  ng-repeat="photo in propertyPhotos" class="col-md-4 center" style="padding:5px;">
+                                    <table style="width:100%;border:1px dotted gray;padding-left:3px;" id="tblListPhotos">
+                                        <tr>
+                                            <td colspan="3" align="center" style="padding:3px;text-align: center;">
+                                                <a class="preview" href="{{photoPath}}/{{CurrentUser.HotelID}}/{{photo.Name}}">
+                                                    <img id="imgPhoto{{photo.ID}}" style="width: 250px; height: 150px;"
+                                                         src="{{photoPath}}{{CurrentUser.HotelID}}/{{photo.Name}}" />
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="center" style="padding:3px;text-align: center;">
+                                                <label id="lblSort">Sort By</label><br />
+                                                <input type="text" style="width:100px;height:25px;border:1px solid #878787;border-radius:3px;" name="txtPhoto" id="{{photo.ID}}">
+
+                                            </td>
+
+                                            <td ng-if="!photo.MainPhoto" style="padding:5px;white-space:nowrap;">
+                                                <input type="button" id="lbtnMainPhoto{{photo.ID}}" ng-click="SetMainPhoto(photo.ID,photo.RecordID,photo.PartID,CurrentUser.HotelID)" value="Make Main Photo">
+                                            </td>
+
+                                            <td align="center" style="padding:3px;">
+                                                <input type="button" id="lbtnDelete{{photo.ID}}" ng-click="DeletePhoto(photo.ID,photo.PartID,CurrentUser.HotelID)" value="Delete">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="center" style="padding:3px;">
+                                                <input style="width: 18px;
+                                                  height: 18px;
+                                                  margin-left: -8px;" type="checkbox" id="cbxMarkToDelete{{photo.ID}}" name="chphoto" value="{{photo.ID}}" />
+                                    <span style="position: absolute;
+                                                padding-top: -5px;
+                                                margin-top: 3px;
+                                                margin-left: 2%;">Mark As Deleted</span>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </tab>
+                        <tab ng-repeat="room in photoProperty.HotelRooms track by $index" ng-click="GetHotelPhotos(room.RoomID,5)">
+                            <tab-heading style="font-weight: bold;">{{room.RoomTypeName}}</tab-heading>
+                            <div class="col-md-12">
+                                <div  ng-repeat="photo in propertyPhotos" class="col-md-4 center" style="padding:5px;">
+                                    <table style="width:100%;border:1px dotted gray;padding-left:3px;" >
+                                        <tr>
+                                            <td colspan="3" align="center" style="padding:3px;text-align: center;">
+                                                <a class="preview" href="{{photoPath}}/{{CurrentUser.HotelID}}/{{photo.Name}}">
+                                                    <img style="width: 250px; height: 150px;"
+                                                         src="{{photoPath}}{{CurrentUser.HotelID}}/{{photo.Name}}" />
+                                                </a>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td align="center" style="padding:3px;text-align: center;">
+                                                <label>Sort By</label><br />
+                                                <input type="text" style="width:100px;height:25px;border:1px solid #878787;border-radius:3px;" name="txtPhoto">
+
+                                            </td>
+
+                                            <td ng-if="!photo.MainPhoto" style="padding:5px;white-space:nowrap;">
+                                                <input type="button" ng-click="SetMainPhoto(photo.ID,photo.RecordID,photo.PartID,room.RoomID)" value="Make Main Photo">
+                                            </td>
+
+                                            <td align="center" style="padding:3px;">
+                                                <input type="button"  ng-click="DeletePhoto(photo.ID,photo.PartID,room.RoomID)" value="Delete">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" align="center" style="padding:3px;">
+                                                <input style="width: 18px;
+                                                  height: 18px;
+                                                  margin-left: -8px;" type="checkbox" name="chphoto" value="{{photo.ID}}" />
+                                    <span style="position: absolute;
+                                                padding-top: -5px;
+                                                margin-top: 3px;
+                                                margin-left: 2%;">Mark As Deleted</span>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </tab>
+                    </tabset>
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-12 center">-->
+                            <!--<div class="col-md-3">-->
+                                <!--<a style="color: red; cursor: pointer;font-size: 16px;font-weight: bold;" ng-click="GetHotelPhotos(CurrentUser.HotelID,1)">[General Photos]</a>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-3" ng-repeat="room in photoProperty.HotelRooms track by $index">-->
+                                <!--<a style="color: blue; cursor: pointer;font-size: 16px;font-weight: bold;" ng-click="GetHotelPhotos(room.RoomID,5)">[{{room.RoomTypeName}}]</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    <div class="row">
+                        <div class="col-md-12 center" style="position: fixed;
+                                                                bottom: 0;
+                                                                width: 98%;
+                                                                height: 11%;
+                                                                background: #f5f5f5;
+                                                                /* padding: 0px; */
+                                                                margin-left: -7px;">
+                            <input style="width: 150px;margin-top: 1%;" type="button" class="btn btn-small" value="Save" ng-click="saveProperty()" text="Save"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

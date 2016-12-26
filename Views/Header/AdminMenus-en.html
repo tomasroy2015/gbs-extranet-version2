@@ -128,7 +128,7 @@
                                 <div class="collapsible-body">
                                     <ul>
                                         <li ng-class="{'active' : selectedView == ViewType.PropertyFacilities}" ng-click="goToMenu(ViewType.PropertyFacilities)"><a >Property Facilities</a></li>
-                                        <li ><a >Photos</a></li>
+                                        <li ng-class="{'active' : selectedView == ViewType.Photos}" ng-click="goToMenu(ViewType.Photos)"><a >Photos</a></li>
                                         <li ><a >Property Rooms</a></li>
                                         <li ><a >Property Page</a></li>
                                     </ul>
@@ -421,7 +421,7 @@
                 </ul>
                 <ul id="dropdown-websitecontent" class="dropdown-content">
                     <li ng-class="{'active' : selectedView == ViewType.PropertyFacilities}" ng-click="goToMenu(ViewType.PropertyFacilities)"><a >Property Facilities</a></li>
-                    <li ><a >Photos</a></li>
+                    <li ng-class="{'active' : selectedView == ViewType.Photos}" ng-click="goToMenu(ViewType.Photos)"><a >Photos</a></li>
                     <li ><a >Property Rooms</a></li>
                     <li ><a >Property Page</a></li>
                 </ul>

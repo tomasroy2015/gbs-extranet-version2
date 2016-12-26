@@ -48,6 +48,8 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
                 $location.path("promotions-"+sessionFactory.GetData(SessionStore.currentLanguage));
             }else if(type == ViewType.Reservations){
                 $location.path("reservation-"+sessionFactory.GetData(SessionStore.currentLanguage));
+            }else if(type == ViewType.Photos){
+                $location.path("propertyPhotos-"+sessionFactory.GetData(SessionStore.currentLanguage));
             }
         },
         SetCurrentMenu:function(type){

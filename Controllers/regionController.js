@@ -9,6 +9,7 @@ angular.module("gbsApp").controller("regionController",
       $scope.selectLanguages = accountFactory.AllCultures();
       $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
       $scope.selectedImage = {};
+      $scope.editImage = {};
       if(!$scope.CurrentUser)
           $location.path("/login-en");
     $scope.initializeController = function () {
@@ -144,7 +145,7 @@ angular.module("gbsApp").controller("regionController",
                 type:'image',
                 editForm: {
                     type: 'file',
-                    slugRequest: 'selectedImage',
+                    slugRequest: 'editImage',
                     apiRequestLink: false,
                     options: false,
                     placeholder: 'Photo'

@@ -81,14 +81,16 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/promotions-en',{templateUrl:'Views/Promotions/promotions-en.html',controller:'promotionController'}).
         when('/reservation-en',{templateUrl:'Views/Reservation/reservation-en.html',controller:'reservationController'}).
         when('/reservationDetails-en',{templateUrl:'Views/Reservation/reservationDetails-en.html',controller:'reservationDetailsController'}).
-        when('/reservationHistory-en',{templateUrl:'Views/Reservation/reservationHistory-en.html',controller:'reservationHistoryController'});
+        when('/reservationHistory-en',{templateUrl:'Views/Reservation/reservationHistory-en.html',controller:'reservationHistoryController'}).
+        when('/propertyPhotos-en',{templateUrl:'Views/PropertyPhotos/propertyPhotos-en.html',controller:'propertyPhotosController'});
+
 
 });
 /* Application Constants
  ======================================================*/
 gbsApp.constant("appSettings", {
-//    API_BASE_URL : 'http://localhost:50622/',
-    API_BASE_URL: 'http://167.114.102.159:8081/',
+    API_BASE_URL : 'http://localhost:50622/',
+//    API_BASE_URL: 'http://167.114.102.159:8081/',
     APPLICATION_VERSION: '1.0.0'
 
 });

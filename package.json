@@ -2,7 +2,7 @@
   "version": "3.5.0",
   "private": true,
   "name": "GBSExtranet",
-  "description": "GBS Api",
+  "description": "GBS extranet",
   "repository": "",
   "license": "Giarte",
   "devDependencies": {

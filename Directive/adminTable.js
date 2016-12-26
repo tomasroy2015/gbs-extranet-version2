@@ -1592,7 +1592,7 @@ angular.module('adminTableDirective', [])
 //                            transformRequest: angular.identity
 //                        })
                         row.editForm.ID = row.ID;
-                        if(row.editForm.selectedImage) {
+                        if(row.editForm.editImage) {
                             $http({
                                 method: 'POST',
                                 url: $scope.checkAbsUrl($scope.config.actions.edit.apiRequestLink),
@@ -1604,7 +1604,7 @@ angular.module('adminTableDirective', [])
                                     formData.append("file", data.file);
                                     return formData;
                                 },
-                                data: { model: row.editForm, file: row.editForm.selectedImage }
+                                data: { model: row.editForm, file: row.editForm.editImage }
                             })
                                 .success(function (results) {
 //                            if (results.error) {
