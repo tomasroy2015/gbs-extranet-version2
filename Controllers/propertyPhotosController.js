@@ -3,12 +3,15 @@
  */
 angular.module("gbsApp").controller("propertyPhotosController",
     function($scope,$rootScope,$location,$routeParams,appSettings,SessionStore,
-             sessionFactory,accountFactory,mainFactory,Notify,ViewType,MenuType,$modal,dropdownFactory,$http) {
+             sessionFactory,accountFactory,mainFactory,Notify,ViewType,MenuType,$modal,dropdownFactory,fileUploadService,$http,$timeout) {
         var $baseApiUrl = appSettings.API_BASE_URL;
+        var _partID =1;
+        var _recordID=0;
         $scope.selectLanguage = "Language";
         $scope.IsDataLoaded = false;
         $scope.langCode ="";
         $scope.selectLanguages=[];
+        $scope.selectedImage = [];
         $scope.selectLanguages = accountFactory.AllCultures();
         $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
         if(!$scope.CurrentUser)
@@ -41,6 +44,8 @@ angular.module("gbsApp").controller("propertyPhotosController",
             }).error(function (response){});
         }
         function getPhotos(){
+            _partID = 1;
+            _recordID = $scope.CurrentUser.HotelID;
             $http({method: 'GET',
                 url: appSettings.API_BASE_URL + 'propertyPhotos/getListPhotos',
                 params: {partID:1,hotelID: $scope.CurrentUser.HotelID}
@@ -49,6 +54,8 @@ angular.module("gbsApp").controller("propertyPhotosController",
             }).error(function (response){});
         }
         $scope.GetHotelPhotos = function(hotelID,partID){
+            _partID = partID;
+            _recordID = hotelID;
             $http({method: 'GET',
                 url: appSettings.API_BASE_URL + 'propertyPhotos/getListPhotos',
                 params: {partID:partID,hotelID: hotelID}
@@ -74,6 +81,31 @@ angular.module("gbsApp").controller("propertyPhotosController",
                 $scope.GetHotelPhotos(roomID,partID);
             }).error(function (response){});
         };
+        $scope.uploadFile = function () {
+            var files = $scope.selectedImage;
+            if (angular.isUndefined(files)) {
+                $scope.isEmptSelectedy = true;
+                return;
+            }
+            $scope.isEmptSelectedy = false;
+            angular.forEach(files, function (file) {
+                var uploadUrl = appSettings.API_BASE_URL + 'propertyPhotos/uploadPhotos';
+                fileUploadService.uploadFileToUrl(file, uploadUrl,_partID,$scope.CurrentUser.ID, _recordID, $scope.CurrentUser.HotelID);
+            });
+            $timeout(function(){
+                $scope.GetHotelPhotos(_partID > 1 ? _recordID : $scope.CurrentUser.HotelID,_partID);
+            },2000);
+
+        };
+//        $scope.$on("photoUploaded",function(event,response){
+//            Materialize.toast("Property Photo uploaded successfully",2000,"green");
+//            $http({method: 'GET',
+//                url: appSettings.API_BASE_URL + 'propertyPhotos/getListPhotos',
+//                params: {partID:_partID,hotelID: $scope.CurrentUser.HotelID}
+//            }).success(function (response, status, headers, config) {
+//                $scope.propertyPhotos = response;
+//            }).error(function (response){});
+//        });
         $scope.goToMenu = function(type){
             mainFactory.SetViewType(type);
             $scope.selectedView = type;

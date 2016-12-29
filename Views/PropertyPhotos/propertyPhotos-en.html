@@ -74,10 +74,36 @@
                         <!--</tr>-->
 
                     <!--</table>-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form class="form-horizontal" role="form">
+                                <h5>Upload Image</h5>
+                                <hr />
+                                <span ng-if="isEmptSelectedy" style="color:red;">Please select Image</span>
+                                <div class="col-md-8" style="display: flex;">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <input type="file"
+                                                   class="form-control" file-upload="selectedImage" multiple/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-5">
+                                            <input type="button" class="btn btn-success"
+                                                   value="Upload" data-ng-click="uploadFile()" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
                     <tabset>
                         <tab ng-click="GetHotelPhotos(CurrentUser.HotelID,1)" active="true">
                             <tab-heading style="font-weight: bold;">General Photos</tab-heading>
                             <div class="col-md-12">
+
                                 <div  ng-repeat="photo in propertyPhotos" class="col-md-4 center" style="padding:5px;">
                                     <table style="width:100%;border:1px dotted gray;padding-left:3px;" id="tblListPhotos">
                                         <tr>
