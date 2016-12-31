@@ -90,7 +90,7 @@ gbsApp.config(function($routeProvider,$locationProvider){
  ======================================================*/
 gbsApp.constant("appSettings", {
 //    API_BASE_URL : 'http://localhost:50622/',
-    API_BASE_URL: 'http://167.114.102.159:8081/',
+    API_BASE_URL: 'https://api.gbsextranet.com/',
     APPLICATION_VERSION: '1.0.0'
 
 });

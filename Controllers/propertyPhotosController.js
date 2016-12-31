@@ -97,6 +97,18 @@ angular.module("gbsApp").controller("propertyPhotosController",
             },2000);
 
         };
+        $scope.SavePhotos = function(){
+            $http({method: 'POST',
+                url: appSettings.API_BASE_URL + 'propertyPhotos/savePhotos',
+                params: {userID: $scope.CurrentUser.ID},
+                data:$scope.propertyPhotos
+            }).success(function (response, status, headers, config) {
+                Materialize.toast("Photo saved successfully",1000,"green");
+                $scope.GetHotelPhotos(_partID > 1 ? _recordID : $scope.CurrentUser.HotelID,_partID);
+            }).error(function (response){
+                Materialize.toast("Server error occured",1000,"red");
+            });
+        };
 //        $scope.$on("photoUploaded",function(event,response){
 //            Materialize.toast("Property Photo uploaded successfully",2000,"green");
 //            $http({method: 'GET',
