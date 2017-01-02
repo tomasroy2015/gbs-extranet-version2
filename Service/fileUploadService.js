@@ -26,9 +26,11 @@ angular.module("gbsApp").service('fileUploadService', ['$http','$rootScope',
         })
         .success(function (response) {
            // $rootScope.$broadcast("photoUploaded", response);
+                Materialize.toast("Photo uploaded successfully",1000,"green");
             console.log(response);
         })
-        .error(function () {
+        .error(function (response) {
+            Materialize.toast(response,2000,'red');
         });
     }
 }]);
