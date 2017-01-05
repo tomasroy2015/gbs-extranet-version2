@@ -74,16 +74,14 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.PromotionMenu);
             }else if(type == 31){
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.Reservations);
-            } else{
-                sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);
             }
 			//BalsTechnology-SK   
             else if (type == 32) {
                 sessionFactory.SetData(SessionStore.currentMenu, MenuType.Finance);
             }
-            else{
-                sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);
-
+            else {
+                sessionFactory.SetData(SessionStore.currentMenu, MenuType.Dashboard);
+            }
         },
         GetCurrentMenu:function(){
            return  sessionFactory.GetData(SessionStore.currentMenu);

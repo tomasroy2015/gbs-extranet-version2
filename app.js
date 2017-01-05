@@ -82,7 +82,7 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/reservation-en',{templateUrl:'Views/Reservation/reservation-en.html',controller:'reservationController'}).
         when('/reservationDetails-en',{templateUrl:'Views/Reservation/reservationDetails-en.html',controller:'reservationDetailsController'}).
         when('/reservationHistory-en',{templateUrl:'Views/Reservation/reservationHistory-en.html',controller:'reservationHistoryController'}).
-        when('/propertyPhotos-en',{templateUrl:'Views/PropertyPhotos/propertyPhotos-en.html',controller:'propertyPhotosController'});
+        when('/propertyPhotos-en',{templateUrl:'Views/PropertyPhotos/propertyPhotos-en.html',controller:'propertyPhotosController'}).
 		//Balstechnology-AJ
         when('/room-en', { templateUrl: 'Views/Booking/room.html', controller: 'roomController' }).
         //BalsTechnology-SK   
