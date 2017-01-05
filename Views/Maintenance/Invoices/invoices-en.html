@@ -1,0 +1,272 @@
+<!--BalsTechnology-SK-->   
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<style type="text/css">
+    .table-bordered > thead > tr > th {
+        font-weight: bold;
+        text-transform: capitalize;
+        cursor: pointer;
+    }
+
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        opacity: 0;
+    }
+
+    select.browser-default {
+        color: #000;
+        border-color: #9e9e9e;
+        height: 30px;
+        padding-top: 0px;
+        font-size: 16px;
+    }
+
+    .select-wrapper {
+        background: none;
+    }
+
+    .input-group {
+        margin-top: 5px;
+        width: 77%;
+        padding-left: 5px;
+    }
+
+    input[type=text] {
+        margin-bottom: 0px;
+        height: 29px;
+        border: 1px solid #ddd;
+    }
+
+    .action-img {
+        height: 16px;
+        width: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+        -webkit-transition: all .55s ease;
+        -moz-transition: all .55s ease;
+        -ms-transition: all .55s ease;
+        -o-transition: all .55s ease;
+        transition: all .55s ease;
+    }
+
+        .action-img:hover {
+            /*margin-top: 10px;*/
+            /*color: #93a2ad;*/
+            -webkit-transform: scale(1.5); /* Safari and Chrome */
+            -moz-transform: scale(1.5); /* Firefox */
+            -ms-transform: scale(1.5); /* IE 9 */
+            -o-transform: scale(1.5); /* Opera */
+            transform: scale(1.5);
+        }
+</style>
+
+<style>
+    input[type='radio'] {
+        -webkit-appearance: none;
+        width: 15px;
+        height: 15px;
+        border: 1px solid darkgray;
+        border-radius: 50%;
+        outline: none;
+        box-shadow: 0 0 5px 0px gray inset;
+    }
+
+        input[type='radio']:before {
+            content: '';
+            display: block;
+            width: 60%;
+            height: 60%;
+            margin: 17% auto;
+            border-radius: 50%;
+        }
+
+    input[class='pending']:checked:before {
+        background: red;
+    }
+    input[class='PPaid']:checked:before {
+        background: yellow;
+    }
+    input[class='Paid']:checked:before {
+        background: green;
+    }
+    input[class='Writtenoff']:checked:before {
+        background: black;
+    }
+</style>
+
+<style ng-bind-html="barColorStyle"></style>
+
+<main>
+        <section id="property">
+            <div class="row" style="margin-top: 2%">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            InVoices
+                        </h3>
+                    </div>
+
+                    <div class="panel-body admin-table-body-wrapper">
+                        <div class="row" style="border: 1px solid #ddd;
+                                            border-radius: 2px;
+                                            padding: 5px;">
+                            <div class="col-md-12" style="margin-bottom:10px;margin-top:10px;margin-left:5px">
+                                <div class="col-md-2" style="width: 140px; padding: 0px; font-weight: 600;">
+                                    <input type="radio" class="pending" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Pending invoice
+                                </div>
+                                <div class="col-md-2" style="width: 175px; padding: 0px; font-weight: 600;">
+                                    <input type="radio" class="PPaid" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Partially paid invoice
+                                </div>
+                                <div class="col-md-2" style="width: 120px; padding: 0px; font-weight: 600;">
+                                    <input type="radio" class="Paid" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Paid invoice
+                                </div>
+                                <div class="col-md-2" style="width: 160px; padding: 0px; font-weight: 600;">
+                                    <input type="radio" class="Writtenoff" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Written off invoice
+                                </div>
+                                <div class="col-md-12" style="padding: 0px; font-weight: 500;margin-top:5px">
+                                    <h6>To view the invoice, right clickon the invoice number and save the document on your computer.</h6>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12" style="background-color: #F2EBDB; border-radius: 5px">
+                                <div style="height: 30px; background-color: #c73d3a; margin-top: 15px">
+                                    <div class="col-md-6" style="text-align: left; color: white; margin-top: 4px;"><div class="col-md-1" style="padding:0px;width:20px"><i class="fa fa-angle-down" style="font-size:24px;color:white"></i></div><p style="margin: 2px 0px 10px;">Pending Invoices</p></div>
+                                    <div class="col-md-6" style="text-align: right; color: white; margin-top: 4px; "><i class="fa fa-download"style="color:white" aria-hidden="true"></i> Download All</div>
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice Type</th>
+                                            <th>Invoice Number</th>
+                                            <th>Period(guest check-out date)</th>
+                                            <th>Amount</th>
+                                            <th>Invoice Date</th>
+                                            <th>Invoice Due</th>
+                                            <th>Amount Paid</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="IP in InvoicePendingDetail">
+                                            <td>Commission</td>
+                                            <td style="color: red;"><img style="width:30px;height:30px" src="../../../images/Pdficon.png" />{{IP.InvoiceID}}</td>
+                                            <td><span>{{IP.Period}}</span></td>
+                                            <td><span>{{IP.Amount}}</span></td>
+                                            <td><span>{{IP.InvoiceDate}}</span></td>
+                                            <td><span>{{IP.DueDate}}</span></td>
+                                            <td><span></span></td>
+                                            <td><input type="radio" class='pending' style="opacity: 10; left: 20px; position: relative;" checked /></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn-group pull-right">
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            ng-if="paging1.prev"
+                                            title="{{'GO_TO_PAGE'}} {{page}}"
+                                            ng-click="setPage1(paging1.prev)">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            title="{{'GO_TO_PAGE'}} {{page}}"
+                                            ng-repeat="page in paging1.pages"
+                                            ng-class="{'active' : page === currentPage}"
+                                            ng-click="setPage1(page)">
+                                        {{page}}
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            ng-if="paging1.next"
+                                            title="{{'GO_TO_PAGE'}} {{paging1.next}}"
+                                            ng-click="setPage1(paging1.next)">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="background-color: rgba(121, 171, 195, 0.15); border-radius: 5px; margin-top: 10px">
+                                <div style="height: 30px; background-color: #646f98; margin-top: 15px">
+                                    <div class="col-md-6" style="text-align: left; color: white; margin-top: 4px;"><div class="col-md-1" style="padding:0px;width:20px"><i class="fa fa-angle-down" style="font-size:24px;color:white"></i></div><p style="margin: 2px 0px 10px;">Archived Invoices - 2016</p></div>
+                                    <div class="col-md-6" style="text-align: right; color: white; margin-top: 4px; "><i class="fa fa-download" style="color:white" aria-hidden="true"></i> Download All</div>
+                                </div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Invoice Type</th>
+                                            <th>Invoice Number</th>
+                                            <th>Period(guest check-out date)</th>
+                                            <th>Amount</th>
+                                            <th>Invoice Date</th>
+                                            <th>Invoice Due</th>
+                                            <th>Amount Paid</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>                                 
+                                    <tbody>
+                                        <tr ng-repeat="I in InvoiceDetail">
+                                            <td>Commission</td>
+                                            <td style="color: red;"><img style="width:30px;height:30px" src="../../../images/Pdficon.png" />{{I.InvoiceID}}</td>
+                                            <td><span>{{I.Period}}</span></td>
+                                            <td><span>{{I.Amount}}</span></td>
+                                            <td><span>{{I.InvoiceDate}}</span></td>
+                                            <td><span>{{I.DueDate}}</span></td>
+                                            <td><span>{{I.Amount}}</span></td>
+                                            <td><input type="radio" class='Paid' style="opacity: 10; left: 20px; position: relative;" checked /></td>
+                                        </tr>
+
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="btn-group pull-right">
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            ng-if="paging.prev"
+                                            title="{{'GO_TO_PAGE'}} {{page}}"
+                                            ng-click="setPage(paging.prev)">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            title="{{'GO_TO_PAGE'}} {{page}}"
+                                            ng-repeat="page in paging.pages"
+                                            ng-class="{'active' : page === currentPage}"
+                                            ng-click="setPage(page)">
+                                        {{page}}
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            ng-if="paging.next"
+                                            title="{{'GO_TO_PAGE'}} {{paging.next}}"
+                                            ng-click="setPage(paging.next)">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <!--<section id="property">
+           
+         </section>-->
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
+

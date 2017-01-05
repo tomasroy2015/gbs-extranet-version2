@@ -83,6 +83,10 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/reservationDetails-en',{templateUrl:'Views/Reservation/reservationDetails-en.html',controller:'reservationDetailsController'}).
         when('/reservationHistory-en',{templateUrl:'Views/Reservation/reservationHistory-en.html',controller:'reservationHistoryController'}).
         when('/propertyPhotos-en',{templateUrl:'Views/PropertyPhotos/propertyPhotos-en.html',controller:'propertyPhotosController'});
+		//Balstechnology-AJ
+        when('/room-en', { templateUrl: 'Views/Booking/room.html', controller: 'roomController' }).
+        //BalsTechnology-SK   
+        when('/invoices-en', { templateUrl: 'Views/Maintenance/Invoices/invoices-en.html', controller: 'invoiceController' });
 
 
 });
@@ -214,7 +218,9 @@ gbsApp.constant("ViewType", {
     Rate:28,
     Availability:29,
     PromotionMenu:30,
-    Reservations:31
+    Reservations:31,
+	//BalsTechnology-SK   
+    Invoice: 32
 });
 gbsApp.constant("MenuType", {
     Dashboard:0,

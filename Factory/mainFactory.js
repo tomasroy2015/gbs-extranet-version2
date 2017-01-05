@@ -51,6 +51,14 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             }else if(type == ViewType.Photos){
                 $location.path("propertyPhotos-"+sessionFactory.GetData(SessionStore.currentLanguage));
             }
+			 //BalsTechnology-SK     
+            else if (type == ViewType.Invoice) {
+                $location.path("invoices-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
+            //Balstechnology-AJ
+            else if (type == ViewType.PropertyRooms) {
+                $location.path("room-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
         },
         SetCurrentMenu:function(type){
             sessionFactory.RemoveByKey(SessionStore.currentMenu);
@@ -69,6 +77,12 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             } else{
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);
             }
+			//BalsTechnology-SK   
+            else if (type == 32) {
+                sessionFactory.SetData(SessionStore.currentMenu, MenuType.Finance);
+            }
+            else{
+                sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);
 
         },
         GetCurrentMenu:function(){

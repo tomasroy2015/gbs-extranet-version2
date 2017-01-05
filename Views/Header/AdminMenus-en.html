@@ -109,7 +109,8 @@
                                 <div class="collapsible-body">
                                     <ul>
                                         <li ><a>Firm Information</a></li>
-                                        <li ><a>Invoices</a></li>
+                                         <!--BalsTechnology-SK-->
+                                        <li ng-class="{'active' : selectedView == ViewType.Invoice}" ng-click="goToMenu(ViewType.Invoice)"><a>Invoices</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -129,7 +130,9 @@
                                     <ul>
                                         <li ng-class="{'active' : selectedView == ViewType.PropertyFacilities}" ng-click="goToMenu(ViewType.PropertyFacilities)"><a >Property Facilities</a></li>
                                         <li ng-class="{'active' : selectedView == ViewType.Photos}" ng-click="goToMenu(ViewType.Photos)"><a >Photos</a></li>
-                                        <li ><a >Property Rooms</a></li>
+                                        <!--Balstechnology-AJ-->
+                                        <li ng-class="{'active' : selectedView == ViewType.PropertyRooms}" ng-click="goToMenu(ViewType.PropertyRooms)"><a>Property Rooms</a></li>
+                                        <!--Balstechnology-AJ-->
                                         <li ><a >Property Page</a></li>
                                     </ul>
                                 </div>
@@ -411,7 +414,8 @@
 
                 <ul id="dropdown-finance" class="dropdown-content">
                     <li ><a>Firm Information</a></li>
-                    <li ><a>Invoices</a></li>
+                    <!--BalsTechnology-SK-->
+                    <li ng-class="{'active' : selectedView == ViewType.Invoice}" ng-click="goToMenu(ViewType.Invoice)"><a>Invoices</a></li>
 
                 </ul>
                 <ul id="dropdown-settings" class="dropdown-content">
@@ -422,7 +426,9 @@
                 <ul id="dropdown-websitecontent" class="dropdown-content">
                     <li ng-class="{'active' : selectedView == ViewType.PropertyFacilities}" ng-click="goToMenu(ViewType.PropertyFacilities)"><a >Property Facilities</a></li>
                     <li ng-class="{'active' : selectedView == ViewType.Photos}" ng-click="goToMenu(ViewType.Photos)"><a >Photos</a></li>
-                    <li ><a >Property Rooms</a></li>
+                    <!--Balstechnology-AJ-->
+                    <li ng-class="{'active' : selectedView == ViewType.PropertyRooms}" ng-click="goToMenu(ViewType.PropertyRooms)"><a>Property Rooms</a></li>
+                    <!--Balstechnology-AJ-->
                     <li ><a >Property Page</a></li>
                 </ul>
             </div>
