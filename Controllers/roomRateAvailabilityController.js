@@ -20,6 +20,23 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
         $scope.doublePrice = null;
         $scope.roomPrice = null;
         $scope.availability = null;
+        $scope.selectedStyle = 1;
+        $scope.selectedMonthNo = 1;
+        $scope.months = [{ID:0,Name:'Jan',selected:true},
+                        {ID:1,Name:'Feb',selected:false},
+                        {ID:2,Name:'Mar',selected:false},
+                        {ID:3,Name:'Apr',selected:false},
+                        {ID:4,Name:'May',selected:false},
+                        {ID:5,Name:'Jun',selected:false},
+                        {ID:6,Name: 'Jul',selected:false},
+                        {ID:7,Name: 'Aug',selected:false},
+                        {ID:8,Name: 'Sep',selected:false},
+                        {ID:9,Name:'Oct',selected:false},
+                        {ID:10,Name:'Nov',selected:false},
+                        {ID:11,Name:'Dec',selected:false}];
+        $scope.daysName = [{ID:1,Name:"Mon"},{ID:2,Name:"Tue"},{ID:3,Name:"Wed"},{ID:4,Name:"Thu"},
+                              {ID:5,Name:"Fri"},{ID:6,Name:"Sat"},{ID:7,Name:"Sun"}]
+        $scope.selectedMonth = null;
         $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
         if(!$scope.CurrentUser)
             $location.path("/login-en");
@@ -40,9 +57,12 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
             $scope.startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
             $scope.endDate = getLastWeekDate();
 
+            $scope.year = today.getFullYear();
+            $scope.selectedMonth = 0;
+
             var currentTime = new Date();
             $scope.currentTime = currentTime;
-            $scope.month = ['Januar', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            $scope.month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             $scope.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             $scope.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -102,11 +122,61 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                // var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
             }, 1000);
         }
+
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+
+            return [day, month, year].join('/');
+        }
+
+        $scope.goForward = function(){
+            $scope.year = $scope.year + 1;
+        };
+        $scope.backForward = function(){
+            $scope.year = $scope.year - 1;
+        };
+        $scope.monthChange = function(){
+            var i = $scope.selectedMonthNo;
+            $scope.selectedMonth = i-1;
+            _.forEach($scope.months,function(f){f.selected = false;});
+            _.forEach($scope.months,function(f){
+                i--;
+                if(i<0)
+                    return;
+                f.selected = true;
+            });
+        };
+        $scope.click_Month = function(value){
+            _.forEach($scope.months,function(v){
+                if(value.ID <=0)
+                    return;
+
+                 if(v.ID == value.ID && v.selected == false){
+                     v.selected = true;
+                 }
+                 else if(v.ID == value.ID && v.selected == true){
+                    v.selected = false;
+                }
+
+            });
+
+            _.forEach($scope.months,function(v){if(v.selected == true){$scope.selectedMonth = v.ID;}});
+
+        };
+
         $scope.exportTable = function (type) {
             var url = appSettings.API_BASE_URL + "Download.aspx";
             $scope.weekDays = "";
-            var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
-            var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
+            var sDate = $scope.year+"/"+"1"+"/"+"1";//new Date(date.getFullYear(), date.getMonth(), 1);
+            var eDate = new Date($scope.year,($scope.selectedMonth+1),0);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            var startDate = formatDate(sDate);
+            var endDate = formatDate(eDate);
             var values = "";
             var chkDay = document.getElementsByName('chkDay');
             for (var i = 0; i < chkDay.length; i++) {
@@ -322,18 +392,35 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                 $scope.errorDetails = "Request failed with status: " + status;
             });
         };
+        function groupByData(dataToGroupOn, fieldNameToGroupOn, fieldNameForGroupName, fieldNameForChildren) {
+            var result = _.chain(dataToGroupOn)
+                .groupBy(fieldNameToGroupOn)
+                .pairs()
+                .map(function (currentItem) {
+                    return _.object(_.zip([fieldNameForGroupName, fieldNameForChildren], currentItem));
+                })
+                .value();
+            return result;
+        }
+
+
         $scope.btnShow_click = function(){
             $scope.weekDays = "";
-            var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
-            var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
-            if(startDate == ""){
-                Materialize.toast("Start Date must be selected.",5000,'red');
-                return;
-            }
-            if(endDate == ""){
-                Materialize.toast("End Date must be selected.",5000,'red');
-                return;
-            }
+           // var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
+           // var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
+            var date = new Date();
+            var sDate = $scope.year+"/"+"1"+"/"+"1";//new Date(date.getFullYear(), date.getMonth(), 1);
+            var eDate = new Date($scope.year,($scope.selectedMonth+1),0);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            var startDate = formatDate(sDate);
+            var endDate = formatDate(eDate);
+//            if(startDate == ""){
+//                Materialize.toast("Start Date must be selected.",5000,'red');
+//                return;
+//            }
+//            if(endDate == ""){
+//                Materialize.toast("End Date must be selected.",5000,'red');
+//                return;
+//            }
             var values = "";
             var chkDay = document.getElementsByName('chkDay');
             for (var i = 0; i < chkDay.length; i++) {
@@ -360,7 +447,8 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                                 RoomType:$scope.selectedRoom,PricePolicy:$scope.selectedPrice,
                                 AccommodationType:$scope.selectedPartner,WeekDay:$scope.weekDays}
                     }).success(function (response, status, headers, config) {
-                            $scope.roomRateAvailability = response;
+                         //   $scope.roomRateAvailability = response;
+                        $scope.roomRateAvailability = groupByData(response, 'MonthName', 'MonthName', 'roomRates');
                     }).error(function (response){});
 //                }
 //            }).error(function (response) {
@@ -368,33 +456,37 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
 //            });
         };
 
-        $scope.clickSingle = function(){
-            if($scope.singlePrice != null) {
-                _.forEach($scope.roomRateAvailability, function (f) {
-                    f.SinglePrice = $scope.singlePrice;
+        $scope.clickSingle = function(rate){
+
+            var singlePriceAppend = document.getElementById('txtSinglePriceAppend'+rate.MonthName).value;
+            if(singlePriceAppend != "") {
+                _.forEach(rate.roomRates, function (f) {
+                    f.SinglePrice = singlePriceAppend;
                 });
             }
         };
-        $scope.clickDouble = function(){
-            var doublePriceAppend = document.getElementById('txtDoublePriceAppend').value;
+        $scope.clickDouble = function(rate){
+            var doublePriceAppend = document.getElementById('txtDoublePriceAppend'+rate.MonthName).value;
             if(doublePriceAppend != "") {
-                _.forEach($scope.roomRateAvailability, function (f) {
+                _.forEach(rate.roomRates, function (f) {
                     f.DoublePrice = doublePriceAppend;
                 });
             }
         };
-        $scope.clickRoom = function(){
-            var roomPriceAppend = document.getElementById('txtRoomPriceAppend').value;
+        $scope.clickRoom = function(rate){
+            var roomPriceAppend = document.getElementById('txtRoomPriceAppend'+rate.MonthName).value;
             if(roomPriceAppend != "") {
-                _.forEach($scope.roomRateAvailability, function (f) {
+                _.forEach(rate.roomRates, function (f) {
                     f.RoomPrice = roomPriceAppend;
                 });
             }
         };
-        $scope.clickAvailable = function(){
-            if($scope.availability != null) {
-                _.forEach($scope.roomRateAvailability, function (f) {
-                    f.AvailableRoomCount = $scope.availability;
+        $scope.clickAvailable = function(rate){
+
+            var availabilityAppend = document.getElementById('txtAvailabilityAppend'+rate.MonthName).value;
+            if(availabilityAppend != "") {
+                _.forEach(rate.roomRates, function (f) {
+                    f.AvailableRoomCount = availabilityAppend;
                 });
             }
         };

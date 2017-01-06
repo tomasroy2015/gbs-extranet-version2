@@ -18,14 +18,14 @@ angular.module("gbsApp").controller("promotionController",
                             SecretDeal:true};
         var currentTime = new Date();
         $scope.currentTime = currentTime;
-        $scope.month = ['Januar', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        $scope.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $scope.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-        $scope.today = 'Today';
-        $scope.clear = 'Clear';
-        $scope.close = 'Close';
+//        $scope.month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+//        $scope.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+//        $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+//        $scope.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+//
+//        $scope.today = 'Today';
+//        $scope.clear = 'Clear';
+//        $scope.close = 'Close';
         $scope.WeekDay = "";
         $scope.PricePolicy = "";
         $scope.RoomCount = "";
