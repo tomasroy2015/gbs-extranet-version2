@@ -22,6 +22,7 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
         $scope.availability = null;
         $scope.selectedStyle = 1;
         $scope.selectedMonthNo = 1;
+        var calendarList = [];
         $scope.months = [{ID:0,Name:'Jan',selected:true},
                         {ID:1,Name:'Feb',selected:false},
                         {ID:2,Name:'Mar',selected:false},
@@ -282,6 +283,56 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
 //                });
 //            return deferred.promise;
         }
+        $scope.btnRefresh_Click = function(){
+            $scope.btnShow_click();
+        };
+        $scope.btnDelete_Click = function(){
+            var today = new Date();
+            $scope.year = today.getFullYear();
+            $scope.selectedMonthNo = 1;
+            $scope.selectedStyle=1;
+            $scope.monthChange();
+            $scope.weekDays = "";
+            // var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
+            // var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
+            var date = new Date();
+            var sDate = $scope.year+"/"+"1"+"/"+"1";//new Date(date.getFullYear(), date.getMonth(), 1);
+            var eDate = new Date($scope.year,1,31);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            var startDate = formatDate(sDate);
+            var endDate = formatDate(eDate);
+
+            if($scope.selectedStyle == 1) {
+                var values = "";
+                var chkDay = document.getElementsByName('chkDay');
+                for (var i = 0; i < chkDay.length; i++) {
+                    chkDay[i].checked = true;
+                    if (chkDay[i].checked == true) {
+                        values = values + chkDay[i].value + ",";
+                    }
+                }
+                if (values.length > 0) {
+                    $scope.weekDays = values;
+                } else {
+                    $scope.weekDays = "1,2,3,4,5,6,7";
+                }
+            }else{
+                $scope.weekDays = "1,2,3,4,5,6,7";
+            }
+
+            $http({method: 'GET',url: appSettings.API_BASE_URL + 'roomRateAvailability/getRoomAvailabilityAndRate',
+                params: {hotelID:$scope.CurrentUser.HotelID,culture:$scope.langCode,StartDate:startDate,Enddate:endDate,
+                    RoomType:$scope.selectedRoom,PricePolicy:$scope.selectedPrice,
+                    AccommodationType:$scope.selectedPartner,WeekDay:$scope.weekDays}
+            }).success(function (response, status, headers, config) {
+                //   $scope.roomRateAvailability = response;
+
+                var data = groupByData(response, 'MonthName', 'MonthName', 'roomRates');
+                $scope.roomRateAvailability = data;
+                getCalendarData();
+            }).error(function (response){
+                Materialize.toast("Server error occured for:"+response.Message,2000,"red")
+            });
+        };
         $scope.downloadFile = function(httpPath) {
             // Use an arraybuffer
             var data = $scope.roomRateAvailability;
@@ -413,49 +464,82 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
             var eDate = new Date($scope.year,($scope.selectedMonth+1),0);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
             var startDate = formatDate(sDate);
             var endDate = formatDate(eDate);
-//            if(startDate == ""){
-//                Materialize.toast("Start Date must be selected.",5000,'red');
-//                return;
-//            }
-//            if(endDate == ""){
-//                Materialize.toast("End Date must be selected.",5000,'red');
-//                return;
-//            }
-            var values = "";
-            var chkDay = document.getElementsByName('chkDay');
-            for (var i = 0; i < chkDay.length; i++) {
-                if (chkDay[i].checked == true) {
-                    values  = values + chkDay[i].value + ",";
+
+            if($scope.selectedStyle == 1) {
+                var values = "";
+                var chkDay = document.getElementsByName('chkDay');
+                for (var i = 0; i < chkDay.length; i++) {
+                    if (chkDay[i].checked == true) {
+                        values = values + chkDay[i].value + ",";
+                    }
                 }
-            }
-            if(values.length > 0){
-                $scope.weekDays = values;
+                if (values.length > 0) {
+                    $scope.weekDays = values;
+                } else {
+                    $scope.weekDays = "1,2,3,4,5,6,7";
+                }
             }else{
                 $scope.weekDays = "1,2,3,4,5,6,7";
             }
 
-//            $http({
-//                method: 'GET',
-//                url: appSettings.API_BASE_URL + 'propertyStatistics/validateDate',
-//                params: {StartDate:startDate,Enddate:endDate}
-//            }).success(function (response, status, headers, config) {
-//                if(response > 30){
-//                    Materialize.toast("The day range cannot be selected more than a month.",5000,'red');
-//                }else {
-                    $http({method: 'GET',url: appSettings.API_BASE_URL + 'roomRateAvailability/getRoomAvailabilityAndRate',
-                        params: {hotelID:$scope.CurrentUser.HotelID,culture:$scope.langCode,StartDate:startDate,Enddate:endDate,
-                                RoomType:$scope.selectedRoom,PricePolicy:$scope.selectedPrice,
-                                AccommodationType:$scope.selectedPartner,WeekDay:$scope.weekDays}
-                    }).success(function (response, status, headers, config) {
-                         //   $scope.roomRateAvailability = response;
-                        $scope.roomRateAvailability = groupByData(response, 'MonthName', 'MonthName', 'roomRates');
-                    }).error(function (response){});
-//                }
-//            }).error(function (response) {
-//
-//            });
-        };
+            $http({method: 'GET',url: appSettings.API_BASE_URL + 'roomRateAvailability/getRoomAvailabilityAndRate',
+                params: {hotelID:$scope.CurrentUser.HotelID,culture:$scope.langCode,StartDate:startDate,Enddate:endDate,
+                        RoomType:$scope.selectedRoom,PricePolicy:$scope.selectedPrice,
+                        AccommodationType:$scope.selectedPartner,WeekDay:$scope.weekDays}
+            }).success(function (response, status, headers, config) {
+                 //   $scope.roomRateAvailability = response;
 
+                var data = groupByData(response, 'MonthName', 'MonthName', 'roomRates');
+                $scope.roomRateAvailability = data;
+                getCalendarData();
+            }).error(function (response){
+                Materialize.toast("Server error occured for:"+response.Message,2000,"red")
+            });
+        };
+        $scope.styleChangeClick = function(){
+            $scope.btnShow_click();
+        };
+       function getCalendarData(){
+          // var monthCount = 1;
+           _.forEach($scope.roomRateAvailability,function(f){
+
+               f.firstweeks = [];
+               f.secondweeks = [];
+               f.thirdweeks = [];
+               f.fourthweeks = [];
+               f.fifthweeks = [];
+               var i=1;
+               _.forEach(f.roomRates,function(rate){
+                    if(i<=7){
+                        rate.DayIndex = i;
+                        f.firstweeks.push(rate);
+                        i++;
+                    }
+                   if(i>7 && i<=14){
+                       rate.DayIndex = i;
+                       f.secondweeks.push(rate);
+                       i++;
+                   }
+                   if(i>14 && i<=21){
+                       rate.DayIndex = i;
+                       f.thirdweeks.push(rate);
+                       i++;
+                   }
+                   if(i>21 && i<=28){
+                       rate.DayIndex = i;
+                       f.fourthweeks.push(rate);
+                       i++;
+                   }
+                   if(i>28 && i<=31){
+                       rate.DayIndex = i;
+                       f.fifthweeks.push(rate);
+                       i++;
+                   }
+               });
+             //  monthCount++;
+
+           })
+        }
         $scope.clickSingle = function(rate){
 
             var singlePriceAppend = document.getElementById('txtSinglePriceAppend'+rate.MonthName).value;

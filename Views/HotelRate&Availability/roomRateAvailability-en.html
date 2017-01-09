@@ -178,6 +178,10 @@
     .selected-month{
         color:#DF7401;
     }
+    .btn-group:hover{
+        cursor: pointer;
+        color: blue;
+    }
 </style>
 
 <section id="property">
@@ -321,7 +325,7 @@
                             <!--</span>-->
                             <!--</label>-->
                             <!--</div>-->
-                            <div class="col-md-8"  style="position: relative;padding-left: 0px;padding-top: 2px;">
+                            <div class="col-md-8" ng-if="selectedStyle == 1"  style="position: relative;padding-left: 0px;padding-top: 2px;">
                                 <label ng-repeat="day in days"
                                        class="checkbox-inline" style="padding-left: 5px;margin-left: 4%;height: 30px;">
                                     <input class="input-checkbox" style="width:16px;height: 16px;"
@@ -385,6 +389,7 @@
                                                     padding-top: 2px;"
                                             class="browser-default"
                                             data-ng-model="selectedStyle"
+                                            ng-change="styleChangeClick()"
                                             material-select  watch>
                                         <option value="1">List</option>
                                         <option value="2">Calendar</option>
@@ -412,7 +417,7 @@
 
                                 </div>
                                 <div class="btn-group">
-                                    <a href="" style="text-decoration: none">
+                                    <a href="" style="text-decoration: none" ng-click="btnRefresh_Click()">
                                         <i class="fa fa-refresh" aria-hidden="true"></i>
                                         Refresh
                                         <b class="caret"></b>
@@ -420,7 +425,7 @@
 
                                 </div>
                                 <div class="btn-group">
-                                    <a href="" style="text-decoration: none">
+                                    <a href="" style="text-decoration: none" ng-click="btnDelete_Click()">
                                         <i class="fa fa-remove" aria-hidden="true"></i>
                                         Delete
                                         <b class="caret"></b>
@@ -593,18 +598,74 @@
                 </div>
                <div ng-if="selectedStyle == 2" class="col-md-12">
                    <div ng-repeat="rate in roomRateAvailability" class="col-xs-4" style="margin-bottom: 2px;">
-                       <div class="table-responsive" style="border: 1px solid #c3c3c3; padding: 2px;">
+                       <div  class="table-responsive">
                            <div class="col-xs-12" style="background: #3371D0;text-align: center">
                                <label style="color:#fff;font-size: 12px;">{{rate.MonthName}} {{rate.roomRates[0].Year}}</label>
                            </div>
                            <table class="table table-bordered">
                                <thead>
                                  <tr style="background: #337AAD;">
-                                     <td ng-repeat="day in daysName" style="line-height: 0px;text-align: center;">
-                                         <label style="color:#fff;">{{day.Name}}</label>
+                                     <td ng-repeat="day in rate.firstweeks track by $index" style="line-height: 0px;text-align: center;">
+                                         <label style="color:#fff;">{{day.DayName.substr(0,3)}}</label>
                                      </td>
                                  </tr>
                                </thead>
+                               <tr style="height: 28px">
+                                   <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" ng-repeat="val in rate.firstweeks track by $index" style="line-height: 0px;text-align: center;height: 40px;">
+                                       <label style="color: #000;margin-bottom: 14px;">
+                                           <span> {{$index +1}}</span>
+
+                                       </label><br/>
+                                       <label style="color: #000;">
+                                           <span>{{val.SinglePrice}}</span>
+                                       </label>
+                                   </td>
+                               </tr>
+                               <tr style="height: 28px">
+                                   <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" ng-repeat="val in rate.secondweeks track by $index" style="line-height: 0px;text-align: center;height: 40px;">
+                                       <label style="color: #000;margin-bottom: 14px;">
+                                           <span> {{$index + 8}}</span>
+
+                                       </label><br/>
+                                       <label style="color: #000;">
+                                           <span>{{val.SinglePrice}}</span>
+                                       </label>
+                                   </td>
+                               </tr>
+                               <tr style="height: 28px">
+                                   <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" ng-repeat="val in rate.thirdweeks track by $index" style="line-height: 0px;text-align: center;height: 40px;">
+                                       <label style="color: #000;margin-bottom: 14px;">
+                                           <span> {{$index +15}}</span>
+
+                                       </label><br/>
+                                       <label style="color: #000;">
+                                           <span>{{val.SinglePrice}}</span>
+                                       </label>
+                                   </td>
+                               </tr>
+                               <tr style="height: 28px">
+                                   <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" ng-repeat="val in rate.fourthweeks track by $index" style="line-height: 0px;text-align: center;height: 40px;">
+                                       <label style="color: #000;margin-bottom: 14px;">
+                                           <span> {{$index +22}}</span>
+
+                                       </label><br/>
+                                       <label style="color: #000;">
+                                           <span>{{val.SinglePrice}}</span>
+                                       </label>
+                                   </td>
+                               </tr>
+                               <tr style="height: 28px">
+                                   <td ng-class="{'Closed':val.Closed==true}"  class="{{val.CssClass}}" ng-repeat="val in rate.fifthweeks track by $index" style="line-height: 0px;text-align: center;height: 40px;">
+                                       <label style="color: #000;margin-bottom: 14px;">
+                                           <span> {{$index +29}}</span>
+
+                                       </label><br/>
+                                       <label style="color: #000;">
+                                           <span>{{val.SinglePrice}}</span>
+                                       </label>
+                                   </td>
+                               </tr>
+
                            </table>
                        </div>
                    </div>
