@@ -63,14 +63,14 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
 
             var currentTime = new Date();
             $scope.currentTime = currentTime;
-            $scope.month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-            $scope.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            $scope.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-            $scope.today = 'Today';
-            $scope.clear = 'Clear';
-            $scope.close = 'Close';
+//            $scope.month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+//            $scope.monthShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+//            $scope.weekdaysFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+//            $scope.weekdaysLetter = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+//
+//            $scope.today = 'Today';
+//            $scope.clear = 'Clear';
+//            $scope.close = 'Close';
             $scope.weekDays = [];
             var days = new Date().getDay();
 //            $scope.minDate = (new Date($scope.startDate.getTime() - ( 1000 * 60 * 60 *24 * days ))).toISOString();
@@ -491,50 +491,89 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
 
                 var data = groupByData(response, 'MonthName', 'MonthName', 'roomRates');
                 $scope.roomRateAvailability = data;
-                getCalendarData();
+                if($scope.selectedStyle == 2)
+                    getCalendarData();
             }).error(function (response){
-                Materialize.toast("Server error occured for:"+response.Message,2000,"red")
+                Materialize.toast("Server error occured for:"+response.Message,4000,"red")
             });
         };
         $scope.styleChangeClick = function(){
             $scope.btnShow_click();
         };
        function getCalendarData(){
-          // var monthCount = 1;
            _.forEach($scope.roomRateAvailability,function(f){
-
-               f.firstweeks = [];
-               f.secondweeks = [];
-               f.thirdweeks = [];
-               f.fourthweeks = [];
-               f.fifthweeks = [];
-               var i=1;
+                 f.calendarData=[];
+                 var n=1;
+               if(f.roomRates[0].DayID == 7){
+                   for(var i=1;i<7;i++){
+                       var HotelObj = {};
+                       HotelObj.DayID = 0;
+                       HotelObj.MonthName = f.roomRates[0].MonthName;
+                       HotelObj.Year = f.roomRates[0].Year;
+                       HotelObj.MaxPeopleCount =f.roomRates[0].MaxPeopleCount;
+                       //HotelObj.AvailableRoomCount = Convert.ToInt32(dt.Rows[0]["AvailableRoomCount"]);
+                       f.calendarData.push(HotelObj);
+                   }
+               }
+               if(f.roomRates[0].DayID == 2){
+                   for(var i=1;i<2;i++){
+                       var HotelObj = {};
+                       HotelObj.DayID = 0;
+                       HotelObj.MonthName = f.roomRates[0].MonthName;
+                       HotelObj.Year = f.roomRates[0].Year;
+                       HotelObj.MaxPeopleCount =f.roomRates[0].MaxPeopleCount;
+                       //HotelObj.AvailableRoomCount = Convert.ToInt32(dt.Rows[0]["AvailableRoomCount"]);
+                       f.calendarData.push(HotelObj);
+                   }
+               }
+               if(f.roomRates[0].DayID == 3){
+                   for(var i=1;i<3;i++){
+                       var HotelObj = {};
+                       HotelObj.DayID = 0;
+                       HotelObj.MonthName = f.roomRates[0].MonthName;
+                       HotelObj.Year = f.roomRates[0].Year;
+                       HotelObj.MaxPeopleCount =f.roomRates[0].MaxPeopleCount;
+                       //HotelObj.AvailableRoomCount = Convert.ToInt32(dt.Rows[0]["AvailableRoomCount"]);
+                       f.calendarData.push(HotelObj);
+                   }
+               }
+               if(f.roomRates[0].DayID == 4){
+                   for(var i=1;i<4;i++){
+                       var HotelObj = {};
+                       HotelObj.DayID = 0;
+                       HotelObj.MonthName = f.roomRates[0].MonthName;
+                       HotelObj.Year = f.roomRates[0].Year;
+                       HotelObj.MaxPeopleCount =f.roomRates[0].MaxPeopleCount;
+                       //HotelObj.AvailableRoomCount = Convert.ToInt32(dt.Rows[0]["AvailableRoomCount"]);
+                       f.calendarData.push(HotelObj);
+                   }
+               }
+               if(f.roomRates[0].DayID == 5){
+                   for(var i=1;i<5;i++){
+                       var HotelObj = {};
+                       HotelObj.DayID = 0;
+                       HotelObj.MonthName = f.roomRates[0].MonthName;
+                       HotelObj.Year = f.roomRates[0].Year;
+                       HotelObj.MaxPeopleCount =f.roomRates[0].MaxPeopleCount;
+                       //HotelObj.AvailableRoomCount = Convert.ToInt32(dt.Rows[0]["AvailableRoomCount"]);
+                       f.calendarData.push(HotelObj);
+                   }
+               }
+               if(f.roomRates[0].DayID == 6){
+                   for(var i=1;i<6;i++){
+                       var HotelObj = {};
+                       HotelObj.DayID = 0;
+                       HotelObj.MonthName = f.roomRates[0].MonthName;
+                       HotelObj.Year = f.roomRates[0].Year;
+                       HotelObj.MaxPeopleCount =f.roomRates[0].MaxPeopleCount;
+                       //HotelObj.AvailableRoomCount = Convert.ToInt32(dt.Rows[0]["AvailableRoomCount"]);
+                       f.calendarData.push(HotelObj);
+                   }
+               }
                _.forEach(f.roomRates,function(rate){
-                    if(i<=7){
-                        rate.DayIndex = i;
-                        f.firstweeks.push(rate);
-                        i++;
-                    }
-                   if(i>7 && i<=14){
-                       rate.DayIndex = i;
-                       f.secondweeks.push(rate);
-                       i++;
-                   }
-                   if(i>14 && i<=21){
-                       rate.DayIndex = i;
-                       f.thirdweeks.push(rate);
-                       i++;
-                   }
-                   if(i>21 && i<=28){
-                       rate.DayIndex = i;
-                       f.fourthweeks.push(rate);
-                       i++;
-                   }
-                   if(i>28 && i<=31){
-                       rate.DayIndex = i;
-                       f.fifthweeks.push(rate);
-                       i++;
-                   }
+                   rate.DayNo = n;
+                   n++;
+                   f.calendarData.push(rate);
                });
              //  monthCount++;
 
