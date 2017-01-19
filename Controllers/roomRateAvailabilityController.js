@@ -142,6 +142,31 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
         $scope.backForward = function(){
             $scope.year = $scope.year - 1;
         };
+        $scope.editRate = function(val){
+            if(val.DayID <= 0)
+                return;
+
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'Views/HotelRate&Availability/editRateAvailability.html',
+                controller: ['$scope', '$modalInstance', 'mainFactory','sessionFactory','dropdownFactory',
+                    function ($scope, $modalInstance, mainFactory,sessionFactory, dropdownFactory) {
+                        $scope.data = val;
+                        $scope.closeWindow = function () {
+                            $modalInstance.dismiss();
+                        };
+                        $scope.btn_Cancel = function () {
+                            $modalInstance.dismiss();
+                        };
+                        $scope.btn_save = function(){
+
+                        };
+                    }],
+                size: 'sm',
+                keyboard: true,
+                backdrop: 'static'
+            });
+        };
         $scope.monthChange = function(){
             var i = $scope.selectedMonthNo;
             $scope.selectedMonth = i-1;
@@ -614,8 +639,20 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
             }
         };
         $scope.saveRoomRate = function(){
-            var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
-            var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
+//            var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
+//            var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
+            var sDate = $scope.year+"/"+"1"+"/"+"1";//new Date(date.getFullYear(), date.getMonth(), 1);
+            var eDate = new Date($scope.year,($scope.selectedMonth+1),0);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            var startDate = formatDate(sDate);
+            var endDate = formatDate(eDate);
+            var rateData = [];
+            _.forEach($scope.roomRateAvailability,function(f){
+                _.forEach(f.roomRates,function(rate){
+                    if(rate.DayID > 0){
+                        rateData.push(rate);
+                    }
+                });
+            });
             $http({
                 method: 'POST',
                 url: appSettings.API_BASE_URL + 'roomRateAvailability/saveRoomAvailabilityAndRate',
@@ -624,12 +661,12 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                            accommodationType:$scope.selectedPartner,pricePolicy:$scope.selectedPrice,
                            roomID:$scope.selectedRoom,sessionID:$scope.CurrentUser.SessionID
                         },
-                data:$scope.roomRateAvailability
+                data:rateData
             }).success(function (response, status, headers, config) {
-                Materialize.toast("Room availability and rate updated successfully.",5000,'green');
+                Materialize.toast("Room availability and rate updated successfully.",3000,'green');
                 $scope.btnShow_click();
             }).error(function (response) {
-                Materialize.toast("Server error occured ",5000,'red');
+                Materialize.toast("Server error occured ",3000,'red');
             });
         };
         $scope.goToMenu = function(type){

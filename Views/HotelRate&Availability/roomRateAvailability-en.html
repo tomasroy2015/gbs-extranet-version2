@@ -631,7 +631,7 @@
                            <div class="col-xs-12" style="padding: 0px;height: 300px;">
                                <div ng-disabled="val.DayID == 0" ng-repeat="val in rate.calendarData"
                                     ng-class="{'Closed':val.Closed==true}"
-                                    class="col-sm-1 cal-cell-no {{val.CssClass}}">
+                                    class="col-sm-1 cal-cell-no {{val.CssClass}}" ng-click="editRate(val)">
                                    <label  style="color: #000;">
                                        <span ng-show="val.DayID > 0">{{val.DayNo}}</span>
                                    </label><br/>

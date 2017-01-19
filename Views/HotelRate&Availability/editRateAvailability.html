@@ -1,0 +1,117 @@
+<link rel="stylesheet" href="/Views/Policies/addPolicy.css"/>
+        <style type="text/css">
+            .col-md-12{
+                margin-top: 5px;
+            }
+            input[type=text]{
+                text-align: left;
+                padding-left: 5px;;
+            }
+        </style>
+<div class="row">
+    <div class="col-md-12" style="padding: 0px;border-bottom: 1px solid #878787;">
+        <div class="col-md-6">
+            <h5 style="font-weight: bold;font-size:14px;color:#253c71;">Edit Rate & Availability</h5>
+        </div>
+        <div class="col-md-6 right" style="margin-top: 2%;">
+            <span><i ng-click="closeWindow()" class="fa fa-times-circle fa-lg close"></i></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>Single Price</span>
+            </div>
+            <div class="col-md-5">
+                <input type="text" ng-model="data.SinglePrice" only-digits/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row"  ng-if="data.MaxPeopleCount>1">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>Double Price</span>
+            </div>
+            <div class="col-md-5">
+                <input type="text" ng-model="data.DoublePrice" only-digits/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" ng-if="data.MaxPeopleCount>2">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>Room Price</span>
+            </div>
+            <div class="col-md-5">
+                <input type="text" ng-model="data.RoomPrice" only-digits/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>Availability</span>
+            </div>
+            <div class="col-md-5">
+                <input type="text" ng-model="data.AvailableRoomCount" only-digits/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>Minimum Stay</span>
+            </div>
+            <div class="col-md-5">
+                <input type="text" ng-model="data.MinimumStay" only-digits/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>CTA</span>
+            </div>
+            <div class="col-md-5">
+                <input type="checkbox" style="width: 20px; height: 20px;" ng-checked="data.CloseToArrival" ng-model="data.CloseToArrival"  name="CheckClosed" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>CTD</span>
+            </div>
+            <div class="col-md-5">
+                <input type="checkbox" style="width: 20px; height: 20px;" ng-checked="data.CloseToDeparture" ng-model="data.CloseToDeparture" name="CheckClosed" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+                <span>Closed</span>
+            </div>
+            <div class="col-md-5">
+                <input type="checkbox" style="width: 20px; height: 20px;" ng-checked="data.Closed" ng-model="data.Closed"  name="CheckClosed" />
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12 center" style="margin-top: 12px;">
+        <input type="button" class="btn btn-success btn-policy" id="btnSavePolicy" ng-click="btn_save()" value="Save"/>
+        <input type="button" class="btn btn-success btn-policy" id="btnCancelPolicy" value="Cancel" ng-click="btn_Cancel()"/>
+    </div>
+</div>
+
+
+
