@@ -60,9 +60,24 @@ angular.module("gbsApp").controller("invoiceController", function ($scope, $root
             $scope.rowCollection = response.rows;
             $scope.InvoicePendingDetail = [].concat($scope.rowCollection);
             $scope.paging1 = $scope.pagination(response.totalRows, $scope.currentPage, $scope.rowsPerPage);
+           // alert($scope.InvoicePendingDetail)
         }).error(function (response) {
             alert('error')
         });
+    }
+
+    $scope.InvoiceDetails = function (id) {
+        sessionFactory.SetData(SessionStore.InvoiceDetailID, id);
+        $location.path("invoiceDetails-" + sessionFactory.GetData(SessionStore.currentLanguage));
+    };
+
+    $scope.ShowHide1 = function () {
+        //alert("hi")
+        $scope.IsHidden1 = $scope.IsHidden1 ? false : true;
+    }
+    $scope.ShowHide2 = function () {
+        //alert("hi")
+        $scope.IsHidden2 = $scope.IsHidden2 ? false : true;
     }
 
     $scope.pagination = function ($totalRows, $curPage, $perPage) {

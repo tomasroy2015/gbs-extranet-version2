@@ -109,8 +109,10 @@
                                 <div class="collapsible-body">
                                     <ul>
                                         <li ><a>Firm Information</a></li>
-                                         <!--BalsTechnology-SK-->
+                                        <!--BalsTechnology-SK-->
                                         <li ng-class="{'active' : selectedView == ViewType.Invoice}" ng-click="goToMenu(ViewType.Invoice)"><a>Invoices</a></li>
+                                        <li ng-class="{'active' : selectedView == ViewType.MonthlyRevenue}" ng-click="goToMenu(ViewType.MonthlyRevenue)"><a>Monthly Revenue</a></li>
+                                        <li ng-class="{'active' : selectedView == ViewType.ReservationStatement}" ng-click="goToMenu(ViewType.ReservationStatement)"><a>Monthly Revenue</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -416,6 +418,8 @@
                     <li ><a>Firm Information</a></li>
                     <!--BalsTechnology-SK-->
                     <li ng-class="{'active' : selectedView == ViewType.Invoice}" ng-click="goToMenu(ViewType.Invoice)"><a>Invoices</a></li>
+                    <li ng-class="{'active' : selectedView == ViewType.MonthlyRevenue}" ng-click="goToMenu(ViewType.MonthlyRevenue)"><a>Monthly Revenue</a></li>
+                    <li ng-class="{'active' : selectedView == ViewType.ReservationStatement}" ng-click="goToMenu(ViewType.ReservationStatement)"><a>Reservation Statement</a></li>
 
                 </ul>
                 <ul id="dropdown-settings" class="dropdown-content">

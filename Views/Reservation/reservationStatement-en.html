@@ -1,0 +1,133 @@
+﻿<!--BalsTechnology-SK-->
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+<style type="text/css">
+    .table-bordered > thead > tr > th {
+        font-weight: bold;
+        text-transform: capitalize;
+        cursor: pointer;
+        font-size: 12px;
+        color: white;
+        background-color: rgb(1, 115, 104);
+    }
+
+    .table-bordered > tbody > tr > td {
+        
+        font-size: 12px;
+       
+    }
+</style>
+
+<style>
+    select {
+        height: 2rem !important;
+    }
+</style>
+<main>
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Reservation Statement
+                    </h3>
+                </div>
+                <div class="panel-body admin-table-body-wrapper">
+                    <div class="row" style="border: 1px solid #ddd;
+                                            border-radius: 2px;
+                                            padding: 5px;">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-4 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-12 col-xs-12">
+                                    <label>Period</label>
+                                </div>
+                                <div class="col-md-7 col-sm-12 col-xs-12">
+                                    <select id="drpCulture" class="browser-default" style="border-color: #b6b6b6;">
+                                        <option>Select</option>
+                                        <!--<option ng-repeat="lt in LanguageType" value="{{lt.ID}}">{{lt.Name}}</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12 col-xs-12" style="margin-top:3px">
+                                    <input style="" type="button"  value="view" ng-click="backToHome()" text="Back">
+                            </div>
+                        </div><br/><br/><br />
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <table class="table table-bordered" ng-hide="IsHidden1">
+                                <thead>
+                                    <tr>
+                                        <th>Book Number</th>
+                                        <th>Booked</th>
+                                        <th>Guest name</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                        <th>Room rights</th>
+                                        <th>comm. %</th>
+                                        <th>Result</th>
+                                        <th>Original amount(EUR)</th>
+                                        <th>Final amount(EUR)</th>
+                                        <th style="width: 100px;">Commission amount(EUR)</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="RS in reserstatementinfo">
+                                        <td></td>
+                                        <td><span>{{RS.Name}}</span></td>
+                                        <td><span>{{RS.Surname}}</span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span></span></td>
+                                        <td><span>{{RS.ComissionRate}}</span></td>
+                                        <td><span></span></td>
+                                        <td><span>{{RS.PayableAmounts}}</span></td>
+                                        <td><span>{{RS.PayableAmounts}}</span></td>
+                                        <td><span>{{RS.ComissionAmount}}</span></td>
+                                        <td><span></span></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="btn-group pull-right">
+                                <button type="button"
+                                        class="btn btn-default btn-sm"
+                                        ng-if="paging.prev"
+                                        title="{{'GO_TO_PAGE'}} {{page}}"
+                                        ng-click="setPage(paging.prev)">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </button>
+                                <button type="button"
+                                        class="btn btn-default btn-sm"
+                                        title="{{'GO_TO_PAGE'}} {{page}}"
+                                        ng-repeat="page in paging.pages"
+                                        ng-class="{'active' : page === currentPage}"
+                                        ng-click="setPage(page)">
+                                    {{page}}
+                                </button>
+                                <button type="button"
+                                        class="btn btn-default btn-sm"
+                                        ng-if="paging.next"
+                                        title="{{'GO_TO_PAGE'}} {{paging.next}}"
+                                        ng-click="setPage(paging.next)">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

@@ -33,7 +33,7 @@ angular.module("gbsApp").controller("roomController", function ($scope, $http, a
         Initialize();
     }
     function Initialize() {
-       // alert('s')
+      //  alert('s')
         $http({
             method: 'GET',
             url: appSettings.API_BASE_URL + 'roomdetails/getroom',
@@ -46,7 +46,21 @@ angular.module("gbsApp").controller("roomController", function ($scope, $http, a
             alert('error')
         });
     }
-
+    $scope.EditRoomdetails = function (id) {
+      
+        sessionFactory.SetData(SessionStore.Hotelroomid, id);
+        $location.path("addroom-" + sessionFactory.GetData(SessionStore.currentLanguage));
+     
+    };
+    $scope.btnnewrecored = function () {
+        //sessionStorage.removeItem(SessionStore.Hotelroomid);
+        sessionFactory.RemoveByKey(SessionStore.Hotelroomid);
+        $location.path("addroom-" + sessionFactory.GetData(SessionStore.currentLanguage));
+    };
+    //function EditRoomdetails(id)
+    //{
+    //    alert('edit')
+    //}
     $scope.goToMenu = function (type) {
         mainFactory.SetViewType(type);
         $scope.selectedView = type;

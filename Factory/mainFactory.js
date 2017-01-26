@@ -11,6 +11,8 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             sessionFactory.RemoveByKey(SessionStore.currentView);
             sessionFactory.SetData(SessionStore.currentView,type);
             var currentUser = sessionFactory.GetObject(SessionStore.userData);
+            //alert(type)
+            //alert(ViewType.Invoice)
             if(type == ViewType.Dashboard){
                 if(currentUser.IsHotelAdmin)
                     $location.path("home-"+sessionFactory.GetData(SessionStore.currentLanguage));
@@ -51,9 +53,15 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             }else if(type == ViewType.Photos){
                 $location.path("propertyPhotos-"+sessionFactory.GetData(SessionStore.currentLanguage));
             }
-			 //BalsTechnology-SK     
+            //BalsTechnology-SK     
             else if (type == ViewType.Invoice) {
                 $location.path("invoices-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
+            else if (type == ViewType.MonthlyRevenue) {
+                $location.path("monthlyRevenue-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
+            else if (type == ViewType.ReservationStatement) {
+                $location.path("reservationStatement-" + sessionFactory.GetData(SessionStore.currentLanguage));
             }
             //Balstechnology-AJ
             else if (type == ViewType.PropertyRooms) {
@@ -75,13 +83,14 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             }else if(type == 31){
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.Reservations);
             }
-			//BalsTechnology-SK   
-            else if (type == 32) {
+            //BalsTechnology-SK   
+            else if (type == 32 || type == 33 || type == 34) {
                 sessionFactory.SetData(SessionStore.currentMenu, MenuType.Finance);
             }
-            else {
-                sessionFactory.SetData(SessionStore.currentMenu, MenuType.Dashboard);
-            }
+            else{
+                sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);
+        }
+
         },
         GetCurrentMenu:function(){
            return  sessionFactory.GetData(SessionStore.currentMenu);

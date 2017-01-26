@@ -106,7 +106,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            InVoices
+                            Invoices
                         </h3>
                     </div>
 
@@ -118,26 +118,26 @@
                                 <div class="col-md-2" style="width: 140px; padding: 0px; font-weight: 600;">
                                     <input type="radio" class="pending" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Pending invoice
                                 </div>
-                                <div class="col-md-2" style="width: 175px; padding: 0px; font-weight: 600;">
+                                <!--<div class="col-md-2" style="width: 175px; padding: 0px; font-weight: 600;">
                                     <input type="radio" class="PPaid" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Partially paid invoice
-                                </div>
+                                </div>-->
                                 <div class="col-md-2" style="width: 120px; padding: 0px; font-weight: 600;">
                                     <input type="radio" class="Paid" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Paid invoice
                                 </div>
-                                <div class="col-md-2" style="width: 160px; padding: 0px; font-weight: 600;">
+                                <!--<div class="col-md-2" style="width: 160px; padding: 0px; font-weight: 600;">
                                     <input type="radio" class="Writtenoff" style="opacity: 10; left: 0px; position: relative;" checked name="" /> Written off invoice
-                                </div>
-                                <div class="col-md-12" style="padding: 0px; font-weight: 500;margin-top:5px">
+                                </div>-->
+                                <!--<div class="col-md-12" style="padding: 0px; font-weight: 500;margin-top:5px">
                                     <h6>To view the invoice, right clickon the invoice number and save the document on your computer.</h6>
-                                </div>
+                                </div>-->
                             </div>
                             
                             <div class="col-md-12" style="background-color: #F2EBDB; border-radius: 5px">
                                 <div style="height: 30px; background-color: #c73d3a; margin-top: 15px">
-                                    <div class="col-md-6" style="text-align: left; color: white; margin-top: 4px;"><div class="col-md-1" style="padding:0px;width:20px"><i class="fa fa-angle-down" style="font-size:24px;color:white"></i></div><p style="margin: 2px 0px 10px;">Pending Invoices</p></div>
+                                    <div class="col-md-6" style="text-align: left; color: white; margin-top: 4px;"><div class="col-md-1" style="padding:0px;width:20px"><i class="fa fa-angle-down" ng-click="ShowHide1()" style="font-size: 24px; color: white; cursor: pointer"></i></div><p style="margin: 2px 0px 10px;">Pending Invoices</p></div>
                                     <div class="col-md-6" style="text-align: right; color: white; margin-top: 4px; "><i class="fa fa-download"style="color:white" aria-hidden="true"></i> Download All</div>
                                 </div>
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" ng-hide="IsHidden1">
                                     <thead>
                                         <tr>
                                             <th>Invoice Type</th>
@@ -151,9 +151,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="IP in InvoicePendingDetail">
+                                        <tr ng-show="InvoicePendingDetail !='' && InvoicePendingDetail.length!=0" ng-repeat="IP in InvoicePendingDetail">
                                             <td>Commission</td>
-                                            <td style="color: red;"><img style="width:30px;height:30px" src="../../../images/Pdficon.png" />{{IP.InvoiceID}}</td>
+                                            <td style="color: red; text-decoration: none"><a href="" style="text-decoration: blink" tooltipped data-position="bottom" data-delay="50" data-tooltip="Click here for Invoice details" style="color: red;" ng-click="InvoiceDetails(I.InvoiceID)"><img style="width:30px;height:30px" src="../../../images/Pdficon.png" />{{IP.InvoiceID}}</a></td>
                                             <td><span>{{IP.Period}}</span></td>
                                             <td><span>{{IP.Amount}}</span></td>
                                             <td><span>{{IP.InvoiceDate}}</span></td>
@@ -161,10 +161,15 @@
                                             <td><span></span></td>
                                             <td><input type="radio" class='pending' style="opacity: 10; left: 20px; position: relative;" checked /></td>
                                         </tr>
-
+                                        <!--<tr>
+                <td ng-show="InvoicePendingDetail=='undefined' ||InvoicePendingDetail=='' || InvoicePendingDetail.length==0 ">
+                    No Pending Invoices.
+                </td>
+            </tr>-->
                                     </tbody>
                                 </table>
                             </div>
+
                             <div class="col-md-12">
                                 <div class="btn-group pull-right">
                                     <button type="button"
@@ -195,10 +200,10 @@
 
                             <div class="col-md-12" style="background-color: rgba(121, 171, 195, 0.15); border-radius: 5px; margin-top: 10px">
                                 <div style="height: 30px; background-color: #646f98; margin-top: 15px">
-                                    <div class="col-md-6" style="text-align: left; color: white; margin-top: 4px;"><div class="col-md-1" style="padding:0px;width:20px"><i class="fa fa-angle-down" style="font-size:24px;color:white"></i></div><p style="margin: 2px 0px 10px;">Archived Invoices - 2016</p></div>
+                                    <div class="col-md-6" style="text-align: left; color: white; margin-top: 4px;"><div class="col-md-1" style="padding:0px;width:20px"><i class="fa fa-angle-down" ng-click="ShowHide2()" style="font-size:24px;color:white;cursor:pointer"></i></div><p style="margin: 2px 0px 10px;">Archived Invoices - 2016</p></div>
                                     <div class="col-md-6" style="text-align: right; color: white; margin-top: 4px; "><i class="fa fa-download" style="color:white" aria-hidden="true"></i> Download All</div>
                                 </div>
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" ng-hide="IsHidden2">
                                     <thead>
                                         <tr>
                                             <th>Invoice Type</th>
@@ -210,11 +215,11 @@
                                             <th>Amount Paid</th>
                                             <th>Status</th>
                                         </tr>
-                                    </thead>                                 
+                                    </thead>
                                     <tbody>
-                                        <tr ng-repeat="I in InvoiceDetail">
+                                        <tr ng-show="InvoiceDetail !='' && InvoiceDetail.length!=0" ng-repeat="I in InvoiceDetail">
                                             <td>Commission</td>
-                                            <td style="color: red;"><img style="width:30px;height:30px" src="../../../images/Pdficon.png" />{{I.InvoiceID}}</td>
+                                            <td style="color: red; "><a href="" style="text-decoration:blink" tooltipped data-position="bottom" data-delay="50" data-tooltip="Click here for Invoice details" style="color: red;" ng-click="InvoiceDetails(I.InvoiceID)"><img style="width:30px;height:30px" src="../../../images/Pdficon.png" />{{I.InvoiceID}}</a></td>
                                             <td><span>{{I.Period}}</span></td>
                                             <td><span>{{I.Amount}}</span></td>
                                             <td><span>{{I.InvoiceDate}}</span></td>
@@ -222,7 +227,11 @@
                                             <td><span>{{I.Amount}}</span></td>
                                             <td><input type="radio" class='Paid' style="opacity: 10; left: 20px; position: relative;" checked /></td>
                                         </tr>
-
+                                        <!--<tr>
+                <td ng-show="InvoiceDetail=='undefined' ||InvoiceDetail=='' || InvoiceDetail.length==0 ">
+                    No Paid Invoices.
+                </td>
+            </tr>-->
 
 
                                     </tbody>

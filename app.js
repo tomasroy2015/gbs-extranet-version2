@@ -85,16 +85,22 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/propertyPhotos-en',{templateUrl:'Views/PropertyPhotos/propertyPhotos-en.html',controller:'propertyPhotosController'}).
 		//Balstechnology-AJ
         when('/room-en', { templateUrl: 'Views/Booking/room.html', controller: 'roomController' }).
+        when('/inboxmessages-en', { templateUrl: 'Views/Booking/inboxmessages.html', controller: 'inboxmessagesController' }).
+        when('/addroom-en', { templateUrl: 'Views/Booking/addroom.html', controller: 'addroomController' }).
+        when('/surrounding-en', { templateUrl: 'Views/Booking/surrounding.html', controller: 'surroundingController' }).
         //BalsTechnology-SK   
-        when('/invoices-en', { templateUrl: 'Views/Maintenance/Invoices/invoices-en.html', controller: 'invoiceController' });
+        when('/invoices-en', { templateUrl: 'Views/Maintenance/Invoices/invoices-en.html', controller: 'invoiceController' }).
+        when('/invoiceDetails-en', { templateUrl: 'Views/Maintenance/Invoices/invoiceDetails-en.html', controller: 'invoiceDetailsController' }).
+        when('/monthlyRevenue-en', { templateUrl: 'Views/Maintenance/Invoices/monthlyRevenue-en.html', controller: 'monthlyRevenueController' }).
+        when('/reservationStatement-en', { templateUrl: 'Views/Reservation/reservationStatement-en.html', controller: 'reservationStatementController' });
 
 
 });
 /* Application Constants
  ======================================================*/
 gbsApp.constant("appSettings", {
-//    API_BASE_URL : 'http://localhost:50622/',
-    API_BASE_URL: 'https://api.gbsextranet.com/',
+    API_BASE_URL : 'http://localhost:50622/',
+    //API_BASE_URL: 'https://api.gbsextranet.com/',
     APPLICATION_VERSION: '1.0.0'
 
 });
@@ -220,7 +226,9 @@ gbsApp.constant("ViewType", {
     PromotionMenu:30,
     Reservations:31,
 	//BalsTechnology-SK   
-    Invoice: 32
+    Invoice: 32,
+    MonthlyRevenue: 33,
+    ReservationStatement: 34
 });
 gbsApp.constant("MenuType", {
     Dashboard:0,
