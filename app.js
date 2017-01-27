@@ -85,13 +85,13 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/propertyPhotos-en',{templateUrl:'Views/PropertyPhotos/propertyPhotos-en.html',controller:'propertyPhotosController'}).
 		//Balstechnology-AJ
         when('/room-en', { templateUrl: 'Views/Booking/room.html', controller: 'roomController' }).
-        when('/inboxmessages-en', { templateUrl: 'Views/Booking/inboxmessages.html', controller: 'inboxmessagesController' }).
         when('/addroom-en', { templateUrl: 'Views/Booking/addroom.html', controller: 'addroomController' }).
         when('/surrounding-en', { templateUrl: 'Views/Booking/surrounding.html', controller: 'surroundingController' }).
         //BalsTechnology-SK   
         when('/invoices-en', { templateUrl: 'Views/Maintenance/Invoices/invoices-en.html', controller: 'invoiceController' }).
         when('/invoiceDetails-en', { templateUrl: 'Views/Maintenance/Invoices/invoiceDetails-en.html', controller: 'invoiceDetailsController' }).
         when('/monthlyRevenue-en', { templateUrl: 'Views/Maintenance/Invoices/monthlyRevenue-en.html', controller: 'monthlyRevenueController' }).
+        when('/inboxmessages-en', { templateUrl: 'Views/Inbox/inboxmessages-en.html', controller: 'inboxmessagesController' }).
         when('/reservationStatement-en', { templateUrl: 'Views/Reservation/reservationStatement-en.html', controller: 'reservationStatementController' });
 
 
@@ -228,7 +228,8 @@ gbsApp.constant("ViewType", {
 	//BalsTechnology-SK   
     Invoice: 32,
     MonthlyRevenue: 33,
-    ReservationStatement: 34
+    ReservationStatement: 34,
+    Inbox: 35
 });
 gbsApp.constant("MenuType", {
     Dashboard:0,
@@ -244,5 +245,6 @@ gbsApp.constant("MenuType", {
     Finance:10,
     Settings:11,
     WebsiteContent:12,
-    ContactUs:13
+    ContactUs: 13,
+    Inbox: 14
 });

@@ -63,6 +63,9 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             else if (type == ViewType.ReservationStatement) {
                 $location.path("reservationStatement-" + sessionFactory.GetData(SessionStore.currentLanguage));
             }
+            else if (type == ViewType.Inbox) {
+                $location.path("inboxmessages-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
             //Balstechnology-AJ
             else if (type == ViewType.PropertyRooms) {
                 $location.path("room-" + sessionFactory.GetData(SessionStore.currentLanguage));
@@ -86,6 +89,9 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             //BalsTechnology-SK   
             else if (type == 32 || type == 33 || type == 34) {
                 sessionFactory.SetData(SessionStore.currentMenu, MenuType.Finance);
+            }
+            else if (type == 35) {
+                sessionFactory.SetData(SessionStore.currentMenu, MenuType.Inbox);
             }
             else{
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);

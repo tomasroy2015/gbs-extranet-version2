@@ -139,8 +139,9 @@
                                     </ul>
                                 </div>
                             </li>
+                            <!--BalsTechnology-SK-->
                             <li>
-                                <a class="waves-effect">Inbox</a>
+                                <a class="waves-effect" ng-class="{'active' : selectedView == ViewType.Inbox}" ng-click="goToMenu(ViewType.Inbox)">Inbox</a>
                             </li>
                             <li class="bold">
                                 <a class="collapsible-header waves-effect">Admin User</a>
@@ -389,7 +390,8 @@
                             Website content<i class="fa fa-sort-desc right" aria-hidden="true"></i>
                         </a>
                     </li>
-                    <li ng-class="{'active' : selectedMenu == MenuType.ContactUs}">
+                    <!--BalsTechnology-SK-->
+                    <li ng-class="{'active' : selectedView == ViewType.Inbox}" ng-click="goToMenu(ViewType.Inbox)">
                         <a>
                             Inbox
                         </a>

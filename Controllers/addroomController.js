@@ -79,7 +79,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
             }, 1400);
            
         }).error(function (response) {
-            alert('error')
+            //alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
     }
 
@@ -116,7 +117,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
                 }
             });
         }).error(function (response) {
-            alert('error')
+            // alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
     }
 
@@ -144,7 +146,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
 
 
         }).error(function (response) {
-            alert('error')
+            //alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
     }
 
@@ -155,7 +158,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         }).success(function (response, status, headers, config) {      
             $scope.RoomType = response;
         }).error(function (response) {
-            alert('error')
+            //alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
         Somking();
     }
@@ -166,7 +170,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         }).success(function (response, status, headers, config) {
             $scope.smokingType = response;
         }).error(function (response) {
-            alert('error')
+            //alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
         RoomView();
     }
@@ -178,7 +183,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         }).success(function (response, status, headers, config) {
             $scope.RoomViewType = response;
         }).error(function (response) {
-            alert('error')
+            // alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
         Language();
     }
@@ -190,7 +196,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         }).success(function (response, status, headers, config) {
             $scope.LanguageType = response;
         }).error(function (response) {
-            alert('error')
+            //alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
         Roombed();
     }
@@ -201,7 +208,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         }).success(function (response, status, headers, config) {
             $scope.Roombed = response;
         }).error(function (response) {
-            alert('error')
+            // alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
         AttributeHeaders();
     }
@@ -214,7 +222,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
             $scope.AttributeHeaders = response;
            
         }).error(function (response) {
-            alert('error')
+            // alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
 
         if (hotelid != undefined) {
@@ -226,7 +235,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         $location.path("room-" + sessionFactory.GetData(SessionStore.currentLanguage));
     };
     $scope.savehotelroom = function(){
-   // alert('df')
+    //alert('df')
         $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
         $scope.HotelRoomID = document.getElementById("hdnroomid").value;
         //alert($scope.HotelRoomID)
@@ -242,7 +251,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
           $scope.Culture = angular.element('#drpCulture').val();
           $scope.Description = angular.element('#txtDescription').val();
 
-          if ($scope.RoomType == "Select") {
+          if ($scope.RoomType == "0") {
               document.getElementById("lblRoomTypeID").style.display = '';
           }
           else {
@@ -293,7 +302,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
 
           $scope.HotelAttributes = chkHotelAttributes.join(',');
          
-          if ($scope.RoomType != "" && $scope.RoomCount != "" && $scope.RoomSize != "" && $scope.RoomMaxPeopleCount != "") {
+          if ($scope.RoomType != "0" && $scope.RoomCount != "" && $scope.RoomSize != "" && $scope.RoomMaxPeopleCount != "") {
               $scope.Validmessage = "";
               $http({
                   method: 'Post',
@@ -301,10 +310,18 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
                   params: { HotelID: $scope.CurrentUser.HotelID,HotelRoomID:$scope.HotelRoomID, RoomType: $scope.RoomType, RoomCount: $scope.RoomCount, RoomSize: $scope.RoomSize, RoomMaxPeopleCount: $scope.RoomMaxPeopleCount, RoomMaxChildrenCount: $scope.RoomMaxChildrenCount, BabyCotCount: $scope.BabyCotCount, ExtraBedCount: $scope.ExtraBedCount, SmokingStatus: $scope.SmokingStatus, ViewType: $scope.ViewType, Culture: $scope.Culture, Description: $scope.Description, HotelAttributes: $scope.HotelAttributes, BedCountText: BedCountText }
               }).success(function (response, status, headers, config) {
                   //alert('sueccess')
-                 // alert(response)
-
+                  // alert(response)
+                  if ($scope.HotelRoomID != "")
+                  {
+                      Materialize.toast("Room Updated successfully.", 5000, 'green');
+                      Initialize();
+                  }
+                  else if($scope.HotelRoomID == "") {
+                      Materialize.toast("Room Inserted successfully.", 5000, 'green');
+                  }
               }).error(function (response) {
-                  alert('error')
+                  // alert('error')
+                  Materialize.toast("Server error occured ", 5000, 'red');
               });
           }
           else {

@@ -3,7 +3,7 @@
 <link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
 <!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
 <link href="/css/admin.css" rel="stylesheet" type="text/css" />
-<!--<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />-->
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
 <!--<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css" />-->
 
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -118,20 +118,22 @@
                         <div class="col-md-12 col-sm-12 col-xs-12" ng-init="initializeController()" style="">
                             <form method="post">
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:10px" id="titlediv">
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="">
-                                        <label style="font-size: 20px; color: darkslateblue; font-weight: 900; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; ">All your rooms</label>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="">
+                                   
+                                        <div class="col-md-6 col-sm-6 col-xs-12" style="">
+                                            <label style="font-size: 20px; color: darkslateblue; font-weight: 900; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; ">All your rooms</label>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12" style="">
 
-                                        <button id="btnid" type="button" class="btn btn-block btn-large" style="width: 68%; height: 39px; border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #2bbbad; font-weight: bold; line-height: 33px; " ng-click="btnnewrecored()">Add a new Room </button>
+                                            <button id="btnid" type="button" class="btn btn-block btn-large" style="width: 68%; height: 39px; border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #2bbbad; font-weight: bold; line-height: 33px; " ng-click="btnnewrecored()">Add a new Room </button>
+                                        </div>
+                                        
                                     </div>
-                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:10px" id="hintdiv">
                                     <label style=" font-size: 16px; color: black; margin-left: 13px; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">Hint: Add and remove<a href="#"> room facilities for all rooms here</a></label>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:30px" id="Disroomdet">
 
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 0px;" ng-repeat="R in Room">
+                                    <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 0px;margin-top:10px" ng-repeat="R in Room" >
                                         <div class="col-md-4 col-xs-12">
                                             <img src="../../images/Hotel/{{R.Image}}" class="img-thumbnail" style=" height: 178px;"><br />
                                             <div class="col-md-12 col-xs-12" style="text-align: center; margin-top: 10px;">
@@ -148,7 +150,7 @@
                                                 <span style="line-height: 28px; font-size: 18px; color: #78D82E; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">{{R.SomkingTypeName}}</span>
                                             </div>
                                             <div style="">
-                                                <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">I{{R.RoomSize}}</span>
+                                                <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">{{R.RoomSize}}</span>
                                             </div>
                                             <div>
                                                 <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">{{R.RoomCount}}</span>
