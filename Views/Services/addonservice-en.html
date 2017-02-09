@@ -1,0 +1,350 @@
+﻿<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<!--<link href="/bower_components/code-prettify/src/prettify.css" rel="stylesheet" type="text/css" />-->
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+<main>
+    <style>
+        select {
+            height: 2rem !important;
+        }
+
+        i input[type=text] {
+            text-align: center;
+        }
+
+        input[type=text]:disabled {
+            color: #000;
+        }
+
+        select.browser-default {
+            height: 35px;
+            border: 1px solid #878787;
+        }
+
+        .input-group {
+            margin-top: 5px;
+            width: 77%;
+        }
+
+        input[type=text] {
+            margin-bottom: 0px;
+            height: 29px;
+            border: 1px solid #ddd;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: white !important;
+        }
+        .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        line-height: 0.428571 !important;
+        }
+        .inner-addon {
+            position: relative;
+        }
+
+            /* style icon */
+            .inner-addon .glyphicon {
+                position: absolute;
+                /*padding: 10px;*/
+            }
+
+        /* align icon */
+        .left-addon .glyphicon {
+            left: 0px;
+        }
+
+        .right-addon .glyphicon {
+            right: 0px;
+        }
+
+        /* add padding  */
+        .left-addon input {
+            padding-left: 30px;
+        }
+
+        .left-inner-addon {
+            position: relative;
+        }
+
+            .left-inner-addon input {
+                padding-left: 30px;
+            }
+
+            .left-inner-addon i {
+                position: absolute;
+                padding: 5px 0px;
+                pointer-events: none;
+                margin-left: 10px;
+            }       
+        @media (max-width:415px) {
+            #btnid {
+                width: 100% !important;
+            }
+            .row{
+                margin-bottom:0px !important;
+            }
+            #btndiv {
+                margin-left: 4px !important;
+                margin-top: -11px !important;
+            }
+            .divpadding {
+                padding-left: 1px !important;
+                padding-right: 2px !important;
+            }
+           
+        }
+        @media (max-width:623px) {
+            .tbpre {
+                width: 100% !important;
+            }
+        }         
+    </style>
+    <style>
+        @media only screen and (max-width: 623px), (min-device-width: 100px) and (max-device-width: 500px) {
+
+            /* Force table to not be like tables anymore */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+                /* Hide table headers (but not display: none;, for accessibility) */
+                thead tr {
+                    position: absolute;
+                    top: -9999px;
+                    left: -9999px;
+                }
+
+            tr {
+                border: 1px solid #ccc;
+            }
+
+            td {
+                /* Behave  like a "row" */
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50% !important;
+            }
+            .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+                line-height: 1.428571 !important;
+            }
+                td:before {
+                    /* Now like a table header */
+                    position: absolute;
+                    /* Top/left values mimic padding */
+                    top: 6px;
+                    left: 6px;
+                    width: 45%;
+                    padding-right: 10px !important;
+                    /*white-space: nowrap;*/
+                }
+
+                /*
+Label the data
+*/
+                td:nth-of-type(1):before {
+                    content: "Id";
+                }
+
+                td:nth-of-type(2):before {
+                    content: "Title";
+                }
+                td:nth-of-type(3):before {
+                    content: "Price(EUR)";
+                }
+                td:nth-of-type(4):before {
+                    content: "Change type";
+                }
+                td:nth-of-type(5):before {
+                    content: "Action";
+                }
+            /*td:nth-of-type(3):before { content: "Edit"; }
+td:nth-of-type(4):before { content: "Delete"; }*/
+
+        }
+    </style>
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Add-on Services
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 divpadding" style="border: 1px solid #ddd;padding-left:0px">
+                        <div class="col-md-4 divpadding" style="margin-top: 1%">
+                            <!--<button id="btnid" type="button" class="btn btn-block btn-large" style="width: 68%; height: 39px; border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #edac68; font-weight: bold; line-height: 33px; " ng-click="btnnewrecored()">Add-on Services:Add </button>-->
+                            <input type="button" style="border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #edac68; letter-spacing: -.3px !important;" id="btnadd" value="Add-on Services:Add" class="btn btn-success" ng-click="Saveaddons11()">
+                        </div>
+                        <div class="row col-md-12 divpadding" style="margin-top:2%">
+                            <div class="col-md-2 divpadding" style="padding-left: 0px">
+                                <label style="font-size: 19px; font-weight: 500; margin-top: 3px; ">Title*</label>
+                            </div>
+                            <div class="col-md-4 divpadding">
+                                <input type="text" style="border-color: #b6b6b6 !important;" id="txttitle" class="form-control" />
+                            </div>
+                            <!--<div class="col-md-4 inner-addon left-addon left-inner-addon">
+            <i><img src="../../img/flag/en_.jpg" /></i>
+            <input type="text" style="border-color: #b6b6b6 !important;" />
+
+        </div>-->
+                            <div class="col-md-2" style="margin-left: 10px;">
+                                <!--<select class="browser-default" style="border-color: #b6b6b6 !important; ">
+                <option value="0">Select</option>
+
+            </select>-->
+                            </div>
+                        </div>
+                        <div class="row col-md-12 divpadding">
+                            <div class="col-md-2 divpadding" style="padding-left: 0px">
+                                <label style="font-size:19px; font-weight:500; margin-top:3px; ">
+                                Price(EUR)*</label>
+                            </div>
+                            <div class="col-md-2 divpadding">
+                                <input type="text" style="border-color: #b6b6b6 !important;" id="txtprice" class="form-control" />
+                            </div>
+                            <!--<div class="col-md-2 divpadding">
+                                <label style="font-size: 19px; font-weight: 500; margin-top: 3px; ">EUR</label>
+                            </div>-->
+                        </div>
+                        <div class="row col-md-12 divpadding">
+                            <div class="col-md-2 divpadding" style="padding-left: 0px">
+                                <label style="font-size: 19px; font-weight: 500; margin-top: 3px; ">Change type*</label>
+                            </div>
+                            <div class="col-md-3 divpadding">
+                                <select class="browser-default" style="border-color: #b6b6b6 !important;" id="drpchangetype">
+                                    <option value="0">Select</option>
+                                    <option value="One time - per reservation">One time - per reservation</option>
+                                    <option value="Daily - per room">Daily - per room</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 divpadding" style="margin-bottom: 5px;">
+                            <div class="col-md-2 divpadding">
+                                <label style="font-size: 19px; font-weight: 500; margin-top: 3px; "></label>
+                            </div>
+                            <div class="col-md-3 divpadding" id="btndiv">
+                                <input type="button" id="btnSave" value="Save" class="btn btn-success" ng-click="Saveaddons()">
+                                <input type="button" id="btnClose" value="Close" class="btn btn-danger" ng-click="add_policyClickHandler()">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 divpadding" style="margin-top: 2%;">
+                        <label style="font-weight:500;color:lightblue"><i class="fa fa-info-circle" style=" font-size: 16px;" aria-hidden="true"></i> Services that the hotel provides under and extra cost. Customers reserving to the hotel have option to select one or more extra services during their stay. The cost of each service can be in a daily basis or as an one time fee</label>
+                    </div> 
+                    <div class="col-md-12 row divpadding" style="border: 1px solid #ddd;">
+                        <table class="table table-bordered" style="margin-top: 10px;">
+                            <thead style="background-color: darkgray;">
+                                <tr>
+                                    <td width="10%" style="text-align: center;" class="tbpre"><label style="font-weight:500;color:white">Id</label></td>
+                                    <td width="30%" style="text-align: center;" class="tbpre">
+                                        <label style="font-weight: 500; color: white">Title</label>
+                                    </td>
+                                    <td width="10%" style="text-align: center;" class="tbpre">
+                                        <label style="font-weight: 500; color: white">Price(EUR)</label>
+                                    </td>
+                                    <td width="30%" style="text-align: center;" class="tbpre">
+                                        <label style="font-weight: 500; color: white">Change type</label>
+                                    </td>
+                                    <td width="20%" style="text-align: center;" class="tbpre">
+                                        <label style="font-weight: 500; color: white">Action</label>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="ads in Displayaddons">
+                                    <td width="10%" class="tbpre">
+                                        <label style="font-weight:500;">{{ads.HotelId}}</label>
+
+                                    </td>
+                                    <td width="30%" class="tbpre">
+                                        <a href="#" style="color:skyblue">{{ads.Title}}</a>
+                                    </td>
+                                    <td width="10%" class="tbpre">
+                                        <label style="font-weight: 500;">{{ads.Price}}</label>
+                                    </td>
+                                    <td width="30%" class="tbpre">
+                                        <label style="font-weight: 500;">{{ads.Changetype}}</label>
+                                    </td>
+                                    <td width="20%" class="tbpre">
+                                        <a href="#" style="color:red" ng-click="Deleteaddons(ads.ID)"><i class="fa fa-times" aria-hidden="true"></i> Delete</a>
+                                    </td>
+
+                                    <input type="hidden" id="hdnid" />
+
+                                </tr>
+                                <!--<tr>
+                    <td width="10%"><label style="font-weight:500;">14</label></td>
+                    <td width="30%">
+                        <a href="#" style="color:skyblue">Baby cot</a>
+                    </td>
+                    <td width="10%">
+                        <label style="font-weight: 500;">20.00</label>
+                    </td>
+                    <td width="30%">
+                        <label style="font-weight: 500;">daily - per room</label>
+                    </td>
+                    <td width="20%">
+                        <a href="#" style="color:red"><i class="fa fa-times" aria-hidden="true"></i> Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%"><label style="font-weight:500;">15</label></td>
+                    <td width="30%">
+                        <a href="#" style="color:skyblue">Dinner Included</a>
+                    </td>
+                    <td width="10%">
+                        <label style="font-weight: 500;">20.00</label>
+                    </td>
+                    <td width="30%">
+                        <label style="font-weight: 500;">daily - per room</label>
+                    </td>
+                    <td width="20%">
+                        <a href="#" style="color:red"><i class="fa fa-times" aria-hidden="true"></i> Delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%"><label style="font-weight:500;">16</label></td>
+                    <td width="30%">
+                        <a href="#" style="color:skyblue">Tranfer from and to the port</a>
+                    </td>
+                    <td width="10%">
+                        <label style="font-weight: 500;">10.00</label>
+                    </td>
+                    <td width="30%">
+                        <label style="font-weight: 500;">one time - per room</label>
+                    </td>
+                    <td width="20%">
+                        <a href="#" style="color:red"><i class="fa fa-times" aria-hidden="true"></i> Delete</a>
+                    </td>
+                </tr>-->
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="row">
+                        <a href="#" style="color: chartreuse"><i class="fa fa-arrows" aria-hidden="true"></i> Add</a>
+                    </div>
+                    <div id="divpopupaddons" style="margin: 0px; padding: 0px; position: fixed; right: 0px; top: 0px; width: 100%; height: 100%; background-color: #000000; z-index: 10; opacity: 2; filter: alpha(opacity=70); display: none; background: rgba(0,0,0,0.6); overflow: hidden;">
+                        <div id="form" align="center">
+                            <form class="col-sm-6  col-xs-12" id="delpopform" style="padding-right:0px; height: 180px;margin: 0px auto; float: none; position: absolute; z-index: 10; position: relative; top: 200px; opacity: 2; background: rgba(0,0,0,0.6); background: whitesmoke; border: 5px solid #cccccc; border-radius: 10px;">
+                                <div class="col-sm-12 col-md-12 col-xs-12 " style="margin-top:45px">
+                                    <label style="font-size: 18px;">Are you sure you want to delete?</label>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" align="center" style="margin-top:25px">
+                                    <a><input type="button" id="btnsubmit2" class="btn btn-primary" ng-click="deletepopup()" value="Ok" /></a>
+                                    <input type="button" id="btncancel2" class="btn btn-primary" ng-click="canceldeletepopup()" value="Cancel" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+    </section>
+</main>
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

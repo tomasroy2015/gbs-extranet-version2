@@ -130,6 +130,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
             url: appSettings.API_BASE_URL + 'addrooms/EditAttributeHeaders',
             params: {hotelroomid: $scope.hotelroomid }
         }).success(function (response, status, headers, config) {
+            
             $scope.Editattributeheader = response;
             $scope.Editattributeheader = response;
             _.forEach($scope.AttributeHeaders, function (h) {
@@ -214,12 +215,27 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         AttributeHeaders();
     }
 
+    var headarr = [];
+    var scopearr = [];
     function AttributeHeaders() {
         $http({
             method: 'GET',
             url: appSettings.API_BASE_URL + 'addrooms/AttributeHeaders',
         }).success(function (response, status, headers, config) {
+
+           // alert(response)
             $scope.AttributeHeaders = response;
+           // alert(response.length);
+            //for (var i = 0; i < response.length; i++)
+            //{
+            //    headarr.push($scope.AttributeHeaders[i].AttributeHeaderName)
+            //}
+            //var uniqueNames = [];
+            //$.each(headarr, function (i, el) {
+            //    if ($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+            //});
+            //$scope.dfgdf = uniqueNames;
+            //alert(uniqueNames)
            
         }).error(function (response) {
             // alert('error')
@@ -230,6 +246,11 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
             EditDisplay();
         }
     }
+    $scope.myFilter = function (item) {
+      
+        return item === 'Pool and wellnessPool' || item === 'Activities';
+
+    };
     $scope.bntbalck = function () {
         sessionFactory.RemoveByKey(SessionStore.Hotelroomid);
         $location.path("room-" + sessionFactory.GetData(SessionStore.currentLanguage));

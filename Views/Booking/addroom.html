@@ -266,19 +266,25 @@
                                                     <tbody>
                                                         <tr>
                                                             <td>
-                                                                <label style="font-weight: 500; margin-top: 15px;" ng-repeat="ah in AttributeHeaders" class="col-md-3">
-                                                                    <input type="checkbox" class="chkAttributes" ng-checked="ah.IsSelected" ng-model="ah.IsSelected" id="{{ah.AttributeId}}" name="{{ah.AttributeId}}" value="{{ah.AttributeId}}">
+                                                               
+                                                                <div style=" font-weight:500; margin-top:15px;"  ng-repeat="ah in AttributeHeaders">
 
-                                                                    <input name="value" type="hidden" value="false" style="font-weight: 500;">
-                                                                    {{ah.AttributeName}}
-                                                                </label>
+                                                                    <div class="col-md-12" ng-show="ah.AttributeHeaderName != '' ">
+                                                                        <label style="font-weight: 700; float: left; margin-top: 3px; font-size: 18px;">{{ah.AttributeHeaderName}}</label>
+                                                                    </div>
+                                                                    <div class="col-md-12" ng-show="ah.AttributeHeaderName != '' ">
+                                                                        <hr style="margin: 0px;" />
+                                                                        <div style="height:10px">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3" style="margin-top: 5px;">
+                                                                        <input type="checkbox" class="chkAttributes" ng-checked="ah.IsSelected" ng-model="ah.IsSelected" id="{{ah.AttributeId}}" name="{{ah.AttributeId}}" value="{{ah.AttributeId}}">
 
-                                                                <!--<label style="color: black; margin-top: 15px;" ng-repeat="cd in Editattributeheader" class="col-md-3">
-                                            <input type="checkbox" ng-checked="AttributeId.indexOf {{cd.AttributeId}} > -1" ng-model="rec.isSpecial">
-
-                                            <input name="value" type="hidden" value="false">
-                                            {{cd.AttributeName}}
-                                        </label>-->
+                                                                        <input name="value" type="hidden" value="false" style="font-weight: 500;">
+                                                                        {{ah.AttributeName}}
+                                                                    </div>
+                                                                  
+                                                                </div>                                                              
                                                             </td>
                                                         </tr>
                                                     </tbody>

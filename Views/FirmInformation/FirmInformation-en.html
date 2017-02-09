@@ -1,0 +1,139 @@
+﻿<!--BalsTechnology-SK-->
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<style ng-bind-html="barColorStyle"></style>
+
+<style>
+    @media (max-width:750px)
+    {
+        #divalign
+        {
+            margin-left:0px !important;
+        }
+    }
+</style>
+
+<main>
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Firm Information
+                    </h3>
+                </div>
+                <div class="panel-body admin-table-body-wrapper">
+                    <div class="row" style="border: 1px solid #ddd;border-radius: 2px; padding: 5px;">
+
+
+                      <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px">
+                          <div class="col-md-12 col-sm-12 col-xs-12" align="center" style="margin-bottom:20px">
+                              <h5>Firm Information</h5>
+                          </div>
+                          <div class="col-md-3 col-sm-12 col-xs-12"></div>
+                          <div class="col-md-8 col-sm-12 col-xs-12" style="margin-left:60px;" id="divalign">
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Firm Name</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.Name}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Country</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.Country}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>City</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.City}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Address</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.Address}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Phone</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.Phone}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Fax</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.Fax}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Postal Code</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.PostCode}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Email</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.Email}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Tax Office</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.TaxOffice}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Tax ID No</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.TaxID}}</p>
+                                  </div>
+                              </div>
+                              <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px;margin-bottom:5px;">
+                                  <div class="col-md-4 col-sm-6 col-xs-6">
+                                      <label>Executive Name</label>
+                                  </div>
+                                  <div class="col-md-6 col-sm-6 col-xs-6">
+                                      <p>{{firmInfo.ExecutiveName}} {{firmInfo.ExecutiveSurname}}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

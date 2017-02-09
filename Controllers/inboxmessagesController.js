@@ -18,7 +18,7 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
 
     $scope.initializeController = function () {
         $scope.IsHotelAdmin = $scope.CurrentUser.IsHotelAdmin;
-
+        //alert($scope.IsHotelAdmin)
         $scope.ViewType = ViewType;
         $scope.MenuType = MenuType;
         var language = sessionFactory.GetData(SessionStore.currentLanguage);
@@ -54,19 +54,17 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
     }
 
     function Getuseremail() {
-
         $http({
             method: 'GET', url: appSettings.API_BASE_URL + 'inbox/getuseremail',
             params: {
+                UserID:$scope.CurrentUser.ID,
                 cultureCode: $scope.langCode
             }
         }).success(function (response, status, headers, config) {
             $scope.Useremail = response;
-
         }).error(function (response) {
             Materialize.toast("Something wrong happens in sever:" + response.Message, 1000, "red");
         });
-
     }
 
 
@@ -104,13 +102,22 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
 
     $scope.newmessage = function () {
         $("#divmsgsend").show();
+        $("#divmsgreply").hide();
     };
 
     $scope.sendmessage = function () {
         $scope.ReceiverUserID = angular.element('#drpemailto').val();
         $scope.Subject = angular.element('#txtsubject').val();
-        $scope.Message = angular.element('#txtmessage').val();
-        
+        //$scope.Message = angular.element('#txtmessage').val();
+        //alert($("#txtmessage").val());
+        //$scope.Message = $('#txtmessage').html();
+        //alert($scope.Message)
+
+        var text = $("#txtmessage").val();
+        text = text.replace(/\r?\n/g, '<br />');
+
+        text = text.split('<br />').join('<br/>');
+        $scope.Message = text.split(' ').join('&nbsp;');
         if ($scope.ReceiverUserID == 0)
         {
             $('#drpemailto').css('border-color', 'red');
@@ -166,6 +173,105 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
         $('#drpemailto').css('border-color', '#ddd');
         $('#txtsubject').css('border-color', '#ddd');
         $('#txtmessage').css('border-color', '#ddd');
+    };
+
+    var fromname = "";
+    $scope.clickmessage = function (MessageID) {
+        $("#divmsgreply").show();
+        $("#divmsgsend").hide();
+        $http({
+            method: 'GET', url: appSettings.API_BASE_URL + 'inbox/getfullmessage',
+            params: {
+                MessageID: MessageID,
+                cultureCode: $scope.langCode
+            }
+        }).success(function (response, status, headers, config) {
+
+            $scope.parmessage = response[0];
+            $('#txtfromrpy').html("");
+            $('#txtsubjectrpy').html("");
+            $('#txtmessagerpy').html("");
+
+            $('#txtsubjectrpy').append($scope.parmessage.Subject);
+            $('#txtmessagerpy').append($scope.parmessage.MessageInfo);
+            fromname = $scope.parmessage.UserName + ' ( ' + $scope.parmessage.HotelName + ' ) '
+            $('#txtfromrpy').append(fromname);
+
+
+            
+            Getinboxmessages();
+        }).error(function (response) {
+            Materialize.toast("Something wrong happens in sever:" + response.Message, 1000, "red");
+        });
+
+    };
+
+    $scope.cancelrpymessage = function () {
+        $("#divmsgreply").hide();
+        $('#txtfromrpy').html("");
+        $('#txtsubjectrpy').html("");
+        $('#txtmessagerpy').html("");
+
+    };
+
+    $scope.replybtnclick = function () {
+        $("#divreplypopup").show();
+        $('#txtareareply').val('');
+        $('#lblusermsgtime').text('');
+        $('#lblusermsgcon').text('');
+        var textappend = "On " + $scope.parmessage.CreatedDate + " at " + $scope.parmessage.CreatedTime + ", " + fromname + " wrote:"
+        $('#lblusermsgtime').append(textappend);
+
+        $('#lblusermsgcon').append("&nbsp;&nbsp;&nbsp;" + $scope.parmessage.MessageInfo);
+    };
+
+    $scope.replypopcancel = function () {
+        $("#divreplypopup").hide();
+        $('#txtareareply').val('');
+        $('#lblusermsgtime').text('');
+        $('#lblusermsgcon').text('');
+    };
+
+    $scope.replysendmessage = function () {
+ 
+        //$scope.ReplyMessage = angular.element('#txtareareply').val();
+        var text = $("#txtareareply").val();
+        text = text.replace(/\r?\n/g, '<br />');
+
+        text = text.split('<br />').join('<br/>');
+        $scope.ReplyMessage = text.split(' ').join('&nbsp;');
+
+        var resubject = "Re - " + $scope.parmessage.Subject;
+
+        if ($scope.ReplyMessage == "") {
+            $('#txtareareply').css('border-color', 'red');
+        }
+        else {
+            $('#txtareareply').css('border-color', '#ddd');
+        }
+        if ($scope.ReplyMessage != "") {
+            $http({
+                method: 'GET', url: appSettings.API_BASE_URL + 'inbox/sendmessage',
+                params: {
+                    SenderID: $scope.CurrentUser.ID,
+                    ReceiverID: $scope.parmessage.ReplySenderUserID,
+                    Subject: resubject,
+                    Message: $scope.ReplyMessage,
+                    cultureCode: $scope.langCode
+                }
+            }).success(function (response, status, headers, config) {
+                if (response == 1) {
+                    $("#divreplypopup").hide();
+                    Materialize.toast("Successfully Replied the Message.", 1000, "green");
+                    $('#txtareareply').val("");
+                }
+            }).error(function (response) {
+                $("#divreplypopup").hide();
+                Materialize.toast("Something wrong happens in sever:" + response.Message, 1000, "red");
+            });
+        }
+
+
     };
 
     $scope.goToMenu = function (type) {

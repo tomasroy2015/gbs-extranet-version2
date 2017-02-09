@@ -162,6 +162,18 @@
 
 </style>
 
+<style>
+    .dropdown.dropdown-scroll .dropdown-menu {
+        max-height: 200px;
+        width: 60px;
+        overflow: auto;
+    }
+
+    .search-control {
+        padding: 5px 10px;
+    }
+</style>
+
 <style ng-bind-html="barColorStyle"></style>
 <main>
     <section id="property">
@@ -184,10 +196,28 @@
                                         <label>To</label>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
+                                        <!--<div class="dropdown dropdown-scroll">
+                                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                                Select <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                                <li role="presentation">
+                                                    <div class="input-group input-group-sm search-control">
+                                                        <span class="input-group-addon">
+                                                            <span class="glyphicon glyphicon-search"></span>
+                                                        </span>
+                                                        <input type="text" class="form-control" placeholder="Query" ng-model="query"></input>
+                                                    </div>
+                                                </li>
+                                                <li role="presentation" ng-repeat='item in Useremail | filter:query'>
+                                                    <a href="#"> {{item.UserName}} </a>
+                                                </li>
+                                            </ul>
+                                        </div>-->
                                         <select id="drpemailto" class="browser-default" style="border-color: #ddd; border-radius: 4px;font-size:13px">
-                                            <option style="font-size:13px" value="0">Select</option>
-                                            <option style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}} ( {{UE.HotelName}} )</option>
-                                        </select>
+                                        <option style="font-size:13px" value="0">Select</option>
+                                        <option style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}} ( {{UE.HotelName}} )</option>
+                                    </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12" style="margin-bottom: 10px">
@@ -195,7 +225,7 @@
                                         <label>Subject </label>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
-                                        <input type="text" id="txtsubject" class="form-control" style="border-radius: 4px; width: 98%; font-size: 13px; padding-left: 10px; border: 1px solid #ccc;" />
+                                        <input type="text" id="txtsubject" placeholder="Subject.." class="form-control" style="border-radius: 4px; width: 98%; font-size: 13px; padding-left: 10px; border: 1px solid #ccc;" />
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
@@ -203,7 +233,7 @@
                                         <label>Message </label>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
-                                        <textarea class="form-control" id="txtmessage" style="height:100px;font-size:13px"></textarea>
+                                        <textarea class="form-control" id="txtmessage" placeholder="Message.." style="height:100px;font-size:13px"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
@@ -217,11 +247,47 @@
 
                             </div>
 
-                            <div class="col-md-8 col-sm-8 col-xs-12 widthxs1" style="width:70%">
-                                <label style="font-size: 20px;">Message inbox</label>
-
+                            <div class="col-md-12 col-sm-12" id="divmsgreply" style="display:none">
+                                <div class="col-md-12 col-sm-12" style="margin-bottom:10px">
+                                    <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
+                                        <label>From</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <label id="txtfromrpy" style="width: 98%; font-size: 13px; font-weight: 500; padding-left: 10px;" />
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12" style="margin-bottom: 10px">
+                                    <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
+                                        <label>Subject </label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <label id="txtsubjectrpy" style="width: 98%; font-size: 13px; font-weight: 500; padding-left: 10px;" />
+                                        <!--<input type="text" id="txtsubjectrpy" class="form-control" style="border-radius: 4px; width: 98%; font-size: 13px; padding-left: 10px; border: 1px solid #ccc;" />-->
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
+                                        <label>Message </label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6" style=" font-size: 13px;">
+                                        <label id="txtmessagerpy" style="padding-left: 10px; font-weight: 500; word-wrap: break-word;"></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
+                                    </div>
+                                    <div class="col-md-6 col-sm-6" align="center" style="margin-top:10px">
+                                        <input type="button" id="btnsendnew" class="btn btn-primary" ng-click="replybtnclick()" value="Reply" />
+                                        <a><input type="button" id="btncancelnew" class="btn btn-primary" ng-click="cancelrpymessage()" value="Cancel" /></a>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 widthxs2" style="width:30%">
+
+                            <div class="col-md-8 col-sm-8 col-xs-12 widthxs1" style="width:73%">
+                                <label style="font-size: 20px;">Message inbox</label>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 widthxs2" style="width:24%">
                                 <div class="left-inner-addon">
                                     <img src="../../images/messageplus.png" style="height: 33px; width: 32px; margin-left: 9px;" />
                                 </div>
@@ -232,23 +298,23 @@
                             <label style=" margin-left: 17px;">{{Inboxmessageinfo.TotalMsg}} Messages , </label>
                             <label style=" margin-left: 7px; color: rgb(189, 25, 31)">{{Inboxmessageinfo.Unreadmsg}} unread</label>
                         </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            <div class="col-md-8 col-sm-8 col-xs-12 widthxs1" style="padding: 0px; margin-top: 20px; width: 70%; border: 1px solid rgba(128, 128, 128, 0.28)">
-                                <!--<div class="col-md-12" style="padding: 0px; height: 1px; background-color: rgba(128, 128, 128, 0.28);"></div>-->
 
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-md-2 col-sm-2"></div>
+                            <div class="col-md-8 col-sm-8 col-xs-12 widthxs1" style="padding: 0px; margin-top: 20px; border: 1px solid rgba(128, 128, 128, 0.28)">
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="padding: 0px; margin-top: 10px" ng-repeat="IM in Inboxmessage">
                                     <div class="col-md-12 col-sm-12 col-xs-12" style="padding:0px">
                                         <div ng-show="IM.ReadStatus == 'True'" class="col-md-2 col-sm-2 col-xs-2" align="center" style="padding:0px">
-                                            <i class="fa fa-envelope-open-o" style="font-size: 20px; color:grey;cursor:pointer"></i>
+                                            <i class="fa fa-envelope-open-o" style="font-size: 20px; color:grey;cursor:pointer" ng-click="clickmessage(IM.MessageID)"></i>
                                         </div>
                                         <div ng-show="IM.ReadStatus == 'False'" class="col-md-2 col-sm-2 col-xs-2" align="center" style="padding:0px">
-                                            <i class="fa fa-envelope-o" style="font-size: 20px; color:grey;cursor:pointer"></i>
+                                            <i class="fa fa-envelope-o" style="font-size: 20px; color:grey;cursor:pointer" ng-click="clickmessage(IM.MessageID)"></i>
                                         </div>
                                         <div class="col-md-5 col-sm-5 col-xs-5" style="padding:0px">
-                                            <p>{{IM.Subject}}</p>
+                                            <p style="cursor:pointer" ng-click="clickmessage(IM.MessageID)">{{IM.Subject}}</p>
                                         </div>
-                                        <div class="col-md-3 col-sm-3 col-xs-3" style="padding:0px">
-                                            <p>{{IM.CreatedDate}}</p>
+                                        <div class="col-md-3 col-sm-3 col-xs-3" style="">
+                                            <p style="cursor:pointer" ng-click="clickmessage(IM.MessageID)">{{IM.CreatedDate}}</p>
                                         </div>
                                         <div class="col-md-2 col-sm-2 col-xs-2" align="center" style="padding:0px">
                                             <i class="fa fa-trash-o" style="font-size: 20px; color: grey; cursor: pointer" ng-click="deletemessage(IM.MessageID)"></i>
@@ -261,27 +327,26 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4 col-sm-4 col-xs-12 widthxs2" style="padding: 0px; border: 2px solid rgba(128, 128, 128, 0.28); margin-top: 20px;width:29%;margin-left:7px">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <h5 style=" font-size: 18px; font-weight: 900;">Contact Details</h5>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <p style=" font-size: 14px; font-weight: 600;">Reservation related question</p>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <p style=" font-size: 12px; font-weight: 500;">if you have any questions about your reservation, please <span style=" font-size: 12px; font-weight: 500;color:blue">send us a message.</span></p>
-                                </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label style=" font-size: 14px; font-weight: 600;">Invoices</label>
-                                </div>
+                            <!--<div class="col-md-4 col-sm-4 col-xs-12 widthxs2" style="padding: 0px; border: 2px solid rgba(128, 128, 128, 0.28); margin-top: 20px;width:29%;margin-left:7px">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <h5 style=" font-size: 18px; font-weight: 900;">Contact Details</h5>
                             </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <p style=" font-size: 14px; font-weight: 600;">Reservation related question</p>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <p style=" font-size: 12px; font-weight: 500;">if you have any questions about your reservation, please <span style=" font-size: 12px; font-weight: 500;color:blue">send us a message.</span></p>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <label style=" font-size: 14px; font-weight: 600;">Invoices</label>
+                            </div>
+                        </div>-->
                         </div>
 
                     </div>
 
-                    <div id="divpopupconfirm" style="margin: 0px; padding: 0px; position: fixed; right: 0px;
-top: 0px; width: 100%; height: 100%; background-color:#000000; z-index: 10;
-opacity:2; filter: alpha(opacity=70);display:none;background:rgba(0,0,0,0.6); overflow:hidden ">
+                    <div id="divpopupconfirm" style="margin: 0px; padding: 0px; position: fixed; right: 0px;top: 0px; width: 100%; height: 100%; 
+                                                    background-color:#000000; z-index: 10;opacity:2; filter: alpha(opacity=70);display:none;background:rgba(0,0,0,0.6); overflow:hidden ">
                         <div id="form" align="center">
                             <form class="col-sm-6  col-xs-12" id="delpopform" style="padding-right:0px; height: 180px;width:30%; margin: 0px auto; float: none; position: absolute; z-index: 10; position: relative; top: 200px; opacity: 2; background: rgba(0,0,0,0.6); background: whitesmoke; border: 5px solid #cccccc; border-radius: 10px;">
                                 <div class="col-sm-12 col-md-12 col-xs-12 " style="margin-top:45px">
@@ -294,13 +359,29 @@ opacity:2; filter: alpha(opacity=70);display:none;background:rgba(0,0,0,0.6); ov
                             </form>
                         </div>
                     </div>
-
-
-
-
+                    
+                    <div id="divreplypopup" style="margin: 0px; padding: 0px; position: fixed; right: 0px;top: 0px; width: 100%; height: 100%;
+                                             background-color:#000000; z-index: 10;opacity:2; filter: alpha(opacity=70);display:none;background:rgba(0,0,0,0.6); overflow:hidden">
+                        <div id="form" align="center">
+                            <form class="col-sm-6  col-xs-12" id="delpopform" style="padding-right:0px; height: 500px;width:50%; margin: 0px auto; float: none; position: absolute; z-index: 10; position: relative; top: 85px; opacity: 2; background: rgba(0,0,0,0.6); background: whitesmoke; border: 5px solid #cccccc; border-radius: 10px;">
+                                <div class="col-sm-12 col-md-12 col-xs-12 " style="margin-top:45px">
+                                    <textarea id="txtareareply" style="height:130px" class="form-control"></textarea>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xs-12 " style="margin-top:25px">
+                                    <label style="font-size: 14px; float: left;font-weight:500" id="lblusermsgtime"></label>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-xs-12 " style="margin-top: 15px; height: 160px; overflow-y: scroll;">
+                                    <label style="font-size: 14px; float: left; text-align: left; word-wrap: break-word;" id="lblusermsgcon"></label>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" align="center" style="margin-top:25px">
+                                    <a><input type="button" id="btnsubmit2" class="btn btn-primary" ng-click="replysendmessage()" value="Send" /></a>
+                                    <input type="button" id="btncancel2" class="btn btn-primary" ng-click="replypopcancel()" value="Cancel" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </section>
 </main>
