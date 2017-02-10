@@ -66,12 +66,21 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             else if (type == ViewType.FirmInformation) {
                 $location.path("firmInformation-" + sessionFactory.GetData(SessionStore.currentLanguage));
             }
+            else if (type == ViewType.ChangePassword) {
+                $location.path("changePassword-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
+            else if (type == ViewType.SystemSettings) {
+                $location.path("systemSettings-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
             else if (type == ViewType.Inbox) {
                 $location.path("inboxmessages-" + sessionFactory.GetData(SessionStore.currentLanguage));
             }
             //Balstechnology-AJ
             else if (type == ViewType.PropertyRooms) {
                 $location.path("room-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
+            else if (type == ViewType.Addonservices) {
+                $location.path("addonservice-" + sessionFactory.GetData(SessionStore.currentLanguage));
             }
         },
         SetCurrentMenu:function(type){
@@ -90,11 +99,18 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.Reservations);
             }
             //BalsTechnology-SK   
+            else if (type == 37 || type == 38 || type == 39) {
+                sessionFactory.SetData(SessionStore.currentMenu, MenuType.Settings);
+            }
+
             else if (type == 32 || type == 33 || type == 34 || type == 36) {
                 sessionFactory.SetData(SessionStore.currentMenu, MenuType.Finance);
             }
             else if (type == 35) {
                 sessionFactory.SetData(SessionStore.currentMenu, MenuType.Inbox);
+            }
+            else if (type == 40) {
+                sessionFactory.SetData(SessionStore.currentMenu, MenuType.WebsiteContent);
             }
             else{
                 sessionFactory.SetData(SessionStore.currentMenu,MenuType.Dashboard);

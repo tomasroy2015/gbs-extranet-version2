@@ -94,6 +94,8 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/monthlyRevenue-en', { templateUrl: 'Views/Maintenance/Invoices/monthlyRevenue-en.html', controller: 'monthlyRevenueController' }).
         when('/inboxmessages-en', { templateUrl: 'Views/Inbox/inboxmessages-en.html', controller: 'inboxmessagesController' }).
         when('/firmInformation-en', { templateUrl: 'Views/FirmInformation/firmInformation-en.html', controller: 'firmInformationController' }).
+        when('/changePassword-en', { templateUrl: 'Views/Settings/changePassword-en.html', controller: 'changePasswordController' }).
+        when('/systemSettings-en', { templateUrl: 'Views/Settings/systemSettings-en.html', controller: 'systemSettingsController' }).
         when('/reservationStatement-en', { templateUrl: 'Views/Reservation/reservationStatement-en.html', controller: 'reservationStatementController' });
 
 
@@ -219,7 +221,8 @@ gbsApp.constant("ViewType", {
     PropertyFacilities:22,
     Photos:23,
     PropertyRooms:24,
-    PropertyPage:25,
+    PropertyPage: 25,
+    Addonservices:40,
 
     HotelRateOverView:26,
     RateAndAvailability:27,
@@ -232,7 +235,10 @@ gbsApp.constant("ViewType", {
     MonthlyRevenue: 33,
     ReservationStatement: 34,
     Inbox: 35,
-    FirmInformation: 36
+    FirmInformation: 36,
+    ChangePassword: 37,
+    PropertyCommission: 38,
+    SystemSettings: 39
 });
 gbsApp.constant("MenuType", {
     Dashboard:0,

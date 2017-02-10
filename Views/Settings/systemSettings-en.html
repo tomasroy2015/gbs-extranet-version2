@@ -1,0 +1,451 @@
+﻿
+
+
+<!--BalsTechnology-SK-->
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css" />
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<style ng-bind-html="barColorStyle"></style>
+
+
+
+<style type="text/css">
+    select.browser-default {
+        color: #000;
+        border-color: #c5c4c4;
+        height: 30px;
+        padding-top: 0px;
+        font-size: 16px;
+    }
+
+    h5 {
+        margin-bottom: 5px;
+    }
+    hr
+    {
+        margin:0px;
+    }
+
+    [type="radio"]:not(:checked), [type="radio"]:checked {
+        position: absolute;
+        left: 15px;
+        opacity: 1;
+    }
+
+</style>
+
+
+<main>
+    <section id="property">
+        <div class="row" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        System Settings
+                    </h3>
+                </div>
+
+                <div class="panel-body admin-table-body-wrapper">
+                    <div class="row" style="border: 1px solid #ddd;border-radius: 2px;padding: 5px;">
+                      
+                        <div class="col-md-12 col-sm-12 col-xs-12" style=""  >
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Last-minute bookings without credit card details</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chklatebook" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            <b style="margin-right: 6px;">Same-day Late Bookings:</b>I don't need credit card details for guests booking between 16:00 to
+                                            midnight and arriving the same day when I have following minimum availability of rooms:
+                                        </p>
+                                    </div>
+                                    <div class="col-md-1" style="width: 90px;">
+                                        <select id="drplatebook" class="browser-default">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px; " type="checkbox" id="chkearlybook" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            <b style="margin-right: 6px;">Same-day Early Bookings:</b>I don't need credit card details for guests booking between 09:00 to
+                                            16:00 and arriving the same day when I have following minimum availability of rooms:
+                                        </p>
+                                    </div>
+                                    <div class="col-md-1" style="width: 90px;">
+                                        <select id="drpearlybook" class="browser-default">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px; " type="checkbox" id="chknextbook" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            <b style="margin-right: 6px;">Next-day Bookings:</b>I don't need credit card details for guests arriving
+                                            the next day when I have following minimum availability of rooms:
+                                        </p>
+                                    </div>
+                                    <div class="col-md-1" style="width: 90px;">
+                                        <select id="drpnextbook" class="browser-default">
+                                            <option value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Genius Freebies</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chklatecheckout" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Priority late check-out - Genius guests can check-out two hours after the scheduled check-out time if it's available.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkearlycheckin" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Priority early check-in - Genius guests can check-in two hours before the scheduled check-in time if it's available.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkairportshuttle" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Airport shuttle - Genius guests get free transfer between the airport and the property.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkdrink" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Welcome drink - Genius guests will be greeted with a free welcome drink upon arrival.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkbike" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Frre bike rental - Genius guests can rent bikes at the property for free.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkbreakfast" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Free breakfast - Genius guests will get free breakfast at the property.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkparking" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Free parking - Genius guests will get free parking  at the property.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkwifi" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Free WiFi - Genius guests will get free WiFi  at the property.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Rate mixing</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkratemissing" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            I want my rates to be combined automatically, allowing my property to appear in a wide variety of customer searches.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>No address details from guests</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chknoaddress" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            I don't require guests to provide their address details.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Arrivals today and tomorrow notification</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkarrivaltdy" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            I wish to receive this daily overview of my reservations.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Auto replenishment of closed rooms</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkautoreplenish" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            I wish to have my closed rooms replenished automatically.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>SMS notifications</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chksmsnotify" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Would you like to receive a text message for guests who book and are arriving within:
+                                        </p>
+                                        <select class="browser-default" id="drpsmsnotify" style="width: 130px; margin-left: 6px; margin-top: -3px;">
+                                            <option value="0">select</option>
+                                            <option value="1">1 hours</option>
+                                            <option value="2">2 hours</option>
+                                            <option value="3">3 hours</option>
+                                            <option value="4">4 hours</option>
+                                            <option value="5">5 hours</option>
+                                            <option value="6">6 hours</option>
+                                            <option value="7">7 hours</option>
+                                            <option value="8">8 hours</option>
+                                            <option value="9">9 hours</option>
+                                            <option value="10">10 hours</option>
+                                            <option value="11">11 hours</option>
+                                            <option value="12">12 hours</option>
+                                            <option value="13">13 hours</option>
+                                            <option value="14">14 hours</option>
+                                            <option value="15">15 hours</option>
+                                            <option value="16">16 hours</option>
+                                            <option value="17">17 hours</option>
+                                            <option value="18">18 hours</option>
+                                            <option value="19">19 hours</option>
+                                            <option value="20">20 hours</option>
+                                            <option value="21">21 hours</option>
+                                            <option value="22">22 hours</option>
+                                            <option value="23">23 hours</option>
+                                            <option value="24">24 hours</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Gbshotels.com notifications</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkbookingnotify" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            would you like to receive an email when Gbshotels.com sends a message to your extranet inbox?
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Guests message notifications</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkguestmsgnotify" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            would you like to receive an email when a guest sends you a message?
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" style="font-size: 13px;">
+                                    <p>Notifications will be emailed to the same address where you receive reservation confirmations.</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Credit card at check-in</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <p style=" margin-bottom: 5px; ">
+                                            Do guests need to provide a credit card upon check-in for damage deposits, incidentals or any extras
+                                            they purchase during their stay?
+                                        </p>
+                                    </div>
+                                    <div class="col-md-1" style="color: #0479d0; width: 50px;">
+                                       <input type="radio" name="damagecost" id="rddamagecostyes" /><p style=" margin-left: 15px;">Yes</p>
+                                    </div>
+                                    <div class="col-md-1" style="color: #0479d0; width: 50px;">
+                                        <input type="radio" name="damagecost" id="rddamagecostno" /><p style=" margin-left: 15px;">No</p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Can guests book without providing a phone number?</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    
+                                    <div class="col-md-1" style="color: #0479d0; width: 50px;">
+                                        <input type="radio" name="phone" id="rdphoneyes" /><p style=" margin-left: 15px;">Yes</p>
+                                    </div>
+                                    <div class="col-md-1" style="color: #0479d0; width: 50px;">
+                                        <input type="radio" name="phone" id="rdphoneno" /><p style=" margin-left: 15px;">No</p>
+                                    </div>
+                                    <div class="col-md-12" style="">
+                                        <p style=" margin-bottom: 5px;font-size:13px; ">
+                                            Guests are more likely to make a reservation if they don't need to leave a number.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Customize Competitive Set</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12" style="display:flex">
+                                        <p style="color: #0479d0; margin-bottom: 5px;font-size:13px; ">
+                                            View and customize your competitive set
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" style="margin-bottom:20px">
+                                <div class="col-md-12" style="margin-bottom: 15px">
+                                    <h5>Waive some cancellation fees</h5><hr />
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
+                                    <div class="col-md-12">
+                                        <p>Save yourself time dealing with some cancellations. choose an option below: </p>
+                                    </div>
+                                    <div class="col-md-12" style="display:flex">
+                                        <input class="input-checkbox" style="width: 15px; height: 15px;" type="checkbox" id="chkgraceperiod" />
+                                        <p style="color: #0479d0; margin-left: 6px; margin-bottom: 5px; ">
+                                            Grace Period
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px;">
+                                    <div class="col-md-12">
+                                        <p>Waive cancellation fees for guests who cancel their bookings 1, 4, or 24 hours after they book 
+                                        (excludes last-minute bookings made up to 48 hours before check-in) </p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-12" style="display:flex">
+                                            <input type="radio" name="waive" id="waive1hour" />
+                                            <p style="color: #0479d0; margin-left: 15px; margin-bottom: 5px; ">
+                                                1 hour after booking: Handles instant cancellation requests.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12" style="display:flex">
+                                            <input type="radio" name="waive" id="waive4hour" />
+                                            <p style="color: #0479d0; margin-left: 15px; margin-bottom: 5px; ">
+                                                4 hour after booking: covers most accidental bookings.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-12" style="display:flex">
+                                            <input type="radio" name="waive" id="waive24hour" />
+                                            <p style="color: #0479d0; margin-left: 15px; margin-bottom: 5px; ">
+                                                24 hour after booking: Protects you from the highest amount of cancellation requests.
+                                            </p>
+                                        </div>
+                                    </div>
+                                  
+                                </div>
+                            </div>
+
+                            <div align="center">
+                                <input style="width: 150px;" type="button" class="btn btn-success" value="Save" ng-click="SaveSettings()">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--<section id="property">
+
+     </section>-->
+
+</main>
+
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>
