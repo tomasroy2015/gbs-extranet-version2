@@ -1,0 +1,287 @@
+﻿<!--BalsTechnology-SK-->
+<link href="/bower_components/materialize/dist/css/materialize.css" rel="stylesheet" type="text/css" />
+<link href="/css/admin.css" rel="stylesheet" type="text/css" />
+<link href="/css/themes/main/materialize-red.css" id="ssMainColor" rel="stylesheet" type="text/css" />
+<link href="bower_components/seiyria-bootstrap-slider/css/bootstrap-slider.css" rel="stylesheet" type="text/css" />
+
+
+<style ng-bind-html="barColorStyle"></style>
+<style>
+
+    label {
+        font-size: 12px;
+        color: #000;
+    }
+
+    input[type=text] {
+        text-align: center;
+    }
+
+        input[type=text]:disabled {
+            color: #000;
+        }
+
+
+    .input-group {
+        margin-top: 5px;
+        width: 77%;
+    }
+
+    input[type=text] {
+        margin-bottom: 0px;
+        height: 29px;
+        border: 1px solid #ddd;
+    }
+</style>
+
+
+<style>
+    select.browser-default {
+        border: 1px solid #ddd;
+    }
+</style>
+
+<style>
+        @media only screen and (max-width: 623px), (min-device-width: 100px) and (max-device-width: 500px) {
+
+            /* Force table to not be like tables anymore */
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+                /* Hide table headers (but not display: none;, for accessibility) */
+                thead tr {
+                    position: absolute;
+                    top: -9999px;
+                    left: -9999px;
+                }
+
+            tr {
+                border: 1px solid #ccc;
+            }
+
+            td {
+                /* Behave  like a "row" */
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                /*padding-left: 50% !important;*/
+                white-space: nowrap;
+                word-break: break-all;
+            }
+
+            .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+                line-height: 1.428571 !important;
+            }
+
+            td:before {
+                /* Now like a table header */
+                position: absolute;
+                /* Top/left values mimic padding */
+                top: -4px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px !important;
+                white-space: nowrap;
+                word-break:break-all;
+            }
+
+            /*
+    Label the data
+    */
+            td:nth-of-type(1):before {
+                content: "Commission Start Date";
+            }
+
+            td:nth-of-type(2):before {
+                content: "Commission End Date";
+            }
+
+            td:nth-of-type(3):before {
+                content: "Commission";
+            }
+
+
+            /*td:nth-of-type(3):before { content: "Edit"; }
+    td:nth-of-type(4):before { content: "Delete"; }*/
+
+        }
+</style>
+
+
+<div ng-init="initializeController()" id="menus" ng-include="'/Views/Header/AdminMenus-en.html'"></div>
+
+<main>
+    <section id="property">
+        <div class="" style="margin-top: 2%">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Property Commission
+                    </h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="" style="border: 1px solid #ddd;
+                                            border-radius: 2px;
+                                            padding: 5px;">
+                        <div class="table-responsive">
+
+                            <table class="table table-responsive table-bordered" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <td>
+                                            Commission Start Date
+                                        </td>
+                                        <td>
+                                            Commission End Date
+                                        </td>
+                                        <td>
+                                            Commission
+                                        </td>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="comis in displayColl">
+                                        <td style="">
+                                            {{comis.commissionStartDate}}
+                                        </td>
+                                        <td style="">
+                                            {{comis.commissionEndDate}}
+                                        </td>
+                                        <td style="">
+                                            {{comis.commissionComission}}
+                                        </td>
+                                        <!--<td style=""></td>-->
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-md-12">
+                                <div class="btn-group pull-right">
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            ng-if="paging.prev"
+                                            title="{{'GO_TO_PAGE'}} {{page}}"
+                                            ng-click="setPage(paging.prev)">
+                                        <span class="glyphicon glyphicon-chevron-left"></span>
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            title="{{'GO_TO_PAGE'}} {{page}}"
+                                            ng-repeat="page in paging.pages"
+                                            ng-class="{'active' : page === currentPage}"
+                                            ng-click="setPage(page)">
+                                        {{page}}
+                                    </button>
+                                    <button type="button"
+                                            class="btn btn-default btn-sm"
+                                            ng-if="paging.next"
+                                            title="{{'GO_TO_PAGE'}} {{paging.next}}"
+                                            ng-click="setPage(paging.next)">
+                                        <span class="glyphicon glyphicon-chevron-right"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <form name="dateForm" novalidate>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-horizontal" style="display: flex;">
+                                                <label style="padding-top: 12px; width: 12%; font-size: 14px; font-weight: 500">Commission Start Date:</label>
+                                                <span class="input-group" style="width:18%">
+                                                    <input input-date
+                                                           type="text"
+                                                           name="startDate"
+                                                           id="inputStart"
+                                                           ng-model="startDate"
+                                                           container=""
+                                                           format="dd/mm/yyyy"
+                                                           months-full="{{ month }}"
+                                                           months-short="{{ monthShort }}"
+                                                           weekdays-full="{{ weekdaysFull }}"
+                                                           weekdays-short="{{ weekdaysShort }}"
+                                                           weekdays-letter="{{ weekdaysLetter }}"
+                                                           today="today"
+                                                           first-day="1"
+                                                           clear="clear"
+                                                           close="close"
+                                                           select-years="100"
+                                                           min="{{minDate}}"
+                                                           on-set="onSet()" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" style="height: 31px;
+                                                        width: 50px;
+                                                        padding: 0px;
+                                                        margin-left: 0px;" ng-click="dtOpen1($event)">
+                                                            <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                                        </button>
+                                                    </span>
+
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-horizontal" style="display: flex;">
+                                                <label style="padding-top: 12px;width: 12%;font-size:14px;font-weight:500">Commission End Date:</label>
+                                                <span class="input-group" style="width:18%" ng-blur="CheckDate()">
+
+                                                    <input input-date
+                                                           type="text"
+                                                           name="created"
+                                                           id="inputEnd"
+                                                           ng-model="endDate"
+                                                           container=""
+                                                           format="dd/mm/yyyy"
+                                                           months-full="{{ month }}"
+                                                           months-short="{{ monthShort }}"
+                                                           weekdays-full="{{ weekdaysFull }}"
+                                                           weekdays-short="{{ weekdaysShort }}"
+                                                           weekdays-letter="{{ weekdaysLetter }}"
+                                                           today="today"
+                                                           first-day="1"
+                                                           clear="clear"
+                                                           close="close"
+                                                           select-years="100"
+                                                           min="{{minDate}}"
+                                                           on-set="onSet()" />
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" style="height: 31px;
+                                                        width: 50px;
+                                                        padding: 0px;
+                                                        margin-left: 0px;">
+                                                            <i class="fa fa-calendar" style="font-size: 18px;vertical-align: 0px;"></i>
+                                                        </button>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="display: flex;">
+                                            <label style="padding-top: 12px;width: 12%;font-size:14px;font-weight:500">Commission (%)</label>
+                                            <select style="color: black;width:18%; height: 29px; margin-top: 7px;" class="browser-default" id="commiondrp">
+                                                <option value="0" selected="selected">Select</option>
+                                                <option ng-repeat="cdrp in Commissiondrp" value="{{cdrp.ComissionID}}">{{cdrp.Comission}}</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div style="position: fixed; bottom: 0;width: 100%;">
+                        <div class=" col-md-12 center" style="background-color: #f5f5f5;height: 80px;width: 98%;">
+                            <input type="button" id="btnShow" value="Save" class="btn btn-success" ng-click="SaveComission()" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+<div id="footer" ng-include="'/Views/Footer/footer-en.html'" style=""></div>

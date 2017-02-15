@@ -94,6 +94,9 @@
                 padding-left: 1px !important;
                 padding-right: 2px !important;
             }
+            #txtdiv {
+                margin-top:20% !important;
+            }
            
         }
         @media (max-width:623px) {
@@ -176,13 +179,13 @@ td:nth-of-type(4):before { content: "Delete"; }*/
                 </div>
                 <div class="panel-body">
                     <div class="col-md-12 divpadding" style="border: 1px solid #ddd;padding-left:0px">
-                        <div class="col-md-4 divpadding" style="margin-top: 1%">
+                        <div class="col-md-12 divpadding" style="margin-top: 1%">
                             <!--<button id="btnid" type="button" class="btn btn-block btn-large" style="width: 68%; height: 39px; border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #edac68; font-weight: bold; line-height: 33px; " ng-click="btnnewrecored()">Add-on Services:Add </button>-->
-                            <input type="button" style="border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #edac68; letter-spacing: -.3px !important;" id="btnadd" value="Add-on Services:Add" class="btn btn-success" ng-click="Saveaddons11()">
+                            <input type="button" style="border-bottom-right-radius: 7px; border-top-right-radius: 7px; border-top-left-radius: 7px; border-bottom-left-radius: 7px; background-color: #edac68; letter-spacing: -.3px !important; float: right;" id="btnadd" value="Add Service" class="btn btn-success" ng-click="Saveaddons11()">
                         </div>
-                        <div class="row col-md-12 divpadding" style="margin-top:2%">
+                        <div class="row col-md-12 divpadding" style="margin-top:2%" id="txtdiv">
                             <div class="col-md-2 divpadding" style="padding-left: 0px">
-                                <label style="font-size: 19px; font-weight: 500; margin-top: 3px; ">Title*</label>
+                                <label style="font-size: 14px; font-weight: 500; margin-top: 3px; ">Title*</label>
                             </div>
                             <div class="col-md-4 divpadding">
                                 <input type="text" style="border-color: #b6b6b6 !important;" id="txttitle" class="form-control" />
@@ -201,7 +204,7 @@ td:nth-of-type(4):before { content: "Delete"; }*/
                         </div>
                         <div class="row col-md-12 divpadding">
                             <div class="col-md-2 divpadding" style="padding-left: 0px">
-                                <label style="font-size:19px; font-weight:500; margin-top:3px; ">
+                                <label style="font-size:14px; font-weight:500; margin-top:3px; ">
                                 Price(EUR)*</label>
                             </div>
                             <div class="col-md-2 divpadding">
@@ -213,17 +216,17 @@ td:nth-of-type(4):before { content: "Delete"; }*/
                         </div>
                         <div class="row col-md-12 divpadding">
                             <div class="col-md-2 divpadding" style="padding-left: 0px">
-                                <label style="font-size: 19px; font-weight: 500; margin-top: 3px; ">Change type*</label>
+                                <label style="font-size: 14px; font-weight: 500; margin-top: 3px; ">Change type*</label>
                             </div>
                             <div class="col-md-3 divpadding">
                                 <select class="browser-default" style="border-color: #b6b6b6 !important;" id="drpchangetype">
                                     <option value="0">Select</option>
-                                    <option value="One time - per reservation">One time - per reservation</option>
-                                    <option value="Daily - per room">Daily - per room</option>
+                                    <option ng-repeat="chgtype in drpchangetype" value="{{chgtype.Lanagecode}}">{{chgtype.Lanagecode}}</option>
+                                    <!--<option value="Daily - per room">Daily - per room</option>-->
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12 divpadding" style="margin-bottom: 5px;">
+                        <div class="col-md-12 divpadding" style="margin-bottom: 5px;z-index:9999">
                             <div class="col-md-2 divpadding">
                                 <label style="font-size: 19px; font-weight: 500; margin-top: 3px; "></label>
                             </div>
@@ -258,7 +261,7 @@ td:nth-of-type(4):before { content: "Delete"; }*/
                             <tbody>
                                 <tr ng-repeat="ads in Displayaddons">
                                     <td width="10%" class="tbpre">
-                                        <label style="font-weight:500;">{{ads.HotelId}}</label>
+                                        <label style="font-weight:500;">{{ads.ID}}</label>
 
                                     </td>
                                     <td width="30%" class="tbpre">

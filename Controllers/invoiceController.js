@@ -41,7 +41,7 @@ angular.module("gbsApp").controller("invoiceController", function ($scope, $root
         $http({
             method: 'GET',
             url: appSettings.API_BASE_URL + 'invoice/getinvoice',
-            params: { cultureCode: $scope.langCode, offset: ($scope.currentPage - 1) * $scope.rowsPerPage }
+            params: { hotelID: $scope.CurrentUser.HotelID, cultureCode: $scope.langCode, offset: ($scope.currentPage - 1) * $scope.rowsPerPage }
         }).success(function (response, status, headers, config) {
             $scope.rowCollection = response.rows;
             $scope.InvoiceDetail = [].concat($scope.rowCollection);

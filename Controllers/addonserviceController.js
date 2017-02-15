@@ -13,7 +13,7 @@ angular.module("gbsApp").controller("addonserviceController", function ($scope, 
     $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
     if (!$scope.CurrentUser)
         $location.path("/login-en");
-
+    drpchangetype();
     $scope.initializeController = function () {
         $scope.IsHotelAdmin = $scope.CurrentUser.IsHotelAdmin;
 
@@ -29,19 +29,19 @@ angular.module("gbsApp").controller("addonserviceController", function ($scope, 
         $scope.selectedMenu = mainFactory.GetCurrentMenu();
         Displayaddons1();
     }
-    //$scope.Displayaddons = function () {
-    //    alert('22')
-    //    $http({
-    //        method: 'GET',
-    //        url: appSettings.API_BASE_URL + 'addonservices/Displayaddons',
-    //    }).success(function (response, status, headers, config) {
-    //       // alert(response)
-    //        $scope.Displayaddons = response;
-    //    }).error(function (response) {
-    //        //alert('error')
-    //        Materialize.toast("Server error occured ", 5000, 'red');
-    //    });
-    //}
+    function drpchangetype()
+    {
+        $http({
+            method: 'GET',
+            url: appSettings.API_BASE_URL + 'addonservices/drpchangetype',
+        }).success(function (response, status, headers, config) {
+            // alert(response)
+            $scope.drpchangetype = response;
+        }).error(function (response) {
+            //alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
+        });
+    }
     function Displayaddons1()
     {
        //  alert('1')

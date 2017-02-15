@@ -86,8 +86,9 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
 
     function EditHotelRoomBeds()
     {
+       // alert('sf')
         $scope.hotelroomid = sessionFactory.GetData(SessionStore.Hotelroomid);
-     // alert('2')
+       // alert($scope.hotelroomid)
         $http({
             method: 'GET',
             url: appSettings.API_BASE_URL + 'addrooms/EditHotelRoomBeds',

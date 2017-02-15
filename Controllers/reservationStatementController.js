@@ -45,10 +45,11 @@ angular.module("gbsApp").controller("reservationStatementController",
         function GetReservationStatement() {
             //alert("hi")
             var id = sessionFactory.GetData(SessionStore.InvoiceDetailID);
+            //alert(id)
             $http({
                 method: 'GET', url: appSettings.API_BASE_URL + 'reservation/getReservationStatement',
                 params: {
-                    culture: $scope.langCode, offset: ($scope.currentPage - 1) * $scope.rowsPerPage
+                    hotelID:$scope.CurrentUser.HotelID,culture: $scope.langCode, offset: ($scope.currentPage - 1) * $scope.rowsPerPage
                 }
             }).success(function (response, status, headers, config) {
                 $scope.rowCollection = response.rows;

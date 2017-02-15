@@ -88,6 +88,7 @@ gbsApp.config(function($routeProvider,$locationProvider){
         when('/addroom-en', { templateUrl: 'Views/Booking/addroom.html', controller: 'addroomController' }).
         when('/addonservice-en', { templateUrl: 'Views/Services/addonservice-en.html', controller: 'addonserviceController' }).
         when('/surrounding-en', { templateUrl: 'Views/Booking/surrounding.html', controller: 'surroundingController' }).
+        when('/propertyCommission-en', { templateUrl: 'Views/Settings/propertyCommission-en.html', controller: 'propertyCommissionController' }).
         //BalsTechnology-SK   
         when('/invoices-en', { templateUrl: 'Views/Maintenance/Invoices/invoices-en.html', controller: 'invoiceController' }).
         when('/invoiceDetails-en', { templateUrl: 'Views/Maintenance/Invoices/invoiceDetails-en.html', controller: 'invoiceDetailsController' }).

@@ -52,7 +52,7 @@
                 <div class="panel-body admin-table-body-wrapper">
                     <div class="row" style="border: 1px solid #ddd;border-radius: 2px;padding: 5px;">
                       
-                        <div class="col-md-12 col-sm-12 col-xs-12" style=""  >
+                        <div class="col-md-12 col-sm-12 col-xs-12" style="">
 
                             <div class="col-md-12" style="margin-bottom:20px">
                                 <div class="col-md-12" style="margin-bottom: 15px">
@@ -201,7 +201,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                             <div class="col-md-12" style="margin-bottom:20px">
                                 <div class="col-md-12" style="margin-bottom: 15px">
                                     <h5>Rate mixing</h5><hr />
@@ -342,7 +342,7 @@
                                         </p>
                                     </div>
                                     <div class="col-md-1" style="color: #0479d0; width: 50px;">
-                                       <input type="radio" name="damagecost" id="rddamagecostyes" /><p style=" margin-left: 15px;">Yes</p>
+                                        <input type="radio" name="damagecost" id="rddamagecostyes" /><p style=" margin-left: 15px;">Yes</p>
                                     </div>
                                     <div class="col-md-1" style="color: #0479d0; width: 50px;">
                                         <input type="radio" name="damagecost" id="rddamagecostno" /><p style=" margin-left: 15px;">No</p>
@@ -356,7 +356,7 @@
                                     <h5>Can guests book without providing a phone number?</h5><hr />
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px">
-                                    
+
                                     <div class="col-md-1" style="color: #0479d0; width: 50px;">
                                         <input type="radio" name="phone" id="rdphoneyes" /><p style=" margin-left: 15px;">Yes</p>
                                     </div>
@@ -401,12 +401,14 @@
                                 </div>
 
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-bottom:8px;">
-                                    <div class="col-md-12">
-                                        <p>Waive cancellation fees for guests who cancel their bookings 1, 4, or 24 hours after they book 
-                                        (excludes last-minute bookings made up to 48 hours before check-in) </p>
+                                    <div class="col-md-12" style="padding-left: 0px;">
+                                        <p>
+                                            Waive cancellation fees for guests who cancel their bookings 1, 4, or 24 hours after they book
+                                            (excludes last-minute bookings made up to 48 hours before check-in)
+                                        </p>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="col-md-12" style="display:flex">
+                                    <div class="col-md-12" style="padding-left: 0px;">
+                                        <div class="col-md-12" style="display: flex;" >
                                             <input type="radio" name="waive" id="waive1hour" />
                                             <p style="color: #0479d0; margin-left: 15px; margin-bottom: 5px; ">
                                                 1 hour after booking: Handles instant cancellation requests.
@@ -425,27 +427,28 @@
                                             </p>
                                         </div>
                                     </div>
-                                  
+
                                 </div>
                             </div>
 
-                            <div align="center">
-                                <input style="width: 150px;" type="button" class="btn btn-success" value="Save" ng-click="SaveSettings()">
+                        
                             </div>
 
                         </div>
-
+                    <div style="position: fixed; bottom: 0px;width: 100%;">
+                        <div class=" col-md-12 center" style="background-color: #f5f5f5;height: 80px;width: 98%;">
+                            <input style="width: 150px;" type="button" class="btn btn-success" value="Save" ng-click="SaveSettings()">
+                        </div>
                     </div>
-
                 </div>
 
             </div>
         </div>
+        <div id="footer"  ng-include="'/Views/Footer/footer-en.html'"></div>
+
     </section>
     <!--<section id="property">
 
      </section>-->
-
 </main>
 
-<div id="footer" ng-include="'/Views/Footer/footer-en.html'"></div>

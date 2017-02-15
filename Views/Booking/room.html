@@ -103,6 +103,59 @@
         line-height: 10px !important;
         border-radius: 5px !important;
     }
+    .booking-item-features > li .booking-item-feature-sign {
+        /*position: absolute;*/
+        bottom: 2px;
+        left: 0;
+        display: block;
+        text-align: center;
+        font-size: 10px;
+        line-height: 1em;
+        width: 100%;
+    }
+    .booking-item-features {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    styles.min.css?v=3.10:1 .booking-item-features-sign > li {
+        padding-bottom: 15px;
+    }
+
+    styles.min.css?v=3.10:1 .booking-item-features > li {
+        float: left;
+        position: relative;
+        margin-right: 7px;
+        margin-bottom: 7px;
+    }
+    .booking-item-features > li > i {
+        height: 35px;
+        width: 35px;
+        text-align: center;
+        line-height: 35px;
+        -webkit-transition: .3s;
+        -moz-transition: .3s;
+        -o-transition: .3s;
+        -ms-transition: .3s;
+        transition: .3s;
+        font-size: 23px;
+        display: block;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        color: #686868;
+        margin-left: 10px;
+    }
+
+    font-awesome.min.css?v=3.10:4 .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 </style>
 <style ng-bind-html="barColorStyle"></style>
     <main>
@@ -120,7 +173,7 @@
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:10px" id="titlediv">
                                    
                                         <div class="col-md-6 col-sm-6 col-xs-12" style="">
-                                            <label style="font-size: 20px; color: darkslateblue; font-weight: 900; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; ">All your rooms</label>
+                                            <label style="font-size: 20px; color: darkslateblue; font-weight: 900; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; ">Edit Room</label>
                                         </div>
                                         <div class="col-md-6 col-sm-6 col-xs-12" style="">
 
@@ -128,32 +181,39 @@
                                         </div>
                                         
                                     </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:10px" id="hintdiv">
+                                <!--<div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:10px" id="hintdiv">
                                     <label style=" font-size: 16px; color: black; margin-left: 13px; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">Hint: Add and remove<a href="#"> room facilities for all rooms here</a></label>
-                                </div>
+                                </div>-->
                                 <div class="col-md-12 col-sm-12 col-xs-12" style="margin-top:30px" id="Disroomdet">
 
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 0px;margin-top:10px" ng-repeat="R in Room" >
+                                    <div class="col-md-6 col-sm-6 col-xs-12" style="padding-left: 0px;margin-top:10px" ng-repeat="R in Room">
                                         <div class="col-md-4 col-xs-12">
                                             <img src="../../images/Hotel/{{R.Image}}" class="img-thumbnail" style=" height: 178px;"><br />
                                             <div class="col-md-12 col-xs-12" style="text-align: center; margin-top: 10px;">
                                                 <input type="button" value="Edit" class="btn btn-success" ng-click="EditRoomdetails(R.RoomID)" />
-                                                </div>
                                             </div>
+                                        </div>
 
                                         <div class="col-md-8 col-sm-8 col-xs-12">
                                             <div style="font-size: 20px;  padding: 3px; margin-bottom: 5px;">
-                                                <a href="#" style="text-decoration: none; text-decoration: none; font-family: sans-serif; font-weight: 700; font-size: 20px; color: #DF7401; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; ">{{R.RoomTypeName}}</a>
+                                                <a href="#" style="text-decoration: none; text-decoration: none; font-family: sans-serif; font-weight: 700; font-size: 20px; color: #DF7401; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; " >{{R.RoomTypeName}}</a>
                                             </div>
+                                            <div style="display: flex; align-items: flex-end;">
+                                                <img src="../../images/Icons/bed.png" />
+                                                <span style="line-height: 28px; font-size: 18px; color: #78D82E; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif; margin-left: 5px;">{{R.roomname}}</span>
+                                            </div>
+                                            <div style="margin-top: 10px;">
+                                                <ul class="booking-item-features booking-item-features-sign clearfix" style="display: flex; align-items: flex-end;">
+                                                    <li rel="tooltip" data-placement="top" title="" uib-tooltip="Adults Occupancy"><i class="fa fa-male"></i><span class="booking-item-feature-sign ng-binding">x {{R.People}}</span></li>
+                                                    <li rel="tooltip" data-placement="top" uib-tooltip="Child Occupancy"><i class="fa fa-child"></i><span class="booking-item-feature-sign ng-binding">x {{R.Children}}</span></li>
+                                                    <li rel="tooltip" data-placement="top" title="" uib-tooltip="Room footage (M2)"><i class="fa fa-home"></i><span class="booking-item-feature-sign ng-binding">{{R.RoomSize}}</span></li>
+                                                </ul>
+                                            </div>
+                                            <!--<div style="">
+                                                <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">Room Space (m2) : {{R.RoomSize}}</span>
+                                            </div>-->
                                             <div>
-
-                                                <span style="line-height: 28px; font-size: 18px; color: #78D82E; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">{{R.SomkingTypeName}}</span>
-                                            </div>
-                                            <div style="">
-                                                <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">{{R.RoomSize}}</span>
-                                            </div>
-                                            <div>
-                                                <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">{{R.RoomCount}}</span>
+                                                <span style="line-height: 28px; font-size: 18px; color: #333; font-family: 'Open Sans', Tahoma, Arial, helvetica, sans-serif;">Room Count : {{R.RoomCount}}</span>
                                             </div>
                                         </div>
 

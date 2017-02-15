@@ -82,6 +82,9 @@ angular.module("gbsApp").factory("mainFactory", function($location,sessionFactor
             else if (type == ViewType.Addonservices) {
                 $location.path("addonservice-" + sessionFactory.GetData(SessionStore.currentLanguage));
             }
+            else if (type == ViewType.PropertyCommission) {
+                $location.path("propertyCommission-" + sessionFactory.GetData(SessionStore.currentLanguage));
+            }
         },
         SetCurrentMenu:function(type){
             sessionFactory.RemoveByKey(SessionStore.currentMenu);

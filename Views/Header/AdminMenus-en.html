@@ -122,7 +122,7 @@
                                     <ul>
 
                                         <li ng-class="{'active' : selectedView == ViewType.SystemSettings}" ng-click="goToMenu(ViewType.SystemSettings)"><a>System Settings</a></li>
-                                        <li ><a >Property Commision</a></li>
+                                        <li ng-class="{'active' : selectedView == ViewType.PropertyCommission}" ng-click="goToMenu(ViewType.PropertyCommission)"><a>Property Commission</a></li>
                                         <li ng-class="{'active' : selectedView == ViewType.ChangePassword}" ng-click="goToMenu(ViewType.ChangePassword)"><a>Change Password</a></li>
                                     </ul>
                                 </div>
@@ -429,7 +429,7 @@
                 <ul id="dropdown-settings" class="dropdown-content">
 
                     <li ng-class="{'active' : selectedView == ViewType.SystemSettings}" ng-click="goToMenu(ViewType.SystemSettings)"><a>System Settings</a></li>
-                    <li ><a >Property Commision</a></li>
+                    <li ng-class="{'active' : selectedView == ViewType.PropertyCommission}" ng-click="goToMenu(ViewType.PropertyCommission)"><a>Property Commission</a></li>
                     <li ng-class="{'active' : selectedView == ViewType.ChangePassword}" ng-click="goToMenu(ViewType.ChangePassword)"><a>Change Password</a></li>
                 </ul>
                 <ul id="dropdown-websitecontent" class="dropdown-content">
