@@ -17,6 +17,8 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         $location.path("/login-en");
     var hotelid = "";
 
+
+
     $scope.initializeController = function () {
         $scope.IsHotelAdmin = $scope.CurrentUser.IsHotelAdmin;
 
@@ -31,12 +33,20 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         $scope.selectedView = mainFactory.GetCurrentView();
         $scope.selectedMenu = mainFactory.GetCurrentMenu();
         hotelid = sessionFactory.GetData(SessionStore.Hotelroomid);
+
+        if (hotelid != undefined) {
+            $("#titleheader").html("Edit Room");
+        }
+        else {
+            $("#titleheader").html("Add Room");
+        }
        
         Initialize();
 
         var atttributesrray = [];
     }
-    function  EditDisplay()
+
+    function EditDisplay()
     {
         $scope.hotelroomid = sessionFactory.GetData(SessionStore.Hotelroomid);
         $http({
@@ -165,6 +175,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         });
         Somking();
     }
+
     function Somking() {
         $http({
             method: 'GET',
@@ -203,6 +214,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
         });
         Roombed();
     }
+
     function Roombed() {
         $http({
             method: 'GET',
@@ -218,6 +230,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
 
     var headarr = [];
     var scopearr = [];
+
     function AttributeHeaders() {
         $http({
             method: 'GET',
@@ -245,17 +258,25 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
 
         if (hotelid != undefined) {
             EditDisplay();
+            $("#titleheader").html("Edit Room");
+        }
+        else
+        {
+            $("#titleheader").html("Add Room");
         }
     }
+
     $scope.myFilter = function (item) {
       
         return item === 'Pool and wellnessPool' || item === 'Activities';
 
     };
+
     $scope.bntbalck = function () {
         sessionFactory.RemoveByKey(SessionStore.Hotelroomid);
         $location.path("room-" + sessionFactory.GetData(SessionStore.currentLanguage));
     };
+
     $scope.savehotelroom = function(){
     //alert('df')
         $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
@@ -350,6 +371,7 @@ angular.module("gbsApp").controller("addroomController", function ($scope, $http
               $scope.Validmessage = "Please Enter the Column value RoomType,RoomCount,RoomSize and Maximum number of persons";
           }
     }
+
     $scope.RoomCounts = function () {
         var value = 1001;
         var RoomCount = angular.element('#txtRoomCount').val();

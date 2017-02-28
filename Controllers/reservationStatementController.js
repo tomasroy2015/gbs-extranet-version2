@@ -43,9 +43,7 @@ angular.module("gbsApp").controller("reservationStatementController",
         }
 
         function GetReservationStatement() {
-            //alert("hi")
-            var id = sessionFactory.GetData(SessionStore.InvoiceDetailID);
-            //alert(id)
+
             $http({
                 method: 'GET', url: appSettings.API_BASE_URL + 'reservation/getReservationStatement',
                 params: {
@@ -63,7 +61,6 @@ angular.module("gbsApp").controller("reservationStatementController",
         }
 
         $scope.pagination = function ($totalRows, $curPage, $perPage) {
-        
             var $maxPagesLoops = 10;  // Display 5 pages on the screen.
             var $totalPages = Math.ceil($totalRows / $perPage); //Calculate the total pages
             var $start = (Math.ceil($curPage / $maxPagesLoops) - 1) * $maxPagesLoops + 1;
@@ -96,6 +93,48 @@ angular.module("gbsApp").controller("reservationStatementController",
 
         $scope.setPage = function ($page) {
             $location.search('page', $page);
+
+        };
+
+        $scope.btnviewclick = function () {
+            var startDate = angular.element('#inputdatefrom').val().toString('yyyy-mm-dd');
+            var endDate = angular.element('#inputdateto').val().toString('yyyy-mm-dd');
+            if (startDate == "") {
+                Materialize.toast("Start Date must be selected.", 5000, 'red');
+                return;
+            }
+            if (endDate == "") {
+                Materialize.toast("End Date must be selected.", 5000, 'red');
+                return;
+            }
+            //else
+            //{
+            //    if(endDate < startDate)
+            //    {
+            //        Materialize.toast("End Date should be greater than Start Date", 5000, 'red');
+            //        return;
+            //    }
+            //}
+
+            if (startDate != "" && endDate != "" )
+            {
+                $http({
+                    method: 'GET',
+                    url: appSettings.API_BASE_URL + 'reservation/getReservationStatementByDate',
+                    params: {
+                        hotelID: $scope.CurrentUser.HotelID, StartDate: startDate, Enddate: endDate, culture: $scope.langCode,
+                        offset: ($scope.currentPage - 1) * $scope.rowsPerPage
+                    }
+                }).success(function (response, status, headers, config) {
+                    $scope.rowCollection = response.rows;
+                    $scope.reserstatementinfo = [].concat($scope.rowCollection);
+
+                }).error(function (response) {
+                    //alert(response)
+                    Materialize.toast("Server error occured ", 5000, 'red');
+                });
+            }
+           
 
         };
 

@@ -14,8 +14,14 @@ angular.module("gbsApp").controller("monthlyRevenueController",
           [28, 48, 40, 19, 86, 27, 90]
         ];
 
-        $scope.month = "12";
-        $scope.year = "2015";
+        //$scope.month = "12";
+        //$scope.year = "2015";
+
+        var d = new Date();
+        $scope.month = d.getMonth() + 1;
+        $scope.year = d.getFullYear();
+        //alert($scope.month)
+        //alert($scope.year)
 
         $scope.selectLanguage = "Language";
         //alert($scope.selectLanguage)
@@ -42,7 +48,6 @@ angular.module("gbsApp").controller("monthlyRevenueController",
             $scope.selectedView = mainFactory.GetCurrentView();
             $scope.selectedMenu = mainFactory.GetCurrentMenu();
             Getmonthlyrevenue();
-
         }
        
         var payablearray = [];
@@ -64,8 +69,7 @@ angular.module("gbsApp").controller("monthlyRevenueController",
             $http({
                 method: 'GET', url: appSettings.API_BASE_URL + 'invoice/getmonthlyrevenue',
                 params: {
-                    Month: $scope.month,
-                    Year: $scope.year,
+                    HotelID: $scope.CurrentUser.HotelID,
                     cultureCode: $scope.langCode
                 }
             }).success(function (response, status, headers, config) {
@@ -203,11 +207,6 @@ angular.module("gbsApp").controller("monthlyRevenueController",
             }
             return monthNames[monthNumber];
         }
-
-        $scope.backToHome = function (id) {
-            // alert("invoices-" + sessionFactory.GetData(SessionStore.currentLanguage))
-            $location.path("invoices-" + sessionFactory.GetData(SessionStore.currentLanguage));
-        };
 
         $scope.goToMenu = function (type) {
             mainFactory.SetViewType(type);

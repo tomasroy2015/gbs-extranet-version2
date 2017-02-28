@@ -35,19 +35,19 @@ angular.module("gbsApp").controller("addonserviceController", function ($scope, 
             method: 'GET',
             url: appSettings.API_BASE_URL + 'addonservices/drpchangetype',
         }).success(function (response, status, headers, config) {
-            // alert(response)
             $scope.drpchangetype = response;
         }).error(function (response) {
-            //alert('error')
             Materialize.toast("Server error occured ", 5000, 'red');
         });
     }
     function Displayaddons1()
     {
-       //  alert('1')
         $http({
             method: 'GET',
             url: appSettings.API_BASE_URL + 'addonservices/Displayaddons',
+            params: {
+                HotelID: $scope.CurrentUser.HotelID
+            }
         }).success(function (response, status, headers, config) {
             // alert(response)
             $scope.Displayaddons = response;
@@ -58,7 +58,6 @@ angular.module("gbsApp").controller("addonserviceController", function ($scope, 
     }
     $scope.Deleteaddons = function (id) {
         sessionFactory.SetData(SessionStore.addonsId, id);
-
         $("#divpopupaddons").show();       
     }
     $scope.deletepopup = function () {
@@ -108,7 +107,7 @@ angular.module("gbsApp").controller("addonserviceController", function ($scope, 
             });
         }
         else {
-            Materialize.toast("Please Select All Fields ", 5000, 'red');
+            Materialize.toast("Please Fill All the Fields ", 5000, 'red');
         }
     };
 

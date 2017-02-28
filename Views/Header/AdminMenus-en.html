@@ -92,8 +92,9 @@
                                     <ul>
                                         <li ng-class="{'active' : selectedView == ViewType.HotelRateOverView}" ng-click="goToMenu(ViewType.HotelRateOverView)"><a>Overview</a></li>
                                         <li ng-class="{'active' : selectedView == ViewType.RateAndAvailability}" ng-click="goToMenu(ViewType.RateAndAvailability)"><a>Rate & Availability</a></li>
-                                        <li><a>Rate</a></li>
-                                        <li><a>Availability</a></li>
+                                        <!--BalsTechnology-SK-->
+                                        <!--<li ng-class="{'active' : selectedView == ViewType.Rate}" ng-click="goToMenu(ViewType.Rate)"><a>Rate</a></li>
+                                        <li ng-class="{'active' : selectedView == ViewType.Availability}" ng-click="goToMenu(ViewType.Availability)"><a>Availability</a></li>-->
                                     </ul>
                                 </div>
                             </li>
@@ -120,7 +121,7 @@
                                 <a class="collapsible-header waves-effect">Settings</a>
                                 <div class="collapsible-body">
                                     <ul>
-
+                                        <!--BalsTechnology-SK-->
                                         <li ng-class="{'active' : selectedView == ViewType.SystemSettings}" ng-click="goToMenu(ViewType.SystemSettings)"><a>System Settings</a></li>
                                         <li ng-class="{'active' : selectedView == ViewType.PropertyCommission}" ng-click="goToMenu(ViewType.PropertyCommission)"><a>Property Commission</a></li>
                                         <li ng-class="{'active' : selectedView == ViewType.ChangePassword}" ng-click="goToMenu(ViewType.ChangePassword)"><a>Change Password</a></li>
@@ -137,11 +138,10 @@
                                         <li ng-class="{'active' : selectedView == ViewType.PropertyRooms}" ng-click="goToMenu(ViewType.PropertyRooms)"><a>Property Rooms</a></li>
                                         <!--Balstechnology-AJ-->
                                         <li ><a >Property Page</a></li>
-                                        <li ng-class="{'active' : selectedView == ViewType.Addonservices}" ng-click="goToMenu(ViewType.Addonservices)"><a>Add-on Service</a></li>
+                                        <li ng-class="{'active' : selectedView == ViewType.Addonservices}" ng-click="goToMenu(ViewType.Addonservices)"><a>Add on Services</a></li>
                                     </ul>
                                 </div>
                             </li>
-                            <!--BalsTechnology-SK-->
                             <li>
                                 <a class="waves-effect" ng-class="{'active' : selectedView == ViewType.Inbox}" ng-click="goToMenu(ViewType.Inbox)">Inbox</a>
                             </li>
@@ -400,7 +400,6 @@
                     </li>
 
                 </ul>
-
                 <!-- Dropdowns -->
                 <ul id="dropdown-property"  class="dropdown-content">
                     <li ng-class="{'active' : selectedView == ViewType.PropertyInformation}" ng-click="goToMenu(ViewType.PropertyInformation)"><a>Property Information</a></li>
@@ -414,8 +413,9 @@
                 <ul id="dropdown-rateavailability" class="dropdown-content">
                     <li ng-class="{'active' : selectedView == ViewType.HotelRateOverView}" ng-click="goToMenu(ViewType.HotelRateOverView)"><a>Overview</a></li>
                     <li ng-class="{'active' : selectedView == ViewType.RateAndAvailability}" ng-click="goToMenu(ViewType.RateAndAvailability)"><a>Rate & Availability</a></li>
-                    <li><a>Rate</a></li>
-                    <li><a>Availability</a></li>
+                    <!--BalsTechnology-SK-->
+                    <!--<li ng-class="{'active' : selectedView == ViewType.Rate}" ng-click="goToMenu(ViewType.Rate)"><a>Rate</a></li>
+                    <li ng-class="{'active' : selectedView == ViewType.Availability}" ng-click="goToMenu(ViewType.Availability)"><a>Availability</a></li>-->
                 </ul>
 
                 <ul id="dropdown-finance" class="dropdown-content">
@@ -427,7 +427,7 @@
 
                 </ul>
                 <ul id="dropdown-settings" class="dropdown-content">
-
+                    <!--BalsTechnology-SK-->
                     <li ng-class="{'active' : selectedView == ViewType.SystemSettings}" ng-click="goToMenu(ViewType.SystemSettings)"><a>System Settings</a></li>
                     <li ng-class="{'active' : selectedView == ViewType.PropertyCommission}" ng-click="goToMenu(ViewType.PropertyCommission)"><a>Property Commission</a></li>
                     <li ng-class="{'active' : selectedView == ViewType.ChangePassword}" ng-click="goToMenu(ViewType.ChangePassword)"><a>Change Password</a></li>
@@ -439,7 +439,7 @@
                     <li ng-class="{'active' : selectedView == ViewType.PropertyRooms}" ng-click="goToMenu(ViewType.PropertyRooms)"><a>Property Rooms</a></li>
                     <!--Balstechnology-AJ-->
                     <li ><a >Property Page</a></li>
-                    <li ng-class="{'active' : selectedView == ViewType.Addonservices}" ng-click="goToMenu(ViewType.Addonservices)"><a>Add-on Service</a></li>
+                    <li ng-class="{'active' : selectedView == ViewType.Addonservices}" ng-click="goToMenu(ViewType.Addonservices)"><a>Add on Services</a></li>
                 </ul>
             </div>
 

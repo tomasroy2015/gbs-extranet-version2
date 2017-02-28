@@ -45,8 +45,10 @@ angular.module("gbsApp").controller("systemSettingsController",
                 }
             }).success(function (response, status, headers, config) {
                 $scope.Settings = response[0];
-
-                $scope.valueappend();
+                if (response != "")
+                {
+                    $scope.valueappend();
+                }
             }).error(function (response) {
                 Materialize.toast("Something wrong happens in sever:" + response.Message, 1000, "red");
             });

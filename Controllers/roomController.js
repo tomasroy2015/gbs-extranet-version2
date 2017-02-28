@@ -47,7 +47,7 @@ angular.module("gbsApp").controller("roomController", function ($scope, $http, a
 
 
         }).error(function (response) {
-            alert('error')
+            Materialize.toast("Server error occured ", 5000, 'red');
         });
     }
 

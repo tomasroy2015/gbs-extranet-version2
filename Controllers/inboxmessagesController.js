@@ -11,7 +11,9 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
     $scope.selectLanguages = accountFactory.AllCultures();
     $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
 
-    $scope.ReceiverUserID = "100002";
+    //$scope.ReceiverUserID = "100002";
+
+    //alert($scope.CurrentUser.ID)
 
     if (!$scope.CurrentUser)
         $location.path("/login-en");
@@ -38,7 +40,7 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
         $http({
             method: 'GET', url: appSettings.API_BASE_URL + 'inbox/getinboxmessage',
             params: {
-                ReceiverID: $scope.ReceiverUserID,
+                ReceiverID: $scope.CurrentUser.ID,
                 cultureCode: $scope.langCode
             }
         }).success(function (response, status, headers, config) {
@@ -81,7 +83,7 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
             $http({
                 method: 'GET', url: appSettings.API_BASE_URL + 'inbox/deleteinboxmessage',
                 params: {
-                    ReceiverID: $scope.ReceiverUserID,
+                    ReceiverID: $scope.CurrentUser.ID,
                     MessageID: MessageID,
                     cultureCode: $scope.langCode
                 }
@@ -111,14 +113,14 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
         //$scope.Message = angular.element('#txtmessage').val();
         //alert($("#txtmessage").val());
         //$scope.Message = $('#txtmessage').html();
-        //alert($scope.Message)
+        //alert($scope.ReceiverUserID)
 
         var text = $("#txtmessage").val();
         text = text.replace(/\r?\n/g, '<br />');
 
         text = text.split('<br />').join('<br/>');
         $scope.Message = text.split(' ').join('&nbsp;');
-        if ($scope.ReceiverUserID == 0)
+        if ($scope.ReceiverUserID == "")
         {
             $('#drpemailto').css('border-color', 'red');
         }
@@ -138,7 +140,7 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
         else {
             $('#txtmessage').css('border-color', '#ddd');
         }
-        if ($scope.ReceiverUserID != 0 && $scope.Subject != "" && $scope.Message != "")
+        if ($scope.ReceiverUserID != "" && $scope.Subject != "" && $scope.Message != "")
         {
             $http({
                 method: 'GET', url: appSettings.API_BASE_URL + 'inbox/sendmessage',
