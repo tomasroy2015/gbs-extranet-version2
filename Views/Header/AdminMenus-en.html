@@ -235,7 +235,10 @@
                                     </ul>
                                 </div>
                             </li>
-
+                            <!--BalsTechnology-SK-->
+                            <li>
+                                <a class="waves-effect" ng-class="{'active' : selectedView == ViewType.Inbox}" ng-click="goToMenu(ViewType.Inbox)">Inbox</a>
+                            </li>
                             <li class="bold">
                                 <a class="collapsible-header waves-effect">Admin User</a>
                                 <div class="collapsible-body">
@@ -304,7 +307,12 @@
                             Reservation<i class="fa fa-sort-desc right" aria-hidden="true"></i>
                         </a>
                     </li>
-
+                    <!--BalsTechnology-SK-->
+                    <li ng-class="{'active' : selectedView == ViewType.Inbox}" ng-click="goToMenu(ViewType.Inbox)">
+                        <a>
+                            Inbox
+                        </a>
+                    </li>
                 </ul>
 
                 <!-- Dropdowns -->
@@ -340,6 +348,7 @@
                     <li ><a >Bookings</a></li>
                     <li ><a >Property Bookings</a></li>
                 </ul>
+
             </div>
 
         </div>
