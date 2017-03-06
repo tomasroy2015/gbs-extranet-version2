@@ -372,7 +372,7 @@
                                     <i class="fa fa-chevron-circle-right arrow" aria-hidden="true" ng-click="goForward()"></i>
                                 </div>
                                 <div class="col-md-8" style="display: flex">
-                                    <div ng-repeat="month in months" style="margin-right: 2%;">
+                                    <div ng-repeat="month in months" style="margin-right: 2%;" ng-click="click_Month(month)">
                                         <label class="label-month" ng-class="{'selected-month':month.selected}">{{month.Name}}</label>
                                     </div>
                                 </div>
@@ -380,29 +380,29 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                  <div class="col-md-2" style="display: inline-flex;">
-                                      <label style="padding-top: 5px;">Months</label>
-                                      <select style="color: black;margin-left: 5%;
-                                                    height: 28px;
-                                                    padding-top: 2px;"
-                                              class="browser-default"
-                                              data-ng-model="selectedMonthNo"
-                                          ng-change="monthChange()"
-                                          material-select  watch>
-                                          <option value="1">1</option> <!-- not selected / blank option -->
-                                          <option value="2">2</option> <!-- interpolation -->
-                                          <option value="3">3</option>
-                                          <option value="4">4</option> <!-- not selected / blank option -->
-                                          <option value="5">5</option> <!-- interpolation -->
-                                          <option value="6">6</option>
-                                          <option value="7">7</option> <!-- not selected / blank option -->
-                                          <option value="8">8</option> <!-- interpolation -->
-                                          <option value="9">9</option>
-                                          <option value="10">10</option>
-                                          <option value="11">11</option>
-                                          <option value="12">12</option>
-                                      </select>
-                                  </div>
+                                <!--<div class="col-md-2" style="display: inline-flex;">-->
+                                      <!--<label style="padding-top: 5px;">Months</label>-->
+                                      <!--<select style="color: black;margin-left: 5%;-->
+                                                    <!--height: 28px;-->
+                                                    <!--padding-top: 2px;"-->
+                                              <!--class="browser-default"-->
+                                              <!--data-ng-model="selectedMonthNo"-->
+
+                                          <!--material-select  watch>-->
+                                          <!--<option value="1">1</option> &lt;!&ndash; not selected / blank option &ndash;&gt;-->
+                                          <!--<option value="2">2</option> &lt;!&ndash; interpolation &ndash;&gt;-->
+                                          <!--<option value="3">3</option>-->
+                                          <!--<option value="4">4</option> &lt;!&ndash; not selected / blank option &ndash;&gt;-->
+                                          <!--<option value="5">5</option> &lt;!&ndash; interpolation &ndash;&gt;-->
+                                          <!--<option value="6">6</option>-->
+                                          <!--<option value="7">7</option> &lt;!&ndash; not selected / blank option &ndash;&gt;-->
+                                          <!--<option value="8">8</option> &lt;!&ndash; interpolation &ndash;&gt;-->
+                                          <!--<option value="9">9</option>-->
+                                          <!--<option value="10">10</option>-->
+                                          <!--<option value="11">11</option>-->
+                                          <!--<option value="12">12</option>-->
+                                      <!--</select>-->
+                                  <!--</div>-->
                                 <div class="col-md-2" style="display: inline-flex;">
                                     <label style="padding-top: 5px;">Style</label>
                                     <select style="color: black;margin-left: 5%;

@@ -23,7 +23,7 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
         $scope.selectedStyle = 1;
         $scope.selectedMonthNo = 1;
         var calendarList = [];
-        $scope.months = [{ID:0,Name:'Jan',selected:true},
+        $scope.months = [{ID:0,Name:'Jan',selected:false},
                         {ID:1,Name:'Feb',selected:false},
                         {ID:2,Name:'Mar',selected:false},
                         {ID:3,Name:'Apr',selected:false},
@@ -36,7 +36,7 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                         {ID:10,Name:'Nov',selected:false},
                         {ID:11,Name:'Dec',selected:false}];
         $scope.daysName = [{ID:1,Name:"Mon"},{ID:2,Name:"Tue"},{ID:3,Name:"Wed"},{ID:4,Name:"Thu"},
-                              {ID:5,Name:"Fri"},{ID:6,Name:"Sat"},{ID:7,Name:"Sun"}]
+                              {ID:5,Name:"Fri"},{ID:6,Name:"Sat"},{ID:7,Name:"Sun"}];
         $scope.selectedMonth = null;
         $scope.CurrentUser = sessionFactory.GetObject(SessionStore.userData);
         if(!$scope.CurrentUser)
@@ -59,7 +59,8 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
             $scope.endDate = getLastWeekDate();
 
             $scope.year = today.getFullYear();
-            $scope.selectedMonth = 0;
+            $scope.selectedMonth = today.getMonth();
+            $scope.selectedEndMonth = today.getMonth();
 
             var currentTime = new Date();
             $scope.currentTime = currentTime;
@@ -91,6 +92,11 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
             return lastWeek ;
         }
         function InitializeData(){
+            _.forEach($scope.months,function(v){
+               if(v.ID == $scope.selectedMonth){
+                   v.selected = true;
+               }
+            });
             $http({method: 'GET',url: appSettings.API_BASE_URL + 'dropdown/getRoomsByHotel',params: {hotelID:$scope.CurrentUser.HotelID,culture:$scope.langCode}
             }).success(function (response, status, headers, config) {
                 $scope.rooms = response;
@@ -178,10 +184,12 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                 f.selected = true;
             });
         };
+
         $scope.click_Month = function(value){
+            var count = 1;
             _.forEach($scope.months,function(v){
-                if(value.ID <=0)
-                    return;
+//                if(value.ID <=0)
+//                    return;
 
                  if(v.ID == value.ID && v.selected == false){
                      v.selected = true;
@@ -192,7 +200,16 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
 
             });
 
-            _.forEach($scope.months,function(v){if(v.selected == true){$scope.selectedMonth = v.ID;}});
+            _.forEach($scope.months,function(v){
+                if(v.selected == true && count == 1){
+                    $scope.selectedMonth = v.ID;
+                    $scope.selectedEndMonth = v.ID;
+                    count++;
+                }else if(v.selected == true && count > 1){
+                    $scope.selectedEndMonth = v.ID;
+                    count++;
+                }
+            });
 
         };
 
@@ -485,8 +502,8 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
            // var startDate  = angular.element('#inputStart').val().toString('dd/mm/yyyy');
            // var endDate = angular.element('#inputEnd').val().toString('dd/mm/yyyy');
             var date = new Date();
-            var sDate = $scope.year+"/"+"1"+"/"+"1";//new Date(date.getFullYear(), date.getMonth(), 1);
-            var eDate = new Date($scope.year,($scope.selectedMonth+1),0);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            var sDate = new Date($scope.year,$scope.selectedMonth,1);//new Date(date.getFullYear(), date.getMonth(), 1);
+            var eDate = new Date($scope.year,($scope.selectedEndMonth+1),0);// new Date(date.getFullYear(), date.getMonth() + 1, 0);
             var startDate = formatDate(sDate);
             var endDate = formatDate(eDate);
 
@@ -513,8 +530,18 @@ angular.module("gbsApp").controller("roomRateAvailabilityController",
                         AccommodationType:$scope.selectedPartner,WeekDay:$scope.weekDays}
             }).success(function (response, status, headers, config) {
                  //   $scope.roomRateAvailability = response;
-
-                var data = groupByData(response, 'MonthName', 'MonthName', 'roomRates');
+                var dataArray = [];
+                _.forEach($scope.months,function(f){
+                    if(f.selected == true){
+                        var arr = _.filter(response,function(v){
+                            return v.MonthID == f.ID + 1;
+                        });
+                        if(arr && arr.length > 0){
+                            Array.prototype.push.apply(dataArray, arr);
+                        }
+                    }
+                });
+                var data = groupByData(dataArray, 'MonthName', 'MonthName', 'roomRates');
                 $scope.roomRateAvailability = data;
                 if($scope.selectedStyle == 2)
                     getCalendarData();
