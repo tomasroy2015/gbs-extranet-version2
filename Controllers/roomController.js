@@ -64,6 +64,34 @@ angular.module("gbsApp").controller("roomController", function ($scope, $http, a
         sessionFactory.RemoveByKey(SessionStore.Hotelroomid);
         $location.path("addroom-" + sessionFactory.GetData(SessionStore.currentLanguage));
     };
+    $scope.Deleterooms = function (id) {
+        sessionFactory.SetData(SessionStore.displayroomsId, id);
+        $("#divpopupaddons").show();
+    }
+    $scope.deletepopup = function () {
+      //  alert('1')
+        $scope.Id = sessionFactory.GetData(SessionStore.displayroomsId);;
+     //  alert($scope.Id)
+        $http({
+            method: 'Post',
+            url: appSettings.API_BASE_URL + 'roomdetails/Deleterooms',
+            params: {
+                Id: $scope.Id
+            }
+        }).success(function (response, status, headers, config) {
+          //  alert('true')
+            $("#divpopupaddons").hide();
+            $scope.Initialize111aj();
+          //  alert('true1')
+            Materialize.toast("Room Deleted successfully.", 5000, 'green');
+
+        }).error(function (response) {
+            Materialize.toast("Server error occured ", 5000, 'red');
+        });
+    }
+    $scope.canceldeletepopup = function () {
+        $("#divpopupaddons").hide();
+    }
     //function EditRoomdetails(id)
     //{
     //    alert('edit')

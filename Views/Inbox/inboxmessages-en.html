@@ -216,7 +216,8 @@
                                         </div>-->
                                         <select id="drpemailto" class="browser-default" style="border-color: #ddd; border-radius: 4px;font-size:13px">
                                         <option style="font-size:13px" value="0">Select</option>
-                                        <option style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}} ( {{UE.HotelName}} )</option>
+                                            <option ng-show="UE.HotelName == ''" style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}}</option>
+                                            <option ng-show="UE.HotelName != ''" style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}} ( {{UE.HotelName}} )</option>
                                     </select>
                                     </div>
                                 </div>
@@ -248,7 +249,7 @@
                             </div>
 
                             <div class="col-md-12 col-sm-12" id="divmsgreply" style="display:none">
-                                <div class="col-md-12 col-sm-12" style="margin-bottom: 10px; margin-left: 18%;">
+                                <div class="col-md-12 col-sm-12" style="margin-bottom: 10px; margin-left: 14%;">
                                     <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
                                         <label>From</label>
                                     </div>
@@ -256,7 +257,7 @@
                                         <label id="txtfromrpy" style="width: 98%; font-size: 13px; font-weight: 500; padding-left: 10px;" />
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-sm-12" style="margin-bottom: 10px; margin-left: 18%;">
+                                <div class="col-md-12 col-sm-12" style="margin-bottom: 10px; margin-left: 14%;">
                                     <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
                                         <label>Subject </label>
                                     </div>
@@ -265,7 +266,7 @@
                                         <!--<input type="text" id="txtsubjectrpy" class="form-control" style="border-radius: 4px; width: 98%; font-size: 13px; padding-left: 10px; border: 1px solid #ccc;" />-->
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-sm-12" style="margin-left: 18%;">
+                                <div class="col-md-12 col-sm-12" style="margin-left: 14%;">
                                     <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
                                         <label>Message </label>
                                     </div>
@@ -274,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-sm-12">
-                                    <div class="col-md-1 col-sm-2 col-md-offset-3 col-sm-offset-2">
+                                    <div class="col-md-1 col-sm-2 col-md-offset-2 col-sm-offset-2">
                                     </div>
                                     <div class="col-md-6 col-sm-6" align="center" style="margin-top:10px">
                                         <input type="button" id="btnsendnew" class="btn btn-primary" ng-click="replybtnclick()" value="Reply" />

@@ -196,7 +196,14 @@ angular.module("gbsApp").controller("inboxmessagesController", function ($scope,
 
             $('#txtsubjectrpy').append($scope.parmessage.Subject);
             $('#txtmessagerpy').append($scope.parmessage.MessageInfo);
-            fromname = $scope.parmessage.UserName + ' ( ' + $scope.parmessage.HotelName + ' ) '
+            if ($scope.parmessage.FirmID != "0")
+            {
+                fromname = $scope.parmessage.FirmName + ' ( ' + $scope.parmessage.FirmID + ' ) '
+            }
+            else {
+                fromname = $scope.parmessage.FirmName
+            }
+            
             $('#txtfromrpy').append(fromname);
 
 
