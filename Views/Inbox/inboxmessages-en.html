@@ -216,8 +216,8 @@
                                         </div>-->
                                         <select id="drpemailto" class="browser-default" style="border-color: #ddd; border-radius: 4px;font-size:13px">
                                         <option style="font-size:13px" value="0">Select</option>
-                                            <option ng-show="UE.HotelName == ''" style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}}</option>
-                                            <option ng-show="UE.HotelName != ''" style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}} ( {{UE.HotelName}} )</option>
+                                            <option style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}}</option>
+                                            <!--<option ng-show="UE.HotelName != ''" style="font-size:13px" value="{{UE.ID}}" ng-repeat="UE in Useremail">{{UE.UserName}} ( {{UE.HotelName}} )</option>-->
                                     </select>
                                     </div>
                                 </div>
